@@ -9,14 +9,11 @@ title: SharedSpaces
 
 [comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
 
-# Project Title
+# SharedSpaces
 
 ---
 
-This is a sample image, to show how to add images to your page. To learn more options, please refer [this](https://projects.ce.pdn.ac.lk/docs/faq/how-to-add-an-image/)
-
 ![Sample Image](./images/sample.png)
-
 
 ## Team
 -  E/19/094 Mansitha Eashwara [email](mailto:e19094@email.com)
