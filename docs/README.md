@@ -3,8 +3,8 @@ layout: home
 permalink: index.html
 
 # Please update this with your repository name and title
-repository-name: eYY-XXX-project-template
-title:
+repository-name: e19-co225-sharedspaces
+title: SharedSpaces
 ---
 
 [comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
@@ -19,9 +19,10 @@ This is a sample image, to show how to add images to your page. To learn more op
 
 
 ## Team
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
+-  E/19/094 Mansitha Eashwara [email](mailto:e19094@email.com)
+-  E/19/129 Kanishka Gunawardana [email](mailto:e19129@email.com)
+-  E/19/372 Kaushitha Silva [email](mailto:e19372@email.com)
+-  E/19/408 Sanduni Ubayasiri [email](mailto:e19408@email.com)
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -32,7 +33,7 @@ This is a sample image, to show how to add images to your page. To learn more op
 
 ## Introduction
 
- description of the real world problem and solution, impact
+Efficiently manage reservations in shared spaces such as labs, lecture rooms, conference rooms, etc. Unorganized reservations result in conflicts, multiple bookings, and difficulty tracking reservations. The unavailability of a responsible person to have administrative privileges over the booking may result in unauthorized changes and cancellations.
 
 ## Other Sub Topics
 
