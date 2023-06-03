@@ -2,6 +2,7 @@ package com.example.first_demo.controllers;
 
 import com.example.first_demo.models.Space;
 import com.example.first_demo.services.spaceServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class spacesController {
 
     private final spaceServices spaceservices;
 
+    @Autowired
     public spacesController(spaceServices spaceservices){
         this.spaceservices = spaceservices;
     }
