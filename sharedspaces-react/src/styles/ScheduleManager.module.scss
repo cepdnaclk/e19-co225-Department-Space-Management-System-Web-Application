@@ -9,7 +9,7 @@
 
 .AvailableSpaces {
   position: relative;
-  padding: 0 1em;
+  padding: 0 0em;
   .heading {
     margin: 2em auto 1em auto;
     text-align: center;
@@ -50,6 +50,7 @@
 
     &Selected {
       @extend .Space;
+      padding: 1.2em 1.2em;
       background-color: rgb(44, 37, 37);
       text-align: left;
       p {

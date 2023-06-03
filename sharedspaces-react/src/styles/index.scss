@@ -52,9 +52,31 @@ select {
  * Correct the inability to style clickable types in iOS and Safari.
  */
 
-button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
-  -webkit-appearance: button;
+// button,
+// [type="button"],
+// [type="reset"],
+// [type="submit"] {
+//   -webkit-appearance: button;
+// }
+
+//custom scrollbar
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(76, 76, 76);
 }
+
+// /* Works on Chrome, Edge, and Safari */
+// *::-webkit-scrollbar {
+//   width: 12px;
+// }
+
+// *::-webkit-scrollbar-track {
+//   background: rgb(120, 120, 120);
+// }
+
+// *::-webkit-scrollbar-thumb {
+//   background-color: rgb(255, 255, 255);
+//   border-radius: 20px;
+//   border: 3px solid rgb(120, 120, 120);
+// }
