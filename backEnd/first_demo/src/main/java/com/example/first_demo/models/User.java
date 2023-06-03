@@ -3,7 +3,7 @@ package com.example.first_demo.models;
 public class User {
 
     private  String firstName;
-    private   String lastName;
+    private  String lastName;
     private  String email;
 
 

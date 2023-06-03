@@ -1,15 +1,35 @@
 package com.example.first_demo.models;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+// space class for a space
 public class Space {
 
+    // variable declaration
+    private int id;
     private String name;
-    private String discription;
-    private int capacitor;
-    private ArrayList<String> facilities =  new ArrayList<String>();
+    private String description;
+    private int capacity;
+    private ArrayList<String> facilities;
     private String image;
 
+    public Space(int id,String name, String description, int capacity, ArrayList<String> facilities, String image){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.capacity = capacity;
+        this.facilities = facilities;
+        this.image = image;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -20,19 +40,19 @@ public class Space {
     }
 
     public String getDiscription() {
-        return discription;
+        return description;
     }
 
     public void setDiscription(String discription) {
-        this.discription = discription;
+        this.description = discription;
     }
 
-    public int getCapacitor() {
-        return capacitor;
+    public int getCapacity() {
+        return capacity;
     }
 
-    public void setCapacitor(int capacitor) {
-        this.capacitor = capacitor;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public ArrayList<String> getFacilities() {
@@ -54,11 +74,23 @@ public class Space {
     @Override
     public String toString(){
         return "Space{" +
-                "name=" + name +
-                ", discription='" + discription + '\'' +
-                ", capacitor='" + capacitor + '\'' +
+                "id=" + id +
+                ", name=" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", capacity='" + capacity + '\'' +
                 ", facilities='" + facilities.toString() + '\'' +
                 ", image=" + image +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, capacity, facilities, image);
+    }
+
 }
