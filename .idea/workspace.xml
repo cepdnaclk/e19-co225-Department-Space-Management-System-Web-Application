@@ -37,11 +37,12 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "E:/Education/Academic/2nd YEAR/4th SEM/CO225 - Software Construction/e19-co225-sharedspaces/backEnd",
+    "last_opened_file_path": "E:/Education/Academic/2nd YEAR/4th SEM/CO225 - Software Construction/e19-co225-sharedspaces/backEnd/sharedspaces_demo",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -54,6 +55,7 @@
       <option name="presentableId" value="Default" />
       <updated>1685797617929</updated>
       <workItem from="1685797630507" duration="1209000" />
+      <workItem from="1685799662681" duration="81000" />
     </task>
     <servers />
   </component>
