@@ -28,4 +28,5 @@ public class loggingController {
         return log.checkToken(data);
     }
 
+
 }
