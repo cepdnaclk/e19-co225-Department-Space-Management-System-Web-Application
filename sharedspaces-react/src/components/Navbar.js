@@ -1,5 +1,7 @@
 import * as React from "react";
 import styles from "../styles/Navbar.module.scss";
+import {Link} from "react-router-dom";
+
 const Navbar = () => {
   // TODO: Differentiate the current page in the NavBar
   const isLoggedIn = true;
@@ -7,12 +9,12 @@ const Navbar = () => {
     <div className={styles.Navbar}>
       <ul className={styles.NavLinks}>
         <li className={styles.NavLink} title="Home">
-          Home
+          <Link to="/">Home</Link>
         </li>
 
         {/* Manage Reservations Should Only be Visible if the user is logged in */}
         <li className={styles.NavLink} title="Manage Reservations">
-          Manage Reservations
+          <Link to="/ManageReservations">Manage Reservations</Link>
         </li>
       </ul>
       <div className={styles.User}>
