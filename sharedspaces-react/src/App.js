@@ -1,7 +1,13 @@
-import "./App.scss";
-
+import "./styles/App.scss";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
 const App = () => {
-  return <h1>SharedSpaces</h1>;
+  return (
+    <>
+      <Navbar />
+      <Hero />
+    </>
+  );
 };
 
 export default App;
