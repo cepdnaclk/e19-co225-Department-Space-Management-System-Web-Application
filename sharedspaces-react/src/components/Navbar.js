@@ -11,9 +11,11 @@ const Navbar = () => {
         </li>
 
         {/* Manage Reservations Should Only be Visible if the user is logged in */}
-        <li className={styles.NavLink} title="Manage Reservations">
-          Manage Reservations
-        </li>
+        {isLoggedIn ? (
+          <li className={styles.NavLink} title="Manage Reservations">
+            Manage Reservations
+          </li>
+        ) : null}
       </ul>
       <div className={styles.User}>
         {isLoggedIn ? (
