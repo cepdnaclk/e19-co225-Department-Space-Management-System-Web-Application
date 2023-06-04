@@ -1,10 +1,22 @@
 import * as React from "react";
 import styles from "../styles/Navbar.module.scss";
 import {Link} from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Navbar = () => {
   // TODO: Differentiate the current page in the NavBar
-  const isLoggedIn = true;
+  const isLoggedIn = false;
+  const clientID = "461418541066-5c9p2cf0d6d8qthhgh7n2tjrd28pf3t9.apps.googleusercontent.com";
+  
+  const onSuccess = (response) =>{
+    console.log("Logged in",response.Profile);
+
+  };
+
+  const  onFailure = (error) =>{
+    console.log("Sign in failed",error);
+  };
+
   return (
     <div className={styles.Navbar}>
       <ul className={styles.NavLinks}>
@@ -21,7 +33,11 @@ const Navbar = () => {
         {isLoggedIn ? (
           <Profile />
         ) : (
-          <button className={styles.btn}>Sign In</button>
+          <GoogleLogin
+            clientId = {clientID}
+            onSuccess={onSuccess}
+            onFailure = {onFailure}
+          />         
         )}
       </div>
     </div>
