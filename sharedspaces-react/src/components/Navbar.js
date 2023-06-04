@@ -42,6 +42,9 @@ const Navbar = () => {
           <GoogleLogin
             clientId={clientID}
             onSuccess={onSuccess}
+            shape = "pill"
+            theme="outline"
+            type = "icon"
             onFailure={onFailure}
           />
         )}
