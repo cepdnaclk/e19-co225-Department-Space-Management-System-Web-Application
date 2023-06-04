@@ -5,9 +5,9 @@ const Manage = ()=>{
     return (
         <div>
             <Navbar></Navbar>
-            <div><h2>Manage reservations</h2></div>
+            <div>Manage reservations</div>
         </div>
     )
 }
 
-export default Manage();
+export default Manage;
