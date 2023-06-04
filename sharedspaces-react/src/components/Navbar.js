@@ -6,7 +6,7 @@ import { GoogleLogin } from "@react-oauth/google";
 const Navbar = () => {
   // TODO: Differentiate the current page in the NavBar
   const isLoggedIn = false;
-  const clientID = "461418541066-5c9p2cf0d6d8qthhgh7n2tjrd28pf3t9.apps.googleusercontent.com";
+  const clientID = "461418541066-5c9p2cf0d6 d8qthhgh7n2tjrd28pf3t9.apps.googleusercontent.com";
   
   const onSuccess = (response) =>{
     console.log("Logged in",response.Profile);
@@ -36,6 +36,8 @@ const Navbar = () => {
           <GoogleLogin
             clientId = {clientID}
             onSuccess={onSuccess}
+            type="icon"
+            shape = 'pill'
             onFailure = {onFailure}
           />         
         )}
