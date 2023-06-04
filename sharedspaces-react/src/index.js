@@ -3,23 +3,23 @@ import ReactDOM from "react-dom/client";
 import "./styles/index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { 
-  BrowserRouter,
-  createBrowserRouter, 
-  RouterProvider, 
-  Route 
+import {
+  //BrowserRouter,
+  createBrowserRouter,
+  RouterProvider,
+  //Route
 } from "react-router-dom";
 import Manage from "./Manage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
   },
   {
-    path: "ManageReservations",
-    element: <Manage/>
-  }
+    path: "/ManageReservations",
+    element: <Manage />,
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
