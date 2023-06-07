@@ -1,0 +1,63 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 5em;
+  background-color: rgb(255, 255, 255);
+  padding: 2em 6dvw;
+  height: 500px;
+}
+
+.AvailableSpaces {
+  position: relative;
+  padding: 0 0em;
+  .heading {
+    margin: 2em auto 1em auto;
+    text-align: center;
+    font-weight: 400;
+  }
+
+  .SpaceContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1em;
+  }
+
+  .Space {
+    padding: 1.2em 1em;
+    text-align: center;
+    background-color: #dcdcdc;
+    color: white;
+    border-radius: 0.8em;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color ease-in-out 200ms;
+
+    .name {
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+
+    p {
+      margin-top: 0.2em;
+      font-size: 0.8em;
+      text-align: left;
+      visibility: hidden;
+      height: 0;
+      opacity: 0;
+    }
+
+    &Selected {
+      @extend .Space;
+      padding: 1.2em 1.2em;
+      background-color: rgb(44, 37, 37);
+      text-align: left;
+      p {
+        visibility: visible;
+        opacity: 1;
+        height: auto;
+      }
+    }
+  }
+}
