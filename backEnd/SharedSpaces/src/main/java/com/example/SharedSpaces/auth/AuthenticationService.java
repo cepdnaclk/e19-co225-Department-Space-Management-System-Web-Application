@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenricationService {
+public class AuthenticationService {
 
 //    private final UserRepository repository;
     private final JwtService jwtService;
