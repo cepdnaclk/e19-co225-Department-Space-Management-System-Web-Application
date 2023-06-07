@@ -1,7 +1,13 @@
 package com.example.first_demo.models;
 
-public class Person {
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "person")
+public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int Id;
     String firstName;
     String lastName;
     String email;
@@ -10,6 +16,10 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public Person() {
+
     }
 
     public String getFirstName() {

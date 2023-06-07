@@ -1,12 +1,20 @@
 package com.example.first_demo.models;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 // space class for a space
+
+@Entity
+@Table(name = "space")
+
 public class Space {
 
     // variable declaration
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     private String description;
@@ -14,7 +22,7 @@ public class Space {
     private ArrayList<String> facilities;
     private String image;
 
-    public Space(int id,String name, String description, int capacity, ArrayList<String> facilities, String image){
+    public Space(int id, String name, String description, int capacity, ArrayList<String> facilities, String image) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -22,6 +30,11 @@ public class Space {
         this.facilities = facilities;
         this.image = image;
     }
+
+    public Space() {
+
+    }
+
 
     public int getId() {
         return id;
@@ -72,7 +85,7 @@ public class Space {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Space{" +
                 "id=" + id +
                 ", name=" + name + '\'' +

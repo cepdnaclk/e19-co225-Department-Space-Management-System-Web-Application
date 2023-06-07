@@ -1,6 +1,9 @@
 package com.example.first_demo.models;
 
+import jakarta.persistence.Entity;
+
 import java.util.Objects;
+@Entity
 
 public class Log {
 
@@ -12,6 +15,10 @@ public class Log {
         this.userName = userName;
         this.role = role;
         this.email = email;
+    }
+
+    public Log() {
+
     }
 
 
