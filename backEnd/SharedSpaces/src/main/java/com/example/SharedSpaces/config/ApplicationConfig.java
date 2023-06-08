@@ -12,7 +12,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> new User("UserFirst", "email");
+        return username -> new User("UserFirst","UserLast", "email");
     }
 
 }

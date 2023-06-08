@@ -15,11 +15,13 @@ import java.util.Collection;
 @NoArgsConstructor
 public class User implements UserDetails {
 
-    private String Name;
+    private String firstName;
+    private String lastName;
     private String email;
 
-    public User(String name, String email){
-        this.Name = name;
+    public User(String firstName, String lastName, String email){
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 

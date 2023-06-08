@@ -6,13 +6,13 @@ public class Admin extends User{
 
     private Date dateOfCreate;
 
-    public Admin(String name, String email, Date dateOfCreate){
-        super(name, email);
+    public Admin(String firstName, String lastName, String email, Date dateOfCreate){
+        super(firstName, lastName, email);
         this.dateOfCreate = dateOfCreate;
     }
 
-    public Admin(String name, String email){
-        super(name, email);
+    public Admin(String firstName, String lastName, String email){
+        super(firstName, lastName, email);
     }
 
 }

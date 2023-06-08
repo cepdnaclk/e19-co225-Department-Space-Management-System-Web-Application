@@ -23,7 +23,8 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
 
         var user = User.builder()
-                .Name(request.getName())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
                 .email(request.getEmail())
                 .build();
 
@@ -51,7 +52,7 @@ public class AuthenticationService {
 //        var user = repository.findByEmail(request.getEmail())
 //                .orElseThrow();
 
-        var user = new User(request.getName(), request.getEmail());
+        var user = new User(request.getFirstName(), request.getLastName(), request.getEmail());
 
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);

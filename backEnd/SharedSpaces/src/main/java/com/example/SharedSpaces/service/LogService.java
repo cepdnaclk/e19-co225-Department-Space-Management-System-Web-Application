@@ -2,8 +2,9 @@ package com.example.SharedSpaces.service;
 
 import com.example.SharedSpaces.models.User;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 
-import java.util.Base64;
+import java.util.*;
 
 @Service
 public class LogService {
@@ -15,10 +16,17 @@ public class LogService {
         Base64.Decoder decoder = Base64.getUrlDecoder();
 
         String payLoad = new String(decoder.decode(payLoadToken));
+        Map<String, String> map = new HashMap<>();
 
-        System.out.println(payLoad);
+        for (String element: payLoad.substring(1,payLoad.length()-1).split("\\,")){
+            System.out.println(element);
+            String[] elements = element.split("\\:");
+            map.put(elements[0], elements[1]);
+        }
 
-        return new User("name", "email");
+        List<String> payLoadValues = new ArrayList<String>(map.values());
+
+        return new User(payLoadValues.get(6), payLoadValues.get(2), payLoadValues.get(7));
 
     }
 
