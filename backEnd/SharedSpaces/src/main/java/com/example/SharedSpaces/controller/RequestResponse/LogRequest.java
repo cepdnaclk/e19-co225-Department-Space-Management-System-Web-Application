@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LogRequest {
 
-    
+    private String clientId;
+    private String credential;
+    private String select_by;
+
 
 }
