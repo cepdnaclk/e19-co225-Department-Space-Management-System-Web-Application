@@ -5,17 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17553d34-a172-473c-a6bb-2ba4cc2a0a13" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/repos/SpaceRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/AdminDB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/ResponsiblePersonDB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/UserDB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/repos/AdminRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/repos/ResponsiblePersonRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/repos/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/SpaceDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/SpaceDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/Space.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/Space.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backEnd/first_demo/src/main/java/com/example/first_demo/models/Space.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/first_demo/src/main/java/com/example/first_demo/models/Space.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backEnd/first_demo/src/main/java/com/example/first_demo/repos/SpaceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/first_demo/src/main/java/com/example/first_demo/repos/SpaceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/ResponsiblePerson.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/ResponsiblePerson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +25,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>

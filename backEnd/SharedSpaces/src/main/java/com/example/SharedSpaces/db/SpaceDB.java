@@ -2,7 +2,7 @@ package com.example.SharedSpaces.db;
 
 import com.example.SharedSpaces.models.Space;
 import com.example.SharedSpaces.repos.SpaceRepository;
-import org.springframework.stereotype.Repository;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
 import java.util.Optional;
 
 @Service

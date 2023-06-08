@@ -1,5 +1,6 @@
 package com.example.SharedSpaces.models;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +12,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 @Data
-@Builder
+//@Builder
 @NoArgsConstructor
+@Entity
+@Table(name="user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String firstName;
     private String lastName;
