@@ -21,7 +21,7 @@ public class SpaceDB {
     @Autowired
     private SpaceRepository spaceRepository;
 
-    public List<Space> getAllSpaces() {
+    public List<Space> getAllSpacess() {
         return spaceRepository.findAll();
     }
 
