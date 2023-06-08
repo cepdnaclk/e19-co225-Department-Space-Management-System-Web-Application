@@ -27,6 +27,9 @@ public class LogController {
 
 //        return log.extractClaims(data.substring(7, data.length()));
 
+
+        System.out.println(log.extractClaims(token));
+
         return log.extractClaims(token);
     }
 

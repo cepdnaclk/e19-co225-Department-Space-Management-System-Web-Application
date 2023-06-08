@@ -1,4 +1,4 @@
-package com.example.SharedSpaces.auth;
+package com.example.SharedSpaces.auth.RequestResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class AuthenticationRequest {
 
     private String email;
     private String firstName;
     private String lastName;
-//    private Role role;
+
 }

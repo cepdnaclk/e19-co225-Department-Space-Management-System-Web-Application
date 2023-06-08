@@ -1,4 +1,4 @@
-package com.example.SharedSpaces.auth;
+package com.example.SharedSpaces.auth.RequestResponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

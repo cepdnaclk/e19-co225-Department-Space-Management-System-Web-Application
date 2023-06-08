@@ -19,7 +19,6 @@ public class LogService {
         Map<String, String> map = new HashMap<>();
 
         for (String element: payLoad.substring(1,payLoad.length()-1).split("\\,")){
-            System.out.println(element);
             String[] elements = element.split("\\:");
             map.put(elements[0], elements[1]);
         }
