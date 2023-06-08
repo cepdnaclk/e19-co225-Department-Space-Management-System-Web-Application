@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/e19-co225-sharedspaces.iml" filepath="$PROJECT_DIR$/.idea/e19-co225-sharedspaces.iml" />
       <module fileurl="file://$PROJECT_DIR$/backEnd/first_demo/first_demo.iml" filepath="$PROJECT_DIR$/backEnd/first_demo/first_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backEnd/SharedSpaces/first_demo (1).iml" filepath="$PROJECT_DIR$/backEnd/SharedSpaces/first_demo (1).iml" />
     </modules>
   </component>
 </project>

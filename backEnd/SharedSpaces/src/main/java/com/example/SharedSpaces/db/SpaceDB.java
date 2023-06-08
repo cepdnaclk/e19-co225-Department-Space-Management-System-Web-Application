@@ -1,22 +1,49 @@
 package com.example.SharedSpaces.db;
 
 import com.example.SharedSpaces.models.Space;
+import com.example.SharedSpaces.repos.SpaceRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Repository
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+
+@Service
 public class SpaceDB {
 
-    private List<Space> spaceDb = new ArrayList<Space>();
+    @Autowired
+    private SpaceRepository spaceRepository;
 
-    public List<Space> selectAllSpaces() {
-        spaceDb.add(new Space(1, "Lab1", "floor 1", 50, new ArrayList<String>(Arrays.asList("AC")), "image"));
-        spaceDb.add(new Space(2, "Lab1", "floor 1", 50, new ArrayList<String>(Arrays.asList("AC")), "image"));
-        spaceDb.add(new Space(3, "Lab1", "floor 1", 50, new ArrayList<String>(Arrays.asList("AC")), "image"));
-        return spaceDb;
+    public List<Space> getAllSpaces() {
+        return spaceRepository.findAll();
     }
 
+    public Optional<Space> getSpaceById(Long id) {
+        return spaceRepository.findById(id);
+    }
+
+    public void addSpace(Space space) {
+        spaceRepository.save(space);
+    }
+
+    public void updateSpace(Long id, Space space) {
+        Optional<Space> optionalSpace = spaceRepository.findById(id);
+        if (optionalSpace.isPresent()) {
+            Space existingSpace = optionalSpace.get();
+            existingSpace.setName(space.getName());
+            existingSpace.setDescription(space.getDescription());
+            spaceRepository.save(existingSpace);
+        }
+    }
+
+    public void deleteSpace(Long id, Space space) {
+        spaceRepository.deleteById(id);
+    }
 }

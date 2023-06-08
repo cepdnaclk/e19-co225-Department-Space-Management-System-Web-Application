@@ -1,12 +1,18 @@
 package com.example.first_demo.models;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 // space class for a space
+@Entity
+@Table(name = "spaces")
 public class Space {
 
     // variable declaration
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String description;
@@ -21,6 +27,10 @@ public class Space {
         this.capacity = capacity;
         this.facilities = facilities;
         this.image = image;
+    }
+
+    public Space() {
+
     }
 
     public int getId() {
