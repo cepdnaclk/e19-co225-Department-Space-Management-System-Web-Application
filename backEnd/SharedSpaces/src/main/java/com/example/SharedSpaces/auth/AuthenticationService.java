@@ -9,7 +9,7 @@ import com.example.SharedSpaces.models.token.TokenType;
 import com.example.SharedSpaces.security.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,36 +17,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService {
 
 //    private final UserRepository repository;
     private final JwtService jwtService;
 
+    @Autowired
     public AuthenticationService(JwtService jwtService){
         this.jwtService = jwtService;
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
 
-//        var user = User.builder()
-//                .firstName(request.getFirstName())
-//                .lastName(request.getLastName())
-//                .email(request.getEmail())
-//                .build();
-
         var user = new User(request.getFirstName(),request.getLastName(), request.getEmail());
 
 //        var savedUser = repository.save(user);user
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-
-//        saveUserToken(savedUser, jwtToken);
-
-//        return AuthenticationResponse.builder()
-//                .accessToken(jwtToken)
-//                .refreshToken(refreshToken)
-//                .build();
 
         return new AuthenticationResponse(jwtToken, refreshToken);
 
@@ -71,21 +58,10 @@ public class AuthenticationService {
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
 
-//        return AuthenticationResponse.builder()
-//                .accessToken(jwtToken)
-//                .refreshToken(refreshToken)
-//                .build();
         return new AuthenticationResponse(jwtToken, refreshToken);
     }
 
     private void saveUserToken(User user, String jwtToken) {
-//        var token = Token.builder()
-//                .user(user)
-//                .token(jwtToken)
-//                .tokenType(TokenType.BEARER)
-//                .expired(false)
-//                .revoked(false)
-//                .build();
 
         var token = new Token(user,jwtToken, TokenType.BEARER, false, false);
 
@@ -133,11 +109,6 @@ public class AuthenticationService {
                 var accessToken = jwtService.generateToken(user);
                 revokeAllUserTokens(user);
                 saveUserToken(user, accessToken);
-
-//                var authResponse = AuthenticationResponse.builder()
-//                        .accessToken(accessToken)
-//                        .refreshToken(refreshToken)
-//                        .build();
 
                 var authResponse = new AuthenticationResponse(accessToken, refreshToken);
 

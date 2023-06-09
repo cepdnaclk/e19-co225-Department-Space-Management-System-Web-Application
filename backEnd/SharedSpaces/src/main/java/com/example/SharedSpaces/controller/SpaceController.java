@@ -13,6 +13,7 @@ public class SpaceController {
 
     private final SpaceService spaceservices;
 
+    @Autowired
     public SpaceController(SpaceService spaceservices) {
         this.spaceservices = spaceservices;
     }

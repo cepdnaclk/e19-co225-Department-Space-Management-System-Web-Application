@@ -1,19 +1,13 @@
 package com.example.SharedSpaces.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
 import java.util.Collection;
+import java.util.Objects;
 
-//@Data
-////@Builder
-@NoArgsConstructor
 @Entity
 @Table(name="user")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -30,7 +24,6 @@ public class User implements UserDetails {
     public User(){
 
     }
-
 
     public User(String firstName, String lastName, String email){
         this.firstName = firstName;
@@ -103,5 +96,28 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, email);
     }
 }

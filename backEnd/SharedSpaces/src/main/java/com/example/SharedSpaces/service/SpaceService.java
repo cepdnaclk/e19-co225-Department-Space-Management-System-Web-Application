@@ -12,6 +12,7 @@ public class SpaceService {
 
     private final SpaceDB spacedata;
 
+    @Autowired
     public SpaceService(SpaceDB spacedata) {
         this.spacedata = spacedata;
     }

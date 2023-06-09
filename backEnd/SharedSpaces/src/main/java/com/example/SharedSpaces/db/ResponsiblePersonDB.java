@@ -10,8 +10,14 @@ import java.util.Optional;
 
 @Service
 public class ResponsiblePersonDB {
-    @Autowired
+
+
     private ResponsiblePersonRepository responsiblePersonRepository;
+
+    @Autowired
+    public ResponsiblePersonDB(ResponsiblePersonRepository responsiblePersonRepository){
+        this.responsiblePersonRepository = responsiblePersonRepository;
+    }
 
     public List<ResponsiblePerson> getAllResponsiblePersons() {
         return (List<ResponsiblePerson>) responsiblePersonRepository.findAll();

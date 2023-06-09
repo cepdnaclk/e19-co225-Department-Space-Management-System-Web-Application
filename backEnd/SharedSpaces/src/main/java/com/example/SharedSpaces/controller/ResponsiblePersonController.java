@@ -1,6 +1,7 @@
 package com.example.SharedSpaces.controller;
 
 import com.example.SharedSpaces.service.ResponsiblePersonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -9,6 +10,7 @@ public class ResponsiblePersonController {
 
     private final ResponsiblePersonService responsiblePersonService;
 
+    @Autowired
     public ResponsiblePersonController(ResponsiblePersonService responsiblePersonService) {
         this.responsiblePersonService = responsiblePersonService;
     }
