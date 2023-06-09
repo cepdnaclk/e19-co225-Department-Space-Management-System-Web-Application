@@ -36,13 +36,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
 
+        System.out.println(authHeader);
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         jwt = authHeader.substring(7);
+        System.out.println(jwt);
+
+        if(jwtService.isTokenExpired(jwt)){
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         userEmail = jwtService.extractUsername(jwt);
+
+        System.out.println(jwt);
+        System.out.println(userEmail);
+
+        System.out.println(SecurityContextHolder.getContext().getAuthentication());
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
@@ -52,6 +66,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //                    .map(t -> !t.isExpired() && !t.isRevoked())
 //                    .orElse(false);
 
+            System.out.println(userDetails);
+            System.out.println(jwtService.isTokenValid(jwt, userDetails));
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
@@ -64,6 +80,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                System.out.println(userDetails);
             }
         }
 

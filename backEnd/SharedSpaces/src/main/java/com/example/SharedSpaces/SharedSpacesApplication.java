@@ -11,5 +11,4 @@ public class SharedSpacesApplication {
 		SpringApplication.run(SharedSpacesApplication.class, args);
 	}
 
-
 }

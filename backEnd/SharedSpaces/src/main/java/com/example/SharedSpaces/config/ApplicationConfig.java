@@ -12,7 +12,8 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> new User("UserFirst","UserLast", "email");
+
+        return useremail -> new User("UserFirst","UserLast", useremail);
     }
 
 }
