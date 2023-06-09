@@ -2,14 +2,7 @@ package com.example.SharedSpaces.db;
 
 import com.example.SharedSpaces.models.Space;
 import com.example.SharedSpaces.repos.SpaceRepository;
-
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +11,13 @@ import java.util.Optional;
 @Service
 public class SpaceDB {
 
-    @Autowired
+
     private SpaceRepository spaceRepository;
+
+    @Autowired
+    public SpaceDB(SpaceRepository spaceRepository){
+        this.spaceRepository = spaceRepository;
+    }
 
     public List<Space> getAllSpacess() {
         return spaceRepository.findAll();

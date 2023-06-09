@@ -11,8 +11,13 @@ import java.util.Optional;
 @Service
 public class UserDB {
 
-    @Autowired
+
     private UserRepository userRepository;
+
+    @Autowired
+    public UserDB(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
@@ -20,6 +25,17 @@ public class UserDB {
 
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
+    }
+
+    public Optional<User> getUserByEmail(String email){
+        for (User user: this.getAllUsers()){
+            if (user.getEmail().equals(email)) {
+                return Optional
+                        .ofNullable(user);
+            }
+        }
+        return  Optional
+                .ofNullable(null);
     }
 
     public User createUser(User user) {

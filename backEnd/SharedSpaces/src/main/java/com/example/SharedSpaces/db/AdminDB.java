@@ -11,8 +11,13 @@ import java.util.Optional;
 @Service
 public class AdminDB {
 
-    @Autowired
+
     private AdminRepository adminRepository;
+
+    @Autowired
+    public AdminDB(AdminRepository adminRepository){
+        this.adminRepository = adminRepository;
+    }
 
     public List<Admin> getAllAdmins() {
         return (List<Admin>) adminRepository.findAll();

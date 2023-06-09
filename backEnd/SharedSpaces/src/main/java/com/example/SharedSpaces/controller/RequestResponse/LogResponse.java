@@ -1,24 +1,41 @@
 package com.example.SharedSpaces.controller.RequestResponse;
 
-import lombok.AllArgsConstructor;
+import java.util.Objects;
 
-@AllArgsConstructor
 public class LogResponse {
 
-//    private User user;
-//    private String role;
-//
     private Boolean valid;
 
     private String refreshToken;
 
-//    public LogResponse(User user, String role){
-//        this.user = user;
-//        this.role = role;
-//    }
-
     public LogResponse(){
 
+    }
+
+    public LogResponse(boolean valid, String refreshToken){
+        this.valid = valid;
+        this.refreshToken = refreshToken;
+    }
+
+    @Override
+    public String toString() {
+        return "LogResponse{" +
+                "valid=" + valid +
+                ", refreshToken='" + refreshToken + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LogResponse response = (LogResponse) o;
+        return Objects.equals(valid, response.valid) && Objects.equals(refreshToken, response.refreshToken);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(valid, refreshToken);
     }
 
     public LogResponse(String refreshToken){

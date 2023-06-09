@@ -1,6 +1,7 @@
 package com.example.SharedSpaces.service;
 
 import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
+import com.example.SharedSpaces.db.UserDB;
 import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,13 @@ import java.util.*;
 public class LogService {
 
     private final JwtService jwtService;
+    private final UserDB userDB;
 
     @Autowired
-    public LogService(JwtService jwtService) {
+    public LogService(JwtService jwtService, UserDB userDB) {
         this.jwtService = jwtService;
+        this.userDB = userDB;
     }
-
 
 
     public LogResponse log(String credential){
@@ -27,7 +29,7 @@ public class LogService {
             User user = jwtService.extractClaimsGoogle(credential);
 
             // get role
-//          String = 
+            String role = "user";
 
             if (isEmailValid(user.getEmail())) {
 
@@ -39,6 +41,9 @@ public class LogService {
 
                 LogResponse response = new LogResponse(reFreshToken);
                 response.setValid(true);
+
+                if(!role.equals("responsible") && !role.equals("admin"))
+                    userDB.createUser(user);
 
                 return response;
             }

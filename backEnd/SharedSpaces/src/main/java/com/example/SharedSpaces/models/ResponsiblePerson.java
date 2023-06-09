@@ -6,6 +6,7 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "responsible_person")
@@ -23,6 +24,27 @@ public class ResponsiblePerson extends User{
         super(firstName, lastName, email);
         this.type = type;
         this.dateOfCreate = dateOfCreate;
+    }
+
+    @Override
+    public String toString() {
+        return "ResponsiblePerson{" +
+                "type='" + type + '\'' +
+                ", dateOfCreate=" + dateOfCreate +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResponsiblePerson that = (ResponsiblePerson) o;
+        return Objects.equals(type, that.type) && Objects.equals(dateOfCreate, that.dateOfCreate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, dateOfCreate);
     }
 
     public ResponsiblePerson() {
