@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
+//@Data
+//@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class LogResponse {
@@ -24,8 +24,27 @@ public class LogResponse {
 //        this.role = role;
 //    }
 
+    public LogResponse(){
+
+    }
+
     public LogResponse(String refreshToken){
         this.refreshToken = refreshToken;
     }
 
+    public Boolean getValid() {
+        return valid;
+    }
+
+    public void setValid(Boolean valid) {
+        this.valid = valid;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }

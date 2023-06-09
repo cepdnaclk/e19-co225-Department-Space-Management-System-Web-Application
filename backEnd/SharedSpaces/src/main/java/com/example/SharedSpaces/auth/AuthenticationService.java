@@ -23,13 +23,19 @@ public class AuthenticationService {
 //    private final UserRepository repository;
     private final JwtService jwtService;
 
+    public AuthenticationService(JwtService jwtService){
+        this.jwtService = jwtService;
+    }
+
     public AuthenticationResponse register(RegisterRequest request) {
 
-        var user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .build();
+//        var user = User.builder()
+//                .firstName(request.getFirstName())
+//                .lastName(request.getLastName())
+//                .email(request.getEmail())
+//                .build();
+
+        var user = new User(request.getFirstName(),request.getLastName(), request.getEmail());
 
 //        var savedUser = repository.save(user);user
         var jwtToken = jwtService.generateToken(user);
@@ -37,10 +43,12 @@ public class AuthenticationService {
 
 //        saveUserToken(savedUser, jwtToken);
 
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
+//        return AuthenticationResponse.builder()
+//                .accessToken(jwtToken)
+//                .refreshToken(refreshToken)
+//                .build();
+
+        return new AuthenticationResponse(jwtToken, refreshToken);
 
     }
 
@@ -63,20 +71,23 @@ public class AuthenticationService {
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
 
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
+//        return AuthenticationResponse.builder()
+//                .accessToken(jwtToken)
+//                .refreshToken(refreshToken)
+//                .build();
+        return new AuthenticationResponse(jwtToken, refreshToken);
     }
 
     private void saveUserToken(User user, String jwtToken) {
-        var token = Token.builder()
-                .user(user)
-                .token(jwtToken)
-                .tokenType(TokenType.BEARER)
-                .expired(false)
-                .revoked(false)
-                .build();
+//        var token = Token.builder()
+//                .user(user)
+//                .token(jwtToken)
+//                .tokenType(TokenType.BEARER)
+//                .expired(false)
+//                .revoked(false)
+//                .build();
+
+        var token = new Token(user,jwtToken, TokenType.BEARER, false, false);
 
 //        tokenRepository.save(token);
     }
@@ -123,10 +134,12 @@ public class AuthenticationService {
                 revokeAllUserTokens(user);
                 saveUserToken(user, accessToken);
 
-                var authResponse = AuthenticationResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build();
+//                var authResponse = AuthenticationResponse.builder()
+//                        .accessToken(accessToken)
+//                        .refreshToken(refreshToken)
+//                        .build();
+
+                var authResponse = new AuthenticationResponse(accessToken, refreshToken);
 
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
