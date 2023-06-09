@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 
-@Data
+//@Data
 @Entity
 @Table(name = "spaces")
 public class Space {
@@ -31,5 +31,53 @@ public class Space {
 
     public Space() {
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public ArrayList<String> getFacilities() {
+        return facilities;
+    }
+
+    public void setFacilities(ArrayList<String> facilities) {
+        this.facilities = facilities;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

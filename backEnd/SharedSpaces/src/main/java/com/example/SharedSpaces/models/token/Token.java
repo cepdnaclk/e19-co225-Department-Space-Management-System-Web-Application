@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+//@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Token {
@@ -22,5 +22,13 @@ public class Token {
     public boolean expired;
 
     public User user;
+
+    public Token(User user, String token, TokenType tokenType, boolean revoked, boolean expired){
+        this.user = user;
+        this.token = token;
+        this.tokenType = tokenType;
+        this.revoked = revoked;
+        this.expired = expired;
+    }
 }
 

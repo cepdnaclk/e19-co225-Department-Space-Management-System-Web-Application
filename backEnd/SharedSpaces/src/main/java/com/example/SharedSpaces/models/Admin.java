@@ -5,6 +5,8 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 import java.util.Date;
+
+
 @Entity
 @Table(name = "admin")
 @PrimaryKeyJoinColumn(name = "id")
