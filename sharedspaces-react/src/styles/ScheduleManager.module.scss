@@ -1,3 +1,4 @@
+@use "variables" as *;
 .container {
   display: grid;
   grid-template-columns: 1fr 4fr;
@@ -9,7 +10,7 @@
 
 .AvailableSpaces {
   position: relative;
-  padding: 0 1em;
+  padding: 0 0em;
   .heading {
     margin: 2em auto 1em auto;
     text-align: center;
@@ -27,12 +28,12 @@
   .Space {
     padding: 1.2em 1em;
     text-align: center;
-    background-color: #dcdcdc;
+    background-color: #b0b0b0;
     color: white;
-    border-radius: 0.8em;
+    border-radius: 1em;
     cursor: pointer;
     user-select: none;
-    transition: background-color ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
 
     .name {
       font-weight: 500;
@@ -40,22 +41,28 @@
     }
 
     p {
+      position: relative;
+      //bottom: 1.5em;
       margin-top: 0.2em;
       font-size: 0.8em;
-      text-align: left;
+      color: #dedede;
       visibility: hidden;
       height: 0;
       opacity: 0;
+      transition: opacity ease-in-out 300ms;
     }
 
     &Selected {
       @extend .Space;
-      background-color: rgb(44, 37, 37);
-      text-align: left;
+      padding: 1.2em 1.2em;
+      //border-radius: 1.2em;
+      background-color: rgb(54, 53, 65);
+      //text-align: left;
       p {
         visibility: visible;
         opacity: 1;
         height: auto;
+        //bottom: 0;
       }
     }
   }

@@ -1,5 +1,8 @@
 package com.example.SharedSpaces.auth;
 
+import com.example.SharedSpaces.auth.RequestResponse.AuthenticationRequest;
+import com.example.SharedSpaces.auth.RequestResponse.AuthenticationResponse;
+import com.example.SharedSpaces.auth.RequestResponse.RegisterRequest;
 import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.models.token.Token;
 import com.example.SharedSpaces.models.token.TokenType;

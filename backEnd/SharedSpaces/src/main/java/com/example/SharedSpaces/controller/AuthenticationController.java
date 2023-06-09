@@ -1,9 +1,9 @@
 package com.example.SharedSpaces.controller;
 
-import com.example.SharedSpaces.auth.AuthenticationRequest;
-import com.example.SharedSpaces.auth.AuthenticationResponse;
+import com.example.SharedSpaces.auth.RequestResponse.AuthenticationRequest;
+import com.example.SharedSpaces.auth.RequestResponse.AuthenticationResponse;
 import com.example.SharedSpaces.auth.AuthenticationService;
-import com.example.SharedSpaces.auth.RegisterRequest;
+import com.example.SharedSpaces.auth.RequestResponse.RegisterRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

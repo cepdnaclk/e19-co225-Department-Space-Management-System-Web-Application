@@ -14,7 +14,10 @@ export default SechduleManager;
 const AvailableSpaces = ({ availableSpaces }) => {
   const [select, setSelect] = React.useState(0);
   const handleClick = (id) => {
-    setSelect(id);
+    //if already selected, then show more details on the space
+    if (select === id) {
+      console.log("TODO: Open modal");
+    } else setSelect(id);
   };
   return (
     <div className={styles.AvailableSpaces}>

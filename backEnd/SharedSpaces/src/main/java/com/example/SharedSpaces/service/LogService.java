@@ -1,6 +1,8 @@
 package com.example.SharedSpaces.service;
 
+import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
 import com.example.SharedSpaces.models.User;
+import com.example.SharedSpaces.security.JwtService;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
@@ -9,25 +11,56 @@ import java.util.*;
 @Service
 public class LogService {
 
-    public User extractClaims(String token) {
+    private final JwtService jwtService;
 
-        String payLoadToken = token.split("\\.")[1];
+    public LogService(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
 
-        Base64.Decoder decoder = Base64.getUrlDecoder();
 
-        String payLoad = new String(decoder.decode(payLoadToken));
-        Map<String, String> map = new HashMap<>();
 
-        for (String element: payLoad.substring(1,payLoad.length()-1).split("\\,")){
-            System.out.println(element);
-            String[] elements = element.split("\\:");
-            map.put(elements[0], elements[1]);
+    public LogResponse log(String credential){
+
+        try {
+            User user = jwtService.extractClaimsGoogle(credential);
+
+            // get role
+//          String = 
+
+            if (isEmailValid(user.getEmail())) {
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("user", user);
+                map.put("role", "manager");
+
+                String reFreshToken = jwtService.generateRefreshToken(map, user);
+
+                LogResponse response = new LogResponse(reFreshToken);
+                response.setValid(true);
+
+                return response;
+            }
+
+            LogResponse response = new LogResponse();
+            response.setValid(false);
+            return response;
+
+        } catch (Exception e){
+            LogResponse response = new LogResponse();
+            response.setValid(false);
+            return response;
         }
+    }
 
-        List<String> payLoadValues = new ArrayList<String>(map.values());
+    public boolean isEmailValid(String email){
 
-        return new User(payLoadValues.get(6), payLoadValues.get(2), payLoadValues.get(7));
+        if (email.substring(email.length()-14, email.length()).equals("@eng.pdn.ac.lk"))
+            return true;
+        else
+            return false;
 
     }
+
+
 
 }
