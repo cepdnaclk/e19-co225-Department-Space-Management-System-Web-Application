@@ -1,15 +1,8 @@
 package com.example.SharedSpaces.controller.RequestResponse;
 
-import com.example.SharedSpaces.models.User;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-//@Data
-//@Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class LogResponse {
 
 //    private User user;

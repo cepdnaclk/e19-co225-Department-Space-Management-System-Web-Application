@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Service
 public class ResponsiblePersonDB {
+
     @Autowired
     private ResponsiblePersonRepository responsiblePersonRepository;
 

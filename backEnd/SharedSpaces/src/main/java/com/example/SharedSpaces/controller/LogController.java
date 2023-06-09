@@ -4,6 +4,7 @@ import com.example.SharedSpaces.controller.RequestResponse.LogRequest;
 import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
 import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.service.LogService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ public class LogController {
 
     private final LogService log;
 
+    @Autowired
     public LogController(LogService log) {
         this.log = log;
     }

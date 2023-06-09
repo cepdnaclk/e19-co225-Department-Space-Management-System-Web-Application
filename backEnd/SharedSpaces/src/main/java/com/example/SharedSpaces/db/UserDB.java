@@ -10,11 +10,10 @@ import java.util.Optional;
 
 @Service
 public class UserDB {
+
     @Autowired
     private UserRepository userRepository;
-
-
-
+    
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
     }

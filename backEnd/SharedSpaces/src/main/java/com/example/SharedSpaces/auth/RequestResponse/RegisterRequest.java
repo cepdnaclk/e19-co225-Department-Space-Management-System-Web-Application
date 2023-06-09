@@ -1,12 +1,8 @@
 package com.example.SharedSpaces.auth.RequestResponse;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//@Data
-//@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
@@ -14,6 +10,7 @@ public class RegisterRequest {
     private String email;
     private String firstName;
     private String lastName;
+//    private Role role;
 
     public String getEmail() {
         return email;
@@ -40,5 +37,5 @@ public class RegisterRequest {
     }
 
 
-//    private Role role;
+
 }

@@ -3,6 +3,7 @@ package com.example.SharedSpaces.service;
 import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
 import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.security.JwtService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public class LogService {
 
     private final JwtService jwtService;
 
+    @Autowired
     public LogService(JwtService jwtService) {
         this.jwtService = jwtService;
     }

@@ -28,4 +28,20 @@ public class ResponsiblePerson extends User{
     public ResponsiblePerson() {
 
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Date getDateOfCreate() {
+        return dateOfCreate;
+    }
+
+    public void setDateOfCreate(Date dateOfCreate) {
+        this.dateOfCreate = dateOfCreate;
+    }
 }

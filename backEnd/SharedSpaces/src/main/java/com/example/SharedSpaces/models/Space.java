@@ -2,7 +2,6 @@ package com.example.SharedSpaces.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.ArrayList;
 
 //@Data
