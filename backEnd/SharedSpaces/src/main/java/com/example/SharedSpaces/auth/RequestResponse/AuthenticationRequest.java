@@ -1,11 +1,12 @@
 package com.example.SharedSpaces.auth.RequestResponse;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-@AllArgsConstructor
-@NoArgsConstructor
 public class AuthenticationRequest {
+
+    public AuthenticationRequest(){
+
+    }
+
+    
 
     private String email;
     private String firstName;
