@@ -29,7 +29,10 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <Hero />
+      <Hero
+        title="SharedSpaces"
+        description="Check Availability and Reserve Spaces"
+      />
       <SechduleManager availableSpaces={spaces} />
     </>
   );
