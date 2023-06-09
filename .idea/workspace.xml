@@ -4,11 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17553d34-a172-473c-a6bb-2ba4cc2a0a13" name="Changes" comment="" />
+    <list default="true" id="17553d34-a172-473c-a6bb-2ba4cc2a0a13" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/AdminDB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/ResponsiblePersonDB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/UserDB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/repos/AdminRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/repos/ResponsiblePersonRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/repos/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/SpaceDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/SpaceDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/ResponsiblePerson.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/ResponsiblePerson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/User.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -20,6 +40,13 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
   </component>
   <component name="ProjectId" id="2QhEs1QTKVtcxpBFGg6rLZY9bcj" />
   <component name="ProjectLevelVcsManager">
@@ -33,6 +60,10 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -46,6 +77,20 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.SharedSpaces.repos" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="SharedSpacesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="first_demo (1)" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.SharedSpaces.SharedSpacesApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

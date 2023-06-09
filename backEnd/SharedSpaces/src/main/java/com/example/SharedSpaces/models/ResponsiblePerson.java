@@ -1,7 +1,14 @@
 package com.example.SharedSpaces.models;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
+
 import java.util.Date;
+@Entity
+@Table(name = "responsible_person")
+@PrimaryKeyJoinColumn(name = "id")
 
 public class ResponsiblePerson extends User{
 
@@ -18,4 +25,7 @@ public class ResponsiblePerson extends User{
         this.dateOfCreate = dateOfCreate;
     }
 
+    public ResponsiblePerson() {
+
+    }
 }
