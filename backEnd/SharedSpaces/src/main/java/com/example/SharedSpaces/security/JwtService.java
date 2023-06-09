@@ -1,5 +1,6 @@
 package com.example.SharedSpaces.security;
 
+import com.example.SharedSpaces.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,9 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
@@ -95,5 +94,25 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public User extractClaimsGoogle(String token) {
+
+        String payLoadToken = token.split("\\.")[1];
+
+        Base64.Decoder decoder = Base64.getUrlDecoder();
+
+        String payLoad = new String(decoder.decode(payLoadToken));
+        Map<String, String> map = new HashMap<>();
+
+        for (String element: payLoad.substring(1,payLoad.length()-1).split("\\,")){
+            String[] elements = element.split("\\:");
+            map.put(elements[0], elements[1]);
+        }
+
+        List<String> payLoadValues = new ArrayList<String>(map.values());
+
+        return new User(payLoadValues.get(6).substring(1,payLoadValues.get(6).length()-1 ), payLoadValues.get(2).substring(1,payLoadValues.get(2).length()-1 ), payLoadValues.get(7).substring(1,payLoadValues.get(7).length()-1 ));
+
     }
 }
