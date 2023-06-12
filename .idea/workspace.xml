@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17553d34-a172-473c-a6bb-2ba4cc2a0a13" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/AdminDB.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/ResponsiblePersonDB.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/UserDB.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/repos/AdminRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/repos/ResponsiblePersonRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/repos/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/SpaceDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/db/SpaceDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/ResponsiblePerson.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/ResponsiblePerson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backEnd/SharedSpaces/src/main/java/com/example/SharedSpaces/models/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +64,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "06388ee11812772fbca2dae1283bb884",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -101,6 +92,7 @@
       <updated>1685797617929</updated>
       <workItem from="1685797630507" duration="1209000" />
       <workItem from="1685799662681" duration="81000" />
+      <workItem from="1686388365650" duration="86000" />
     </task>
     <servers />
   </component>

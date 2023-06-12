@@ -27,6 +27,24 @@ public class AdminDB {
         return adminRepository.findById(id);
     }
 
+    public Optional<Admin> getAdminByEmail(String email) {
+        if (email == null) {
+            return Optional.empty();
+        }
+
+        Optional<Admin> optionalAdmin = adminRepository.findByEmail(email);
+
+        if (!optionalAdmin.isPresent()) {
+
+            // In here, we are returning an empty optional
+            return Optional.empty();
+        }
+
+        return optionalAdmin;
+    }
+
+
+
     public Admin createAdmin(Admin admin) {
         return adminRepository.save(admin);
     }

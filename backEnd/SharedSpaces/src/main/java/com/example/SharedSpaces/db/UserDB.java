@@ -27,16 +27,32 @@ public class UserDB {
         return userRepository.findById(id);
     }
 
-    public Optional<User> getUserByEmail(String email){
-        for (User user: this.getAllUsers()){
-            if (user.getEmail().equals(email)) {
-                return Optional
-                        .ofNullable(user);
-            }
-        }
-        return  Optional
-                .ofNullable(null);
+//    public Optional<User> getUserByEmail(String email){
+//        for (User user: this.getAllUsers()){
+//            if (user.getEmail().equals(email)) {
+//                return Optional
+//                        .ofNullable(user);
+//            }
+//        }
+//        return  Optional
+//                .ofNullable(null);
+//    }
+public Optional<User> getUserByEmail(String email) {
+    if (email == null) {
+        return Optional.empty();
     }
+
+    Optional<User> optionalUser = userRepository.findByEmail(email);
+
+    if (!optionalUser.isPresent()) {
+
+        // In here, we are returning an empty optional
+        return Optional.empty();
+    }
+
+    return optionalUser;
+}
+
 
     public User createUser(User user) {
         return userRepository.save(user);
