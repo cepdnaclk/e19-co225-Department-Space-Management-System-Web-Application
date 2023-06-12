@@ -1,5 +1,7 @@
 package com.example.SharedSpaces.controller;
 
+import com.example.SharedSpaces.controller.RequestResponse.ReservationRequest;
+import com.example.SharedSpaces.controller.RequestResponse.ReservationResponse;
 import com.example.SharedSpaces.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,8 @@ public class ReservationController {
     }
 
     @PostMapping
-    public void addResevation(){
+    public ReservationResponse addResevation(ReservationRequest reservationRequest){
+        return reservationService.hadleReservation();
 
     }
 
