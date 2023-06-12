@@ -1,0 +1,70 @@
+$border-color: rgb(223, 223, 223);
+$reservationDefaultColor: hsl(0, 77%, 76%);
+
+.container {
+  display: grid;
+  background-color: rgba(255, 255, 255, 0.5);
+  //outline: 2px solid rgba(158, 1, 1, 0.5);
+  height: auto;
+  grid-template-columns: repeat(5, 1fr) minmax(2em, 4em);
+
+  .day {
+    //outline: 2px solid red;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+
+    .date {
+      padding: 1em;
+      h4 {
+        font-size: 1.5em;
+        font-family: "Quicksand", sans-serif;
+        font-weight: 400;
+      }
+      p {
+        font-weight: 600;
+      }
+    }
+    .slot {
+      position: relative;
+      cursor: pointer;
+      min-height: 3.8em;
+      //background-color: red;
+      border: 1px solid $border-color;
+
+      &:nth-child(2) {
+        border-top: 2px solid $border-color;
+      }
+      &:last-child {
+        border-bottom: 2px solid $border-color;
+      }
+
+      //reservations
+      .reservation {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        background-color: $reservationDefaultColor;
+        font-weight: 600;
+        color: #fff;
+
+        cursor: pointer;
+      }
+    }
+
+    &:first-child {
+      .slot {
+        border-left: 2px solid $border-color;
+      }
+    }
+
+    &:nth-last-child(2) {
+      .slot {
+        border-right: 2px solid $border-color;
+      }
+    }
+  }
+}
