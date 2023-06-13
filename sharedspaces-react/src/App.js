@@ -8,6 +8,9 @@ const spaces = [
     id: 0,
     name: "Computer Lab 02",
     description: "First Floor Computer Lab",
+    capacity: 50,
+    facilities: ["projector", "ac"],
+    imgLink: "",
   },
   {
     id: 1,
