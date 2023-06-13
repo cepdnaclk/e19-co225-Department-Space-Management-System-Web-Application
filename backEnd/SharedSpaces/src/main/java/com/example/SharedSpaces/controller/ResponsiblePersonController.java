@@ -16,22 +16,22 @@ public class ResponsiblePersonController {
     }
 
     @GetMapping
-    public String getAllReservations(){
+    public String getAllResponsiblePerson(){
         return null;
     }
 
     @PostMapping
-    public void addResevation(){
+    public void addResponsiblePerson(){
 
     }
 
     @PutMapping()
-    public void updateResevation(){
+    public void updateResponsiblePerson(){
 
     }
 
     @DeleteMapping()
-    public  void deleteResevation(){
+    public  void deleteResponsiblePersonn(){
 
     }
 }
