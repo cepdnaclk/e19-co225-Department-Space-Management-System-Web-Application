@@ -7,9 +7,7 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <Router>
-        <AppRouter/>
-      </Router>
+      <AppRouter />
     </>
   );
 };
