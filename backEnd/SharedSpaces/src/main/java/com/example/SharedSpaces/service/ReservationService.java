@@ -1,5 +1,6 @@
 package com.example.SharedSpaces.service;
 
+import com.example.SharedSpaces.controller.RequestResponse.Request;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationRequest;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationResponse;
 import com.example.SharedSpaces.db.ReservationDB;
@@ -11,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ReservationService {
@@ -21,12 +20,14 @@ public class ReservationService {
     private final ReservationDB reservationDB;
     private final WaitingDB waitingDB;
     private final UserDB userDB;
+    private final WaitingService waitingService;
 
     @Autowired
-    public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB){
+    public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB, WaitingService waitingService){
         this.reservationDB = reservationDB;
         this.userDB = userDB;
         this.waitingDB = waitingDB;
+        this.waitingService = waitingService;
     }
 
     public List<ReservationResponse> getAllResevations(){
@@ -100,6 +101,35 @@ public class ReservationService {
         reservationResponse.setResponsiblePerson(userDB.getUserById(reservation.getResponsiblePersonId()).get().getEmail());
 
         return reservationResponse;
+    }
+
+    public String reservationDeleteByRequest(Request request, String email){
+        Optional<Reservation> optional = reservationDB.getReservationByDetails(request.getSpaceID(),request.getStartDateTime(),request.getEndDateTime());
+
+        if (optional.isEmpty())
+            return "Bad Request";
+
+        Reservation reservation = optional.get();
+
+        if ((!email.equals(userDB.getUserById(reservation.getReservedById()).get().getEmail()) && !email.equals(userDB.getUserById(reservation.getResponsiblePersonId()).get().getEmail())) || optional.isEmpty())
+            return "Bad Request";
+
+        List<Waiting> waitingList = waitingDB.getWaitingByDetails(request.getSpaceID(), request.getStartDateTime(), request.getEndDateTime());
+
+        try {
+            waitingList.sort(Comparator.comparing(Waiting::getReservationDateTime));
+        } catch (Exception e){
+            System.out.println();
+        }
+
+        reservationDB.deleteReservation(reservation.getId());
+
+        if (waitingList != null){
+            reservationDB.createReservation(new Reservation(waitingList.get(0)));
+            waitingDB.deleteWaiting(waitingList.get(0).getId());
+        }
+
+        return "Deleted";
     }
 
 }
