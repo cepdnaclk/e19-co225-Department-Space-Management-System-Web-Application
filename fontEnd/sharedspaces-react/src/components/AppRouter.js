@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import Manage from "./Manage";
-import HomePage from "./HomePage";
+import Manage from "../Manage";
+import HomePage from "../HomePage";
 
 const AppRouter = () => {
   return (
