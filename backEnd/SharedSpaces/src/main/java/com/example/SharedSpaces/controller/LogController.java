@@ -20,10 +20,10 @@ public class LogController {
         this.log = log;
     }
 
-    @GetMapping
-    public String getLogging() {
-        return "log";
-    }
+//    @GetMapping
+//    public String getLogging() {
+//        return "log";
+//    }
 
     @PostMapping
     public LogResponse getLog(@RequestBody LogRequest logRequest) {
@@ -33,15 +33,14 @@ public class LogController {
     }
 
 
-    @PutMapping()
-    public void updateLogging(){
-
-    }
-
-    @DeleteMapping()
-    public  void deleteLogging(){
-
-    }
-
+//    @PutMapping()
+//    public void updateLogging(){
+//
+//    }
+//
+//    @DeleteMapping()
+//    public  void deleteLogging(){
+//
+//    }
 
 }

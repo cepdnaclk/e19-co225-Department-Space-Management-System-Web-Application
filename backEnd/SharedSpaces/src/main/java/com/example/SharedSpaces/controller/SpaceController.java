@@ -23,19 +23,19 @@ public class SpaceController {
         return spaceservices.getAllSpaces();
     }
 
-    @PostMapping
-    public void addSpace(){
-
-    }
-
-    @PutMapping(path = "{spaceId}")
-    public void updateSopace(){
-
-    }
-
-    @DeleteMapping(path = "{spaceId}")
-    public  void deleteSpace(){
-
-    }
+//    @PostMapping
+//    public void addSpace(){
+//
+//    }
+//
+//    @PutMapping(path = "{spaceId}")
+//    public void updateSopace(){
+//
+//    }
+//
+//    @DeleteMapping(path = "{spaceId}")
+//    public  void deleteSpace(){
+//
+//    }
 
 }

@@ -29,15 +29,14 @@ public class ReservationController {
         return  reservationService.hadleReservation(reservationRequest);
     }
 
-    @PutMapping()
-    public void updateResevation(){
-
-    }
-
-    @DeleteMapping()
-    public  void deleteResevation(){
-
-    }
-
+//    @PutMapping()
+//    public void updateResevation(){
+//
+//    }
+//
+//    @DeleteMapping()
+//    public  void deleteResevation(){
+//
+//    }
 
 }

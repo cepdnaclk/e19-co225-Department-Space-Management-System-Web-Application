@@ -15,23 +15,23 @@ public class ResponsiblePersonController {
         this.responsiblePersonService = responsiblePersonService;
     }
 
-    @GetMapping
-    public String getAllReservations(){
-        return null;
-    }
-
-    @PostMapping
-    public void addResevation(){
-
-    }
-
-    @PutMapping()
-    public void updateResevation(){
-
-    }
-
-    @DeleteMapping()
-    public  void deleteResevation(){
-
-    }
+//    @GetMapping
+//    public String getAllResponsiblePerson(){
+//        return null;
+//    }
+//
+//    @PostMapping
+//    public void addResponsiblePerson(){
+//
+//    }
+//
+//    @PutMapping()
+//    public void updateResponsiblePerson(){
+//
+//    }
+//
+//    @DeleteMapping()
+//    public  void deleteResponsiblePersonn(){
+//
+//    }
 }

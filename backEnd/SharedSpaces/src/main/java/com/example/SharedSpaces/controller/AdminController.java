@@ -16,23 +16,23 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @GetMapping
-    public String getInfo(){
-        return null;
-    }
-
-    @PostMapping
-    public void addResevation(){
-
-    }
-
-    @PutMapping()
-    public void updateResevation(){
-
-    }
-
-    @DeleteMapping()
-    public  void deleteResevation(){
-
-    }
+//    @GetMapping
+//    public String getInfo(){
+//        return null;
+//    }
+//
+//    @PostMapping
+//    public void addResevation(){
+//
+//    }
+//
+//    @PutMapping()
+//    public void updateResevation(){
+//
+//    }
+//
+//    @DeleteMapping()
+//    public  void deleteResevation(){
+//
+//    }
 }
