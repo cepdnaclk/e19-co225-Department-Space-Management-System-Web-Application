@@ -26,6 +26,22 @@ public class ResponsiblePersonDB {
     public Optional<ResponsiblePerson> getResponsiblePersonById(Long id) {
         return responsiblePersonRepository.findById(id);
     }
+    public Optional<ResponsiblePerson> getResponsiblePersonByEmail(String email) {
+        if (email == null) {
+            return Optional.empty();
+        }
+
+        Optional<ResponsiblePerson> optionalResponsiblePerson = responsiblePersonRepository.findByEmail(email);
+
+        if (!optionalResponsiblePerson.isPresent()) {
+
+            // In here, we are returning an empty optional
+            return Optional.empty();
+        }
+
+        return optionalResponsiblePerson;
+    }
+
 
     public ResponsiblePerson createResponsiblePerson(ResponsiblePerson responsiblePerson) {
         return responsiblePersonRepository.save(responsiblePerson);
