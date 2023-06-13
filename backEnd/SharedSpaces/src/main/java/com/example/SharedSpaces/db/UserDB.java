@@ -27,7 +27,7 @@ public class UserDB {
         return userRepository.findById(id);
     }
 
-public Optional<User> getUserByEmail(String email) {
+    public Optional<User> getUserByEmail(String email) {
     if (email == null) {
         return Optional.empty();
     }

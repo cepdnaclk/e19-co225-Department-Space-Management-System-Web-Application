@@ -14,42 +14,17 @@ import java.util.Objects;
 public class ResponsiblePerson extends User{
 
     private String type;
-    private Date dateOfCreate;
-
-    public ResponsiblePerson(String firstName, String lastName, String email){
-        super(firstName, lastName, email);
-    }
-
-    public ResponsiblePerson(String firstName, String lastName, String email, String type, Date dateOfCreate){
-        super(firstName, lastName, email);
-        this.type = type;
-        this.dateOfCreate = dateOfCreate;
-    }
 
     @Override
     public String toString() {
         return "ResponsiblePerson{" +
                 "type='" + type + '\'' +
-                ", dateOfCreate=" + dateOfCreate +
+                ", firstName='" + getFirstName() + '\'' +
+                ", lastName='" + getLastName() + '\'' +
+                ", email='" + getEmail() + '\'' +
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ResponsiblePerson that = (ResponsiblePerson) o;
-        return Objects.equals(type, that.type) && Objects.equals(dateOfCreate, that.dateOfCreate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(type, dateOfCreate);
-    }
-
-    public ResponsiblePerson() {
-
-    }
 
     public String getType() {
         return type;
@@ -59,11 +34,18 @@ public class ResponsiblePerson extends User{
         this.type = type;
     }
 
-    public Date getDateOfCreate() {
-        return dateOfCreate;
+    public ResponsiblePerson(){
+
     }
 
-    public void setDateOfCreate(Date dateOfCreate) {
-        this.dateOfCreate = dateOfCreate;
+    public ResponsiblePerson(String firstName, String lastName, String email){
+        super(firstName, lastName, email);
     }
+
+    public ResponsiblePerson(String firstName, String lastName, String email, String type){
+        super(firstName, lastName, email);
+        this.type = type;
+    }
+
+
 }

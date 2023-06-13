@@ -28,6 +28,7 @@ public class LogController {
     @PostMapping
     public LogResponse getLog(@RequestBody LogRequest logRequest) {
 
+
         return log.log(logRequest.getCredential());
     }
 
