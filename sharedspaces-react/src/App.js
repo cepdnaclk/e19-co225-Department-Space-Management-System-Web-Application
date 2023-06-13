@@ -1,17 +1,15 @@
 import "./styles/App.scss";
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import SechduleManager from "./components/ScheduleManager";
+import AppRouter from "./AppRouter";
+import { Router } from "react-router-dom";
 
 const App = () => {
   return (
     <>
       <Navbar />
-      <Hero
-        title="SharedSpaces"
-        description="Check Availability and Reserve Spaces"
-      />
-      <SechduleManager />
+      <Router>
+        <AppRouter/>
+      </Router>
     </>
   );
 };

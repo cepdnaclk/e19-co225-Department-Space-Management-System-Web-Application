@@ -2,6 +2,7 @@ import * as React from "react";
 import styles from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import AppRouter from "../AppRouter";
 
 const Navbar = () => {
   // TODO: Differentiate the current page in the NavBar
