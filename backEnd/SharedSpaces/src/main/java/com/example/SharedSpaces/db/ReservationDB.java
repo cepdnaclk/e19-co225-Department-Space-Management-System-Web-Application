@@ -6,6 +6,7 @@ import com.example.SharedSpaces.repos.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,21 +28,21 @@ public class ReservationDB {
         return reservationRepository.findById(id);
     }
 
-//    public Optional<Reservation> getReservationByEmail(String email) {
-//        if (email == null) {
-//            return Optional.empty();
-//        }
-//
-//        Optional<User> optionalUser = reservationRepository.findByEmail(email);
-//
-//        if (!optionalUser.isPresent()) {
-//
-//            // In here, we are returning an empty optional
-//            return Optional.empty();
-//        }
-//
-//        return optionalUser;
-//    }
+    public Optional<Reservation> getReservationByDetails(int spaceID, Date startDateTime, Date endDateTime) {
+        if (startDateTime == null || endDateTime == null) {
+            return Optional.empty();
+        }
+
+        Optional<Reservation> optionalReservation = reservationRepository.findBySpaceIDAndStartDateTimeAndEndDateTime(spaceID, startDateTime, endDateTime);
+
+        if (!optionalReservation.isPresent()) {
+
+            // In here, we are returning an empty optional
+            return Optional.empty();
+        }
+
+        return optionalReservation;
+    }
 
 
     public Reservation createReservation(Reservation reservation) {

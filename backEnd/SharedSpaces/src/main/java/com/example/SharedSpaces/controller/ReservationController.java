@@ -6,6 +6,8 @@ import com.example.SharedSpaces.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("reservation")
 public class ReservationController {
@@ -18,15 +20,13 @@ public class ReservationController {
     }
 
     @GetMapping
-    public String getAllReservations(){
-        return null;
+    public List<ReservationResponse> getAllReservations(){
+        return reservationService.getAllResevations();
     }
 
     @PostMapping
     public ReservationResponse addResevation(ReservationRequest reservationRequest){
-        reservationService.hadleReservation(reservationRequest);
-
-        return new ReservationResponse();
+        return  reservationService.hadleReservation(reservationRequest);
     }
 
     @PutMapping()
