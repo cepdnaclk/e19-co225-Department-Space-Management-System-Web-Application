@@ -12,9 +12,9 @@ public class ReservationRequest {
     private String date;
     private int endTime;
     private String reservedBy;
-    private String responsiblePerson;
+    private int responsiblePerson;
 
-    public ReservationRequest(int spaceID, String title, String reservationDateTime, int startTime, String date, int endTime, String reservedBy, String responsiblePerson) {
+    public ReservationRequest(int spaceID, String title, String reservationDateTime, int startTime, String date, int endTime, String reservedBy, int responsiblePerson) {
         this.spaceID = spaceID;
         this.title = title;
         this.reservationDateTime = reservationDateTime;
@@ -108,11 +108,11 @@ public class ReservationRequest {
         this.reservedBy = reservedBy;
     }
 
-    public String getResponsiblePerson() {
+    public int getResponsiblePerson() {
         return responsiblePerson;
     }
 
-    public void setResponsiblePerson(String responsiblePerson) {
+    public void setResponsiblePerson(int responsiblePerson) {
         this.responsiblePerson = responsiblePerson;
     }
 }

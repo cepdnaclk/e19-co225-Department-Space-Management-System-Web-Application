@@ -23,8 +23,10 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ReservationResponse addResevation(ReservationRequest reservationRequest) throws Exception{
-        return reservationService.hadleReservation(reservationRequest);
+    public ReservationResponse addResevation(ReservationRequest reservationRequest){
+        reservationService.hadleReservation(reservationRequest);
+
+        return new ReservationResponse();
     }
 
     @PutMapping()

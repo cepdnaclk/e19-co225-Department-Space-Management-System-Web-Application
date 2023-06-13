@@ -23,14 +23,19 @@ public class ReservationService {
         this.userDB = userDB;
     }
 
-    public ReservationResponse hadleReservation(ReservationRequest reservationRequest) throws Exception{
+    public ReservationResponse hadleReservation(ReservationRequest reservationRequest) {
         Reservation reservation = new Reservation();
         reservation.setTitle(reservationRequest.getTitle());
         reservation.setReservationDateTime(new Date(Long.parseLong(reservationRequest.getReservationDateTime())));
 
         reservation.setSpaceID(reservationRequest.getSpaceID());
-        reservation.setStartDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
-        reservation.setEndDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
+
+        try {
+            reservation.setStartDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
+            reservation.setEndDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
+        } catch (Exception e){
+            System.out.println(e);
+        }
 
         reservation.getStartDateTime().setHours(reservationRequest.getStartTime()/100);
         reservation.getStartDateTime().setMinutes(reservationRequest.getStartTime()%100);
@@ -38,6 +43,9 @@ public class ReservationService {
         reservation.getEndDateTime().setMinutes(reservationRequest.getEndTime()%100);
 
         reservation.setReservedById(userDB.getUserByEmail(reservationRequest.getReservedBy()).get().getId());
+        reservation.setResponsiblePersonId(reservationRequest.getResponsiblePerson());
+
+        reservationDB.createReservation(reservation);
 
         System.out.println(reservation);
 

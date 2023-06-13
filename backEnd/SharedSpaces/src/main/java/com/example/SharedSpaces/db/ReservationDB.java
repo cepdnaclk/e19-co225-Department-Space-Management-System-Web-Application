@@ -44,16 +44,16 @@ public class ReservationDB {
 //    }
 
 
-    public Reservation createUser(Reservation reservation) {
+    public Reservation createReservation(Reservation reservation) {
         return reservationRepository.save(reservation);
     }
 
-    public Reservation updateUser(Long id, Reservation reservation) {
+    public Reservation updateReservation(Long id, Reservation reservation) {
         reservation.setId(id);
         return reservationRepository.save(reservation);
     }
 
-    public void deleteUser(Long id) {
+    public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
     }
 
