@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import AppRouter from "./components/AppRouter";
 
 const App = () => {
+  
   return (
     <>
       <Navbar />
