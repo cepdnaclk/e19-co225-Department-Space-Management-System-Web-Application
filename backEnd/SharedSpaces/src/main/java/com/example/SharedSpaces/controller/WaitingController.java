@@ -4,14 +4,12 @@ import com.example.SharedSpaces.controller.RequestResponse.Request;
 import com.example.SharedSpaces.controller.RequestResponse.WaitingResponse;
 import com.example.SharedSpaces.service.WaitingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("waiting")
 public class WaitingController {
