@@ -2,7 +2,7 @@ package com.example.SharedSpaces.controller;
 
 import com.example.SharedSpaces.controller.RequestResponse.ReservationRequest;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationResponse;
-import com.example.SharedSpaces.controller.RequestResponse.Request;
+import com.example.SharedSpaces.controller.RequestResponse.Slot;
 import com.example.SharedSpaces.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,25 +38,23 @@ public class ReservationController {
 //    }
 //
 
+    @GetMapping("/user")
+    public  List<ReservationResponse> getUserWaitingList(@RequestParam String email){
+        System.out.println(email);
+        return reservationService.getUserReservationList(email);
+    }
+
+    @GetMapping("/responsible")
+    public  List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email){
+        return reservationService.getResponsibleReservationList(email);
+    }
+
     @DeleteMapping()
     public  String deleteResevation(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime, @RequestParam int endTime, @RequestParam String email){
 
-        Request request = new Request();
-        request.setSpaceID(spaceID);
+        Slot slot = new Slot(spaceID, date, startTime, endTime);
 
-        try {
-            request.setStartDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(date));
-            request.setEndDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(date));
-        } catch (Exception e){
-            System.out.println(e);
-        }
-
-        request.getStartDateTime().setHours(startTime/100);
-        request.getStartDateTime().setMinutes(startTime%100);
-        request.getEndDateTime().setHours(endTime/100);
-        request.getEndDateTime().setMinutes(endTime%100);
-
-        return reservationService.reservationDeleteByRequest(request, email);
+        return reservationService.reservationDeleteBySlot(slot, email);
 
     }
 
