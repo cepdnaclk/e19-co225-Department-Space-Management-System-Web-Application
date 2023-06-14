@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("space")
 public class SpaceController {
@@ -23,19 +24,19 @@ public class SpaceController {
         return spaceservices.getAllSpaces();
     }
 
-    @PostMapping
-    public void addSpace(){
-
-    }
-
-    @PutMapping(path = "{spaceId}")
-    public void updateSopace(){
-
-    }
-
-    @DeleteMapping(path = "{spaceId}")
-    public  void deleteSpace(){
-
-    }
+//    @PostMapping
+//    public void addSpace(){
+//
+//    }
+//
+//    @PutMapping(path = "{spaceId}")
+//    public void updateSopace(){
+//
+//    }
+//
+//    @DeleteMapping(path = "{spaceId}")
+//    public  void deleteSpace(){
+//
+//    }
 
 }

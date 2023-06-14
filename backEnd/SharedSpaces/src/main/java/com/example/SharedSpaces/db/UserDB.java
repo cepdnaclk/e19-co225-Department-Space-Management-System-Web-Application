@@ -27,6 +27,11 @@ public class UserDB {
         return userRepository.findById(id);
     }
 
+    public String getUserFullName(long id){
+        User user = getUserById(id).get();
+        return user.getFirstName() + user.getLastName();
+    }
+
     public Optional<User> getUserByEmail(String email) {
     if (email == null) {
         return Optional.empty();

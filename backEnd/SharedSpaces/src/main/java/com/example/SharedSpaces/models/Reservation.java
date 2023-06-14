@@ -35,6 +35,16 @@ public class Reservation {
         this.responsiblePersonId = responsiblePersonId;
     }
 
+    public Reservation(Waiting waiting){
+        this.spaceID = waiting.getSpaceID();
+        this.title = waiting.getTitle();
+        this.reservationDateTime = waiting.getReservationDateTime();
+        this.startDateTime = waiting.getStartDateTime();
+        this.endDateTime = waiting.getEndDateTime();
+        this.reservedById = waiting.getReservedById();
+        this.responsiblePersonId = waiting.getResponsiblePersonId();
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +
