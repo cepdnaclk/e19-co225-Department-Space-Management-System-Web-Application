@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000" )
 @RestController
 @RequestMapping("log")
 public class LogController {
@@ -29,7 +29,7 @@ public class LogController {
     @PostMapping
     public LogResponse getLog(@RequestBody LogRequest logRequest) {
 
-
+        System.out.println(logRequest);
         return log.log(logRequest.getCredential());
     }
 

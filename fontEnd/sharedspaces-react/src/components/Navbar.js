@@ -3,17 +3,20 @@ import styles from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 const Navbar = () => {
   // TODO: Differentiate the current page in the NavBar
 
   // Initial State will be fetched from the backend
-  const [LoggedIn, setLoggedIn] = React.useState(true);
+  const [LoggedIn, setLoggedIn] = React.useState(false);
   const [user,  setUser] = React.useState('');
   const [valid, setValid] =React.useState(false);
 
   const clientID =
     "461418541066-5c9p2cf0d6d8qthhgh7n2tjrd28pf3t9.apps.googleusercontent.com";
+
+  const secretKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
   const onSuccess = (response) => {
     console.log("Logged in", response);
@@ -36,6 +39,9 @@ const Navbar = () => {
         .then(response => {
           setValid(response.data.valid);
           setUser(response.data.refreshToken);
+          // localStorage.setItem('token',user);
+          // // const token = jwt_decode(user);
+          // console.log(user);
         })
         .catch(error => {
           // Handle error
@@ -43,13 +49,15 @@ const Navbar = () => {
         });
     }
   }, [LoggedIn]);
+
+  
   
   const Profile = () => {
     // If the user clicks on the profile icon then show the logout option
     // const [open, setOpen] = React.useState(false);
     return (
       <div className={styles.Profile}>
-        <div className={styles.email}>e19372@eng.pdn.ac.lk</div>
+        <div className={styles.email}>token.email</div>
         <div className={styles.ProfileIcon}>K</div>
         <div><button onClick={logOut}>Log out</button></div>
       </div>
