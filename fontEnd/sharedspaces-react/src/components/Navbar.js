@@ -2,12 +2,16 @@ import * as React from "react";
 import styles from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
+import axios from 'axios';
 
 const Navbar = () => {
   // TODO: Differentiate the current page in the NavBar
 
   // Initial State will be fetched from the backend
   const [LoggedIn, setLoggedIn] = React.useState(true);
+  const [user,  setUser] = React.useState('');
+  const [valid, setValid] =React.useState(false);
+
   const clientID =
     "461418541066-5c9p2cf0d6d8qthhgh7n2tjrd28pf3t9.apps.googleusercontent.com";
 
@@ -26,6 +30,20 @@ const Navbar = () => {
     setLoggedIn(false);
   }
 
+  React.useEffect(() => {
+    if (LoggedIn) {
+      axios.get('http://localhost:8080/log',{crossdomain: true})
+        .then(response => {
+          setValid(response.data.valid);
+          setUser(response.data.refreshToken);
+        })
+        .catch(error => {
+          // Handle error
+          console.error('Error fetching data:', error);
+        });
+    }
+  }, [LoggedIn]);
+  
   const Profile = () => {
     // If the user clicks on the profile icon then show the logout option
     // const [open, setOpen] = React.useState(false);
