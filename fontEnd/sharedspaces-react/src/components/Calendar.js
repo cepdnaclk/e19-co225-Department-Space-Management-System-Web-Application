@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/Calendar.module.scss";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { generateColorCode } from "../utils";
-
+import Modal from "./Modal";
 const Calendar = ({ selectSpace, spaceReservations }) => {
   /*
     The Main Calendar Component
@@ -70,7 +70,7 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
       setFirstDate(newDate);
   };
   //get the start time and end time and populate an array for each hour interval
-  const startTime = 9;
+  const startTime = 8;
   const endTime = 18;
   const hourIntervals = Array.from(
     { length: endTime - startTime },
@@ -151,10 +151,35 @@ const Day = ({ dateObj, hourIntervals, dayReservations, isToday }) => {
 };
 
 const Slot = ({ slotReservations }) => {
+  //configuring the modals
+  const portalEl = document.getElementById("portal");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [coords, setCoords] = useState(null);
+  //listen to a click event and close modal if an outside element is clicked.
+  useEffect(() => {
+    let handler = (e) => {
+      console.log(e);
+      if (
+        //e.target.id !== "slot" && //if the click is on another slot
+        !portalEl.contains(e.target) //if the click is on the modal
+      ) {
+        setIsModalOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  });
+  const handleSlotClick = (e) => {
+    setIsModalOpen(true);
+    setCoords(e.currentTarget.getBoundingClientRect());
+  };
   return (
     //TODO: Add Tab Navigation -- Conflict of erronous clicks
 
-    <div className={styles.slot}>
+    <div className={styles.slot} onClick={handleSlotClick} id="slot">
       {slotReservations.map((reservation) => {
         const minutes =
           (Math.floor(reservation.endTime / 100) -
@@ -172,12 +197,14 @@ const Slot = ({ slotReservations }) => {
                 reservation.reservedBy[0]
               )}`,
             }}
-            onClick={(e) => console.log(reservation, e)}
           >
             {reservation.title}
           </button>
         );
       })}
+      {isModalOpen && (
+        <Modal setIsOpen={setIsModalOpen} isOpen={isModalOpen} rect={coords} />
+      )}
     </div>
   );
 };
