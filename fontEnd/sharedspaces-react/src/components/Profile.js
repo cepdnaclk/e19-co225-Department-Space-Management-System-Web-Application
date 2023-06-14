@@ -3,7 +3,6 @@ import styles from "../styles/Navbar.module.scss";
 import {googleLogout } from "@react-oauth/google";
   
 const Profile = ({token,handleLogout}) => {
-    const [LoggedIn, setLoggedIn] = React.useState(false);
 
     const firstname = token?.user?.firstName;
     const profileIcon = firstname?firstname.charAt(0): '';
