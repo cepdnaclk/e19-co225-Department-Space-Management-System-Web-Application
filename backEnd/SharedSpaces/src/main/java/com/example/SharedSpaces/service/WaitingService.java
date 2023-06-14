@@ -1,6 +1,6 @@
 package com.example.SharedSpaces.service;
 
-import com.example.SharedSpaces.controller.RequestResponse.WaitingRequest;
+import com.example.SharedSpaces.controller.RequestResponse.Request;
 import com.example.SharedSpaces.controller.RequestResponse.WaitingResponse;
 import com.example.SharedSpaces.db.ResponsiblePersonDB;
 import com.example.SharedSpaces.db.UserDB;
@@ -27,22 +27,22 @@ public class WaitingService {
         this.responsiblePersonDB = responsiblePersonDB;
     }
 
-    public List<WaitingResponse> getWaitingList(WaitingRequest waitingRequest){
+    public List<WaitingResponse> getWaitingList(Request request){
 
-        List<Waiting> waitingList = waitingDB.getWaitingByDetails(waitingRequest.getSpaceID(), waitingRequest.getStartDateTime(), waitingRequest.getEndDateTime());
+        List<Waiting> waitingList = waitingDB.getWaitingByDetails(request.getSpaceID(), request.getStartDateTime(), request.getEndDateTime());
 
         if (waitingList == null)
             return new ArrayList<>();
 
         waitingList.sort(Comparator.comparing(Waiting::getReservationDateTime));
 
-        List<WaitingResponse> waitingResponses = new ArrayList<>();
+        List<WaitingResponse> respons = new ArrayList<>();
 
         for (Waiting waiting: waitingList){
-            waitingResponses.add(new WaitingResponse(userDB.getUserFullName(waiting.getReservedById()), responsiblePersonDB.getUserFullName(waiting.getResponsiblePersonId())));
+            respons.add(new WaitingResponse(userDB.getUserFullName(waiting.getReservedById()), responsiblePersonDB.getUserFullName(waiting.getResponsiblePersonId())));
         }
 
-        return waitingResponses;
+        return respons;
     }
 
 }

@@ -3,17 +3,17 @@ package com.example.SharedSpaces.controller.RequestResponse;
 
 import java.util.Date;
 
-public class WaitingRequest {
+public class Request {
 
     private int spaceID;
     private Date startDateTime;
     private Date endDateTime;
 
-    public WaitingRequest(){
+    public Request(){
 
     }
 
-    public WaitingRequest(int spaceID, Date startDateTime, Date endDateTime) {
+    public Request(int spaceID, Date startDateTime, Date endDateTime) {
         this.spaceID = spaceID;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
