@@ -76,4 +76,17 @@
     font-weight: 600;
     cursor: pointer;
   }
+
+  .logoutBtn:hover{
+    background-color: rgb(99, 80, 184);
+    width: 5em;
+    height: 2em;
+    color: white;
+    border-radius: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    cursor: pointer;
+  }
 }
