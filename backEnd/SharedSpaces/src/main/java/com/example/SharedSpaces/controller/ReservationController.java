@@ -32,12 +32,6 @@ public class ReservationController {
         return  reservationService.hadleReservation(reservationRequest);
     }
 
-//    @PutMapping()
-//    public void updateResevation(){
-//
-//    }
-//
-
     @GetMapping("/user")
     public  List<ReservationResponse> getUserWaitingList(@RequestParam String email){
         System.out.println(email);

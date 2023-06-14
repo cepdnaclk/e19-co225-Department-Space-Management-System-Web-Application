@@ -30,12 +30,6 @@ public class WaitingController {
         return waitingService.getWaitingList(slot);
     }
 
-//    @GetMapping("/user")
-//    public  List<WaitingResponse> getUserWaitingList(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime, @RequestParam int endTime, @RequestParam String email){
-//        Slot slot = new Slot(spaceID, date, startTime, endTime);
-//        return waitingService.getUserWaitingList(slot, email);
-//    }
-
     @GetMapping("/user")
     public  List<ReservationResponse> getUserWaitingList(@RequestParam String email){
         System.out.println(email);
