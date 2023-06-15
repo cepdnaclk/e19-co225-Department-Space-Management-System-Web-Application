@@ -4,6 +4,7 @@ import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
 import com.example.SharedSpaces.db.AdminDB;
 import com.example.SharedSpaces.db.ResponsiblePersonDB;
 import com.example.SharedSpaces.db.UserDB;
+import com.example.SharedSpaces.models.ResponsiblePerson;
 import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,24 +29,26 @@ public class LogService {
         this.adminDB = adminDB;
     }
 
-
-    public LogResponse log(String credential){
+    public LogResponse log(String credential) {
 
         try {
             User user = jwtService.extractClaimsGoogle(credential);
 
-            // get role
-            String role;
-            if (responsiblePersonDB.getResponsiblePersonByEmail(user.getEmail()).isPresent())
-                role = "responsible_person";
-            else if (adminDB.getAdminByEmail(user.getEmail()).isPresent())
-                role = "admin";
-            else
-                role = "user";
-
             if (isEmailValid(user.getEmail())) {
 
                 Map<String, Object> map = new HashMap<>();
+
+                // get role
+                String role;
+
+                if (responsiblePersonDB.getResponsiblePersonByEmail(user.getEmail()).isPresent())
+                    ResponsiblePerson responsiblePerson = responsiblePersonDB.getResponsiblePersonByEmail(user.getEmail()).get();
+                    role = "responsible_person";
+                else if (adminDB.getAdminByEmail(user.getEmail()).isPresent())
+                    role = "admin";
+                else
+                    role = "user";
+
                 map.put("user", user);
                 map.put("role", role);
 
@@ -54,7 +57,8 @@ public class LogService {
                 LogResponse response = new LogResponse(reFreshToken);
                 response.setValid(true);
 
-                if(!role.equals("responsible_person") && !role.equals("admin") && userDB.getUserByEmail(user.getEmail()).isEmpty())
+                if (!role.equals("responsible_person") && !role.equals("admin")
+                        && userDB.getUserByEmail(user.getEmail()).isEmpty())
                     userDB.createUser(user);
 
                 return response;
@@ -64,22 +68,20 @@ public class LogService {
             response.setValid(false);
             return response;
 
-        } catch (Exception e){
+        } catch (Exception e) {
             LogResponse response = new LogResponse();
             response.setValid(false);
             return response;
         }
     }
 
-    public boolean isEmailValid(String email){
+    public boolean isEmailValid(String email) {
 
-        if (email.substring(email.length()-14, email.length()).equals("@eng.pdn.ac.lk"))
+        if (email.substring(email.length() - 14, email.length()).equals("@eng.pdn.ac.lk"))
             return true;
         else
             return false;
 
     }
-
-
 
 }

@@ -21,27 +21,9 @@ public class LogController {
         this.log = log;
     }
 
-//    @GetMapping
-//    public String getLogging() {
-//        return "log";
-//    }
-
     @PostMapping
     public LogResponse getLog(@RequestBody LogRequest logRequest) {
-
-
         return log.log(logRequest.getCredential());
     }
-
-
-//    @PutMapping()
-//    public void updateLogging(){
-//
-//    }
-//
-//    @DeleteMapping()
-//    public  void deleteLogging(){
-//
-//    }
 
 }
