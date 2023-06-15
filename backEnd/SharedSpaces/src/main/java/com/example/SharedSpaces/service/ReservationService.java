@@ -1,6 +1,6 @@
 package com.example.SharedSpaces.service;
 
-import com.example.SharedSpaces.controller.RequestResponse.Request;
+import com.example.SharedSpaces.controller.RequestResponse.Slot;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationRequest;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationResponse;
 import com.example.SharedSpaces.db.ReservationDB;
@@ -53,7 +53,6 @@ public class ReservationService {
             reservationResponse.setStatus("reserved");
         }
         else {
-            waitingDB.createWaiting(new Waiting(reservation));
             reservationResponse.setStatus("waiting");
         }
 
@@ -85,6 +84,28 @@ public class ReservationService {
         return reservation;
     }
 
+    public List<ReservationResponse> getUserReservationList(String email){
+
+        List<ReservationResponse> respons = new ArrayList<>();
+
+        for (Reservation waiting: reservationDB.getAllResevation(email)){
+            respons.add(reservationToRequest(waiting));
+        }
+
+        return respons;
+    }
+
+    public List<ReservationResponse> getResponsibleReservationList(String email){
+
+        List<ReservationResponse> respons = new ArrayList<>();
+
+        for (Reservation waiting: reservationDB.getAllResponsibleWaiting(email)){
+            respons.add(reservationToRequest(waiting));
+        }
+
+        return respons;
+    }
+
     public ReservationResponse reservationToRequest(Reservation reservation){
         ReservationResponse reservationResponse = new ReservationResponse();
 
@@ -103,18 +124,18 @@ public class ReservationService {
         return reservationResponse;
     }
 
-    public String reservationDeleteByRequest(Request request, String email){
-        Optional<Reservation> optional = reservationDB.getReservationByDetails(request.getSpaceID(),request.getStartDateTime(),request.getEndDateTime());
+    public String reservationDeleteBySlot(Slot slot, String email){
+        Optional<Reservation> optional = reservationDB.getReservationByDetails(slot.getSpaceID(), slot.getStartDateTime(), slot.getEndDateTime());
 
         if (optional.isEmpty())
             return "Bad Request";
 
         Reservation reservation = optional.get();
 
-        if ((!email.equals(userDB.getUserById(reservation.getReservedById()).get().getEmail()) && !email.equals(userDB.getUserById(reservation.getResponsiblePersonId()).get().getEmail())) || optional.isEmpty())
+        if (!email.equals(userDB.getUserById(reservation.getReservedById()).get().getEmail()) && !email.equals(userDB.getUserById(reservation.getResponsiblePersonId()).get().getEmail()))
             return "Bad Request";
 
-        List<Waiting> waitingList = waitingDB.getWaitingByDetails(request.getSpaceID(), request.getStartDateTime(), request.getEndDateTime());
+        List<Waiting> waitingList = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(), slot.getEndDateTime());
 
         try {
             waitingList.sort(Comparator.comparing(Waiting::getReservationDateTime));
@@ -124,12 +145,14 @@ public class ReservationService {
 
         reservationDB.deleteReservation(reservation.getId());
 
-        if (waitingList != null){
-            reservationDB.createReservation(new Reservation(waitingList.get(0)));
-            waitingDB.deleteWaiting(waitingList.get(0).getId());
-        }
+//        if (waitingList != null){
+//            reservationDB.createReservation(new Reservation(waitingList.get(0)));
+//            waitingDB.deleteWaiting(waitingList.get(0).getId());
+//        }
 
         return "Deleted";
     }
+
+
 
 }
