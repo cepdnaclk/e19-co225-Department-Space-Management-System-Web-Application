@@ -173,7 +173,7 @@ const Slot = ({ slotReservations }) => {
     };
   });
   const handleSlotClick = (e) => {
-    // if (e.currentTarget !== e.target) return;
+    if (e.currentTarget !== e.target) return;
 
     setIsModalOpen(true);
     setCoords(e.currentTarget.getBoundingClientRect());
