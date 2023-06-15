@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -40,9 +41,10 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
         User user = userDB.getUserByEmail(request.getEmail()).get();
+        
 
         var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
+        var refreshToken = "";
 
         return new AuthenticationResponse(jwtToken, refreshToken);
     }
@@ -65,15 +67,10 @@ public class AuthenticationService {
 
         if (userEmail != null) {
 
-            // var user = this.repository.findByEmail(userEmail)
-            // .orElseThrow();
-
             var user = new User();
 
             if (jwtService.isTokenValid(refreshToken, user)) {
                 var accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
 
                 var authResponse = new AuthenticationResponse(accessToken, refreshToken);
 

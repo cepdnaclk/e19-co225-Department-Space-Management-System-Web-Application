@@ -2,8 +2,10 @@ package com.example.SharedSpaces.service;
 
 import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
 import com.example.SharedSpaces.db.AdminDB;
+import com.example.SharedSpaces.db.ReservationDB;
 import com.example.SharedSpaces.db.ResponsiblePersonDB;
 import com.example.SharedSpaces.db.UserDB;
+import com.example.SharedSpaces.models.Admin;
 import com.example.SharedSpaces.models.ResponsiblePerson;
 import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.security.JwtService;
@@ -41,15 +43,21 @@ public class LogService {
                 // get role
                 String role;
 
-                if (responsiblePersonDB.getResponsiblePersonByEmail(user.getEmail()).isPresent())
+                if (responsiblePersonDB.getResponsiblePersonByEmail(user.getEmail()).isPresent()) {
                     ResponsiblePerson responsiblePerson = responsiblePersonDB.getResponsiblePersonByEmail(user.getEmail()).get();
                     role = "responsible_person";
-                else if (adminDB.getAdminByEmail(user.getEmail()).isPresent())
+                    map.put("user", responsiblePerson);
+                }
+                else if (adminDB.getAdminByEmail(user.getEmail()).isPresent()) {
                     role = "admin";
-                else
+                    Admin admin = adminDB.getAdminByEmail(user.getUsername()).get();
+                    map.put("user", admin);
+                }
+                else {
                     role = "user";
+                    map.put("user", user);
+                }
 
-                map.put("user", user);
                 map.put("role", role);
 
                 String reFreshToken = jwtService.generateRefreshToken(map, user);
