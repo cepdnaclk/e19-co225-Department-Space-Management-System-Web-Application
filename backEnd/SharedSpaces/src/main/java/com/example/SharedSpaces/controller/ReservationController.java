@@ -7,7 +7,6 @@ import com.example.SharedSpaces.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @CrossOrigin
@@ -34,17 +33,30 @@ public class ReservationController {
 
     @GetMapping("/user")
     public  List<ReservationResponse> getUserWaitingList(@RequestParam String email){
-        System.out.println(email);
+
+//        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
+//            return new ArrayList<>();
+//        }
+
         return reservationService.getUserReservationList(email);
     }
 
     @GetMapping("/responsible")
     public  List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email){
+
+//        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
+//            return new ArrayList<>();
+//        }
+
         return reservationService.getResponsibleReservationList(email);
     }
 
     @DeleteMapping()
     public  String deleteResevation(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime, @RequestParam int endTime, @RequestParam String email){
+
+//        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
+//            return "Error";
+//        }
 
         Slot slot = new Slot(spaceID, date, startTime, endTime);
 

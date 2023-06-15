@@ -27,15 +27,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(service.authenticate(request));
+    public ResponseEntity<AuthenticationResponse> authenticate() {
+        return ResponseEntity.ok(service.authenticate());
     }
 
 
      @PostMapping("/refresh-token")
-     public AuthenticationResponse refreshToken(@RequestBody AuthenticationRequest request){
-        return service.refreshToken(request);
+     public AuthenticationResponse refreshToken(){
+        return service.refreshToken();
      }
 
 }

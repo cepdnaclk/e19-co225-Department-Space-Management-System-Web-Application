@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class LogController {
 
     private final LogService log;
+    private final String clientId = "461418541066-5c9p2cf0d6d8qthhgh7n2tjrd28pf3t9.apps.googleusercontent.com";
 
     @Autowired
     public LogController(LogService log) {
@@ -23,6 +24,14 @@ public class LogController {
 
     @PostMapping
     public LogResponse getLog(@RequestBody LogRequest logRequest) {
+
+        if (!clientId.equals(logRequest.getClientId()))
+        {
+            LogResponse response = new LogResponse();
+            response.setValid(false);
+            return response;
+        }
+
         return log.log(logRequest.getCredential());
     }
 
