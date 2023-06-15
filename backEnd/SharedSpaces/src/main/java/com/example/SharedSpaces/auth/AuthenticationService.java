@@ -2,119 +2,53 @@ package com.example.SharedSpaces.auth;
 
 import com.example.SharedSpaces.auth.RequestResponse.AuthenticationRequest;
 import com.example.SharedSpaces.auth.RequestResponse.AuthenticationResponse;
-import com.example.SharedSpaces.auth.RequestResponse.RegisterRequest;
+import com.example.SharedSpaces.db.AdminDB;
+import com.example.SharedSpaces.db.ResponsiblePersonDB;
+import com.example.SharedSpaces.db.UserDB;
 import com.example.SharedSpaces.models.User;
-import com.example.SharedSpaces.models.token.Token;
-import com.example.SharedSpaces.models.token.TokenType;
 import com.example.SharedSpaces.security.JwtService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import jakarta.servlet.http.HttpServletRequest;
 
-import java.io.IOException;
 
 @Service
 public class AuthenticationService {
 
-//    private final UserRepository repository;
+    // private final UserRepository repository;
     private final JwtService jwtService;
+    private final UserDB userDB;
+    private final ResponsiblePersonDB responsiblePersonDB;
+    private final AdminDB adminDB;
 
     @Autowired
-    public AuthenticationService(JwtService jwtService){
+    public AuthenticationService(JwtService jwtService, UserDB userDB, ResponsiblePersonDB responsiblePersonDB,
+            AdminDB adminDB) {
         this.jwtService = jwtService;
-    }
-
-    public AuthenticationResponse register(RegisterRequest request) {
-
-        var user = new User(request.getFirstName(),request.getLastName(), request.getEmail());
-
-//        var savedUser = repository.save(user);user
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
-
-        return new AuthenticationResponse(jwtToken, refreshToken);
-
+        this.userDB = userDB;
+        this.adminDB = adminDB;
+        this.responsiblePersonDB = responsiblePersonDB;
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        request.getEmail(),
-//                        request.getPassword()
-//                )
-//        );
 
-//        var user = repository.findByEmail(request.getEmail())
-//                .orElseThrow();
-
-        var user = new User(request.getFirstName(), request.getLastName(), request.getEmail());
+        User user = userDB.getUserByEmail(request.getEmail()).get();
+        
 
         var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
-
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
+        var refreshToken = "";
 
         return new AuthenticationResponse(jwtToken, refreshToken);
     }
 
-    private void saveUserToken(User user, String jwtToken) {
+    public AuthenticationResponse refreshToken(AuthenticationRequest request){
+        User user = userDB.getUserByEmail(request.getEmail()).get();
 
-        var token = new Token(user,jwtToken, TokenType.BEARER, false, false);
 
-//        tokenRepository.save(token);
-    }
+        var jwtToken = "";
+        var refreshToken = jwtService.generateRefreshToken(user);
 
-    private void revokeAllUserTokens(User user) {
+        return new AuthenticationResponse(jwtToken, refreshToken);
 
-//        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-//        if (validUserTokens.isEmpty())
-//            return;
-//        validUserTokens.forEach(token -> {
-//            token.setExpired(true);
-//            token.setRevoked(true);
-//        });
-//        tokenRepository.saveAll(validUserTokens);
-
-    }
-
-    public void refreshToken(
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) throws IOException {
-
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-        final String refreshToken;
-        final String userEmail;
-
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-            return;
-        }
-
-        refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
-
-        if (userEmail != null) {
-
-//            var user = this.repository.findByEmail(userEmail)
-//                    .orElseThrow();
-
-            var user = new User();
-
-            if (jwtService.isTokenValid(refreshToken, user)) {
-                var accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
-
-                var authResponse = new AuthenticationResponse(accessToken, refreshToken);
-
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
-            }
-        }
     }
 
 }

@@ -19,6 +19,7 @@ public class JwtService {
 
     private String secretKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
     private long expiration = 10000000;
+    private long accessExpiration = 1000;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -30,34 +31,37 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        return generateToken(new HashMap<>(), userDetails, accessExpiration);
     }
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails
-    ) {
+            UserDetails userDetails) {
+        return buildToken(extraClaims, userDetails, expiration);
+    }
+
+    public String generateToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails,
+            long expiration) {
         return buildToken(extraClaims, userDetails, expiration);
     }
 
     public String generateRefreshToken(
-            UserDetails userDetails
-    ) {
+            UserDetails userDetails) {
         return buildToken(new HashMap<>(), userDetails, expiration);
     }
 
     public String generateRefreshToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails
-    ) {
+            UserDetails userDetails) {
         return buildToken(extraClaims, userDetails, expiration);
     }
 
     private String buildToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails,
-            long expiration
-    ) {
+            long expiration) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -68,8 +72,6 @@ public class JwtService {
                 .compact();
     }
 
-
-
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
@@ -78,7 +80,7 @@ public class JwtService {
     public boolean isTokenExpired(String token) {
         try {
             return extractExpiration(token).before(new Date());
-        } catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             return true;
         }
     }
@@ -87,13 +89,13 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims (String token) throws ExpiredJwtException {
-            return Jwts
-                    .parserBuilder()
-                    .setSigningKey(getSignInKey())
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+    private Claims extractAllClaims(String token) throws ExpiredJwtException {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private Key getSignInKey() {
@@ -110,14 +112,16 @@ public class JwtService {
         String payLoad = new String(decoder.decode(payLoadToken));
         Map<String, String> map = new HashMap<>();
 
-        for (String element: payLoad.substring(1,payLoad.length()-1).split("\\,")){
+        for (String element : payLoad.substring(1, payLoad.length() - 1).split("\\,")) {
             String[] elements = element.split("\\:");
             map.put(elements[0], elements[1]);
         }
 
         List<String> payLoadValues = new ArrayList<String>(map.values());
 
-        return new User(payLoadValues.get(6).substring(1,payLoadValues.get(6).length()-1 ), payLoadValues.get(2).substring(1,payLoadValues.get(2).length()-1 ), payLoadValues.get(7).substring(1,payLoadValues.get(7).length()-1 ));
+        return new User(payLoadValues.get(6).substring(1, payLoadValues.get(6).length() - 1),
+                payLoadValues.get(2).substring(1, payLoadValues.get(2).length() - 1),
+                payLoadValues.get(7).substring(1, payLoadValues.get(7).length() - 1));
 
     }
 }

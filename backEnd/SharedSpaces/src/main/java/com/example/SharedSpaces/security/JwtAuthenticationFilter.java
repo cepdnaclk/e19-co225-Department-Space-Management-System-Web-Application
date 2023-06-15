@@ -1,6 +1,5 @@
 package com.example.SharedSpaces.security;
 
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,14 +23,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
-        @Autowired
-    public JwtAuthenticationFilter(JwtService jwtService,UserDetailsService userDetailsService ){
+    @Autowired
+    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
 
     @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
+            @NotNull FilterChain filterChain) throws ServletException, IOException {
 
         if (request.getServletPath().contains("/log")) {
             filterChain.doFilter(request, response);
@@ -42,52 +42,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
 
-        System.out.println(authHeader);
-
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         jwt = authHeader.substring(7);
-        System.out.println(jwt);
 
-        if(jwtService.isTokenExpired(jwt)){
+        if (jwtService.isTokenExpired(jwt)) {
             filterChain.doFilter(request, response);
             return;
         }
 
         userEmail = jwtService.extractUsername(jwt);
 
-        System.out.println(jwt);
-        System.out.println(userEmail);
-
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
-
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
-//            var isTokenValid = tokenRepository.findByToken(jwt)
-//                    .map(t -> !t.isExpired() && !t.isRevoked())
-//                    .orElse(false);
-
-            System.out.println(userDetails);
-            System.out.println(jwtService.isTokenValid(jwt, userDetails));
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
-                        userDetails.getAuthorities()
-                );
+                        userDetails.getAuthorities());
 
                 authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
+                        new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-
-                System.out.println(userDetails);
             }
         }
 

@@ -22,30 +22,20 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @Autowired
-    public AuthenticationController(AuthenticationService service){
+    public AuthenticationController(AuthenticationService service) {
         this.service = service;
     }
 
-//    @PostMapping("/register")
-//    public ResponseEntity<AuthenticationResponse> register(
-//            @RequestBody RegisterRequest request
-//    ) {
-//        return ResponseEntity.ok(service.register(request));
-//    }
-//    @PostMapping("/authenticate")
-//    public ResponseEntity<AuthenticationResponse> authenticate(
-//            @RequestBody AuthenticationRequest request
-//    ) {
-//        return ResponseEntity.ok(service.authenticate(request));
-//    }
-//
-//    @PostMapping("/refresh-token")
-//    public void refreshToken(
-//            HttpServletRequest request,
-//            HttpServletResponse response
-//    ) throws IOException {
-//        service.refreshToken(request, response);
-//    }
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest request) {
+        return ResponseEntity.ok(service.authenticate(request));
+    }
 
+
+     @PostMapping("/refresh-token")
+     public AuthenticationResponse refreshToken(@RequestBody AuthenticationRequest request){
+        return service.refreshToken(request);
+     }
 
 }
