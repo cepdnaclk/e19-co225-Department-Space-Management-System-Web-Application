@@ -21,10 +21,10 @@ const Navbar = () => {
     setLoggedIn(false);
   };
 
-  const logOut = () =>{
+  const logOut = () => {
     googleLogout();
     setLoggedIn(false);
-  }
+  };
 
   const Profile = () => {
     // If the user clicks on the profile icon then show the logout option
@@ -33,7 +33,9 @@ const Navbar = () => {
       <div className={styles.Profile}>
         <div className={styles.email}>e19372@eng.pdn.ac.lk</div>
         <div className={styles.ProfileIcon}>K</div>
-        <div><button onClick={logOut}>Log out</button></div>
+        <div>
+          <button onClick={logOut}>Log out</button>
+        </div>
       </div>
     );
   };

@@ -5,14 +5,13 @@ import SechduleManager from "./components/ScheduleManager";
 const HomePage = () => {
   return (
     <div>
-      <Navbar />
       <Hero
         title="SharedSpaces"
         description="Check Availability and Reserve Spaces"
       />
-      <SechduleManager/>
+      <SechduleManager />
     </div>
   );
-}
+};
 
 export default HomePage;

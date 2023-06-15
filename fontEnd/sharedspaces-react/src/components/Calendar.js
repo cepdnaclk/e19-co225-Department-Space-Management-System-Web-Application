@@ -158,7 +158,6 @@ const Slot = ({ slotReservations }) => {
   //listen to a click event and close modal if an outside element is clicked.
   useEffect(() => {
     let handler = (e) => {
-      console.log(e);
       if (
         //e.target.id !== "slot" && //if the click is on another slot
         !portalEl.contains(e.target) //if the click is on the modal

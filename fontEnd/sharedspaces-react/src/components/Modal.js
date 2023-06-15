@@ -35,5 +35,13 @@ const Modal = ({ setIsOpen, isOpen, rect }) => {
 export default Modal;
 
 const AddEvent = () => {
-  return <div></div>;
+  return (
+    <form className={styles.addEvent}>
+      <input type="text" placeholder="Add Title" />
+      <div className={styles.info}>
+        <p>Computer Lab 01</p>
+        <p>Monday, May 21</p>
+      </div>
+    </form>
+  );
 };
