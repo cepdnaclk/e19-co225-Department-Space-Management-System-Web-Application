@@ -4,6 +4,7 @@ import com.example.SharedSpaces.controller.RequestResponse.Slot;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationRequest;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationResponse;
 import com.example.SharedSpaces.db.ReservationDB;
+import com.example.SharedSpaces.db.ResponsiblePersonDB;
 import com.example.SharedSpaces.db.UserDB;
 import com.example.SharedSpaces.db.WaitingDB;
 import com.example.SharedSpaces.models.Reservation;
@@ -21,25 +22,24 @@ public class ReservationService {
     private final WaitingDB waitingDB;
     private final UserDB userDB;
     private final WaitingService waitingService;
+    private final ResponsiblePersonDB responsiblePersonDB;
 
     @Autowired
-    public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB, WaitingService waitingService){
+    public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB, WaitingService waitingService, ResponsiblePersonDB responsiblePersonDB){
         this.reservationDB = reservationDB;
         this.userDB = userDB;
         this.waitingDB = waitingDB;
         this.waitingService = waitingService;
+        this.responsiblePersonDB = responsiblePersonDB;
     }
 
     public List<ReservationResponse> getAllResevations(){
         List<ReservationResponse> reservationResponses = new ArrayList<>();
 
-        System.out.println(reservationDB.getAllResevation());
-
         for (Reservation reservation: reservationDB.getAllResevation()){
             reservationResponses.add(reservationToRequest(reservation));
         }
 
-        System.out.println(reservationResponses);
         return reservationResponses;
     }
 
@@ -78,7 +78,7 @@ public class ReservationService {
         reservation.getEndDateTime().setHours(reservationRequest.getEndTime()/100);
         reservation.getEndDateTime().setMinutes(reservationRequest.getEndTime()%100);
 
-        reservation.setReservedById(userDB.getUserByEmail(reservationRequest.getReservedBy()).get().getId());
+        reservation.setReservedById(reservation.getReservedById());
         reservation.setResponsiblePersonId(reservationRequest.getResponsiblePerson());
 
         return reservation;
@@ -118,8 +118,14 @@ public class ReservationService {
         reservationResponse.setStartTime(reservation.getStartDateTime().getHours()*100 + reservation.getStartDateTime().getMinutes());
         reservationResponse.setEndTime(reservation.getEndDateTime().getHours()*100 + reservation.getEndDateTime().getMinutes());
 
-        reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getEmail());
-        reservationResponse.setResponsiblePerson(userDB.getUserById(reservation.getResponsiblePersonId()).get().getEmail());
+        // try and catch
+
+        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()){
+            reservationResponse.setReservedBy(responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
+        } else
+            reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getFullName());
+
+        reservationResponse.setResponsiblePerson(responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
 
         return reservationResponse;
     }
@@ -140,15 +146,10 @@ public class ReservationService {
         try {
             waitingList.sort(Comparator.comparing(Waiting::getReservationDateTime));
         } catch (Exception e){
-            System.out.println();
+            System.out.println(e);
         }
 
         reservationDB.deleteReservation(reservation.getId());
-
-//        if (waitingList != null){
-//            reservationDB.createReservation(new Reservation(waitingList.get(0)));
-//            waitingDB.deleteWaiting(waitingList.get(0).getId());
-//        }
 
         return "Deleted";
     }

@@ -5,7 +5,6 @@ import java.util.Objects;
 public class LogResponse {
 
     private Boolean valid;
-
     private String refreshToken;
 
     public LogResponse(){

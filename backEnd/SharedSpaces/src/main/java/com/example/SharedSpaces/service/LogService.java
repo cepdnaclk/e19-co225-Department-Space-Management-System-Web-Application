@@ -54,8 +54,11 @@ public class LogService {
                     map.put("user", admin);
                 }
                 else {
+                    if (userDB.getUserByEmail(user.getEmail()).isEmpty())
+                        userDB.createUser(user);
                     role = "user";
-                    map.put("user", user);
+                    User currentUser = userDB.getUserByEmail(user.getEmail()).get();
+                    map.put("user", currentUser);
                 }
 
                 map.put("role", role);
@@ -64,10 +67,6 @@ public class LogService {
 
                 LogResponse response = new LogResponse(reFreshToken);
                 response.setValid(true);
-
-                if (!role.equals("responsible_person") && !role.equals("admin")
-                        && userDB.getUserByEmail(user.getEmail()).isEmpty())
-                    userDB.createUser(user);
 
                 return response;
             }
