@@ -34,11 +34,8 @@ public class AuthenticationController {
 
 
      @PostMapping("/refresh-token")
-     public AuthenticationResponse refreshToken(
-     HttpServletRequest request,
-     HttpServletResponse response
-     ) throws IOException {
-     service.refreshToken(request, response);
+     public AuthenticationResponse refreshToken(@RequestBody AuthenticationRequest request){
+        return service.refreshToken(request);
      }
 
 }
