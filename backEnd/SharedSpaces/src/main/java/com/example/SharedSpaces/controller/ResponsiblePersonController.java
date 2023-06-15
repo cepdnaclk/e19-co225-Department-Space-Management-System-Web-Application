@@ -1,8 +1,11 @@
 package com.example.SharedSpaces.controller;
 
+import com.example.SharedSpaces.models.ResponsiblePerson;
 import com.example.SharedSpaces.service.ResponsiblePersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -16,23 +19,11 @@ public class ResponsiblePersonController {
         this.responsiblePersonService = responsiblePersonService;
     }
 
-//    @GetMapping
-//    public String getAllResponsiblePerson(){
-//        return null;
-//    }
-//
-//    @PostMapping
-//    public void addResponsiblePerson(){
-//
-//    }
-//
-//    @PutMapping()
-//    public void updateResponsiblePerson(){
-//
-//    }
-//
-//    @DeleteMapping()
-//    public  void deleteResponsiblePersonn(){
-//
-//    }
+    @GetMapping
+    public List<ResponsiblePerson> getAllResponsiblePerson(){
+        return responsiblePersonService.getAllResponsiblePersons();
+    }
+
+
+
 }

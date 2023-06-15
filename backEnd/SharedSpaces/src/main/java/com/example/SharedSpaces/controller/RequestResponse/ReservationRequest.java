@@ -9,12 +9,12 @@ public class ReservationRequest {
     private String title;
     private String reservationDateTime;
     private int startTime;
-    private String date;
     private int endTime;
-    private String reservedBy;
+    private String date;
+    private int reservedBy;
     private int responsiblePerson;
 
-    public ReservationRequest(int spaceID, String title, String reservationDateTime, int startTime, String date, int endTime, String reservedBy, int responsiblePerson) {
+    public ReservationRequest(int spaceID, String title, String reservationDateTime, int startTime, String date, int endTime, int reservedBy, int responsiblePerson) {
         this.spaceID = spaceID;
         this.title = title;
         this.reservationDateTime = reservationDateTime;
@@ -100,11 +100,11 @@ public class ReservationRequest {
         this.endTime = endTime;
     }
 
-    public String getReservedBy() {
+    public int getReservedBy() {
         return reservedBy;
     }
 
-    public void setReservedBy(String reservedBy) {
+    public void setReservedBy(int reservedBy) {
         this.reservedBy = reservedBy;
     }
 

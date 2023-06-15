@@ -47,4 +47,13 @@ public class WaitingController {
         return waitingService.handleWaiting(waiting);
     }
 
+    @DeleteMapping()
+    public  String deleteWaiting(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime, @RequestParam int endTime, @RequestParam String email){
+
+        Slot slot = new Slot(spaceID, date, startTime, endTime);
+
+        return waitingService.waitingDeleteBySlot(slot, email);
+
+    }
+
 }

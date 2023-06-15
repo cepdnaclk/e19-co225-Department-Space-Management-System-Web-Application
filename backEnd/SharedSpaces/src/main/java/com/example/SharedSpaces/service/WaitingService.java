@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class WaitingService {
@@ -97,13 +94,18 @@ public class WaitingService {
         reservationResponse.setStartTime(reservation.getStartDateTime().getHours()*100 + reservation.getStartDateTime().getMinutes());
         reservationResponse.setEndTime(reservation.getEndDateTime().getHours()*100 + reservation.getEndDateTime().getMinutes());
 
-        reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getEmail());
-        reservationResponse.setResponsiblePerson(userDB.getUserById(reservation.getResponsiblePersonId()).get().getEmail());
+        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()){
+            reservationResponse.setReservedBy(responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
+        } else
+            reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getFullName());
+
+        reservationResponse.setResponsiblePerson(responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
 
         return reservationResponse;
     }
 
     public ReservationResponse handleWaiting(ReservationRequest reservationRequest) {
+
 
         Waiting reservation = requestToWaiting(reservationRequest);
         ReservationResponse reservationResponse = WaitingToRequest(reservation);
@@ -133,13 +135,24 @@ public class WaitingService {
         reservation.getEndDateTime().setHours(reservationRequest.getEndTime()/100);
         reservation.getEndDateTime().setMinutes(reservationRequest.getEndTime()%100);
 
-        reservation.setReservedById(userDB.getUserByEmail(reservationRequest.getReservedBy()).get().getId());
+        reservation.setReservedById(reservationRequest.getReservedBy());
         reservation.setResponsiblePersonId(reservationRequest.getResponsiblePerson());
 
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         reservation.setDate(dateFormat.format(reservation.getStartDateTime()));
 
         return reservation;
+    }
+
+    public String waitingDeleteBySlot(Slot slot, String email){
+        Waiting waiting = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(), slot.getEndDateTime(), email);
+
+        if (waiting == null)
+            return "Bad Request";
+
+        waitingDB.deleteWaiting(waiting.getId());
+
+        return "Deleted";
     }
 
 }

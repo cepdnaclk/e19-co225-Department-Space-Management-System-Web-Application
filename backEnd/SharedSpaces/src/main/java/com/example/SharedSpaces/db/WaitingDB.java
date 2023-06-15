@@ -77,5 +77,27 @@ public class WaitingDB {
         return waitings;
     }
 
+    public Waiting getWaitingByDetails(int spaceID, Date startDateTime, Date endDateTime, String email) {
+        if (startDateTime == null || endDateTime == null) {
+            return null;
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Waiting waitingList = waitingRepository.findBySpaceIDAndDateAndReservedById(spaceID, dateFormat.format(startDateTime), userDB.getUserByEmail(email).get().getId());
+
+        if (waitingList == null){
+            waitingList = waitingRepository.findBySpaceIDAndDateAndResponsiblePersonId(spaceID, dateFormat.format(startDateTime), userDB.getUserByEmail(email).get().getId());
+        }
+
+
+        if (waitingList == null) {
+
+            // In here, we are returning an empty optional
+            return null;
+        }
+
+        return waitingList;
+    }
+
 
 }
