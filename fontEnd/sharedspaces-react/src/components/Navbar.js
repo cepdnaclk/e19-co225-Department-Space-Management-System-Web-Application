@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 import Login from "./Login";
 import Profile from "./Profile";
 import LoginBar from "./LoginBar";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Navbar = () => {
   // TODO: Differentiate the current page in the NavBar
@@ -65,7 +66,7 @@ const Navbar = () => {
           console.error("Error fetching data:", error);
         });
     }
-  }, [LoggedIn, googleToken, valid]);
+  }, [LoggedIn, googleToken, valid,token,user]);
 
   return (
     <>
@@ -76,7 +77,7 @@ const Navbar = () => {
           </li>
 
           {/* Manage Reservations Should Only be Visible if the user is logged in */}
-          {LoggedIn && (
+          {user && (
             <li className={styles.NavLink} title="Manage Reservations">
               <Link to="/ManageReservations">Manage Reservations</Link>
             </li>
