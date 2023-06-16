@@ -1,47 +1,71 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/Calendar.module.scss";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
-const generateColorCode = (letter) => {
-  const letters = "abcdefghijklmnopqrstuvwxyz";
-  const index = letters.indexOf(letter.toLowerCase());
-  if (index < 0) {
-    throw new Error("Invalid letter");
-  }
-  const hue = (index * 13.846) % 360; // Generate hues based on the position of the letter in the alphabet
-  return `hsl(${hue}, 35%, 60%)`; // Use HSL colors to generate vibrant and unique colors
-};
-
+import { generateColorCode } from "../utils";
+import Modal from "./Modal";
 const Calendar = ({ selectSpace, spaceReservations }) => {
+  /*
+    The Main Calendar Component
+    Includes the dates, slots, reservations and the left and right controllers
+
+    Args:
+    selectSpace : The currently selected space
+    spaceReservations: The reservations filtered for the selected space
+  
+  */
+
   //calculate the upcoming dates and pass it into the Day component
   const [firstDate, setFirstDate] = useState(new Date());
-  let dateList = [];
-  const selectedDays = [1, 2, 3, 4, 5];
+  let dateList = []; //list containing date objects
+  const selectedDays = [1, 2, 3, 4, 5]; //The user will select days, initially it'll be of weekdays. (0 - Sunday, 1 - Monday...etc)
+  const today = new Date().setHours(0, 0, 0, 0); //Date object representing current Date
 
+  //get the date object of the monday of this week.
   const firstMonday = new Date(
     new Date(firstDate).setDate(firstDate.getDate() - firstDate.getDay() + 1)
   );
+
+  //populate the dateList. The datelist will have a maximum of 5 objects
   for (let i = 0; dateList.length < 5; i++) {
     const date = new Date(firstDate);
 
+    //if the selectedDays is not weekdays, then don't start with a Monday.
     if (selectedDays.length > 5) date.setDate(firstDate.getDate() + i);
+    //else if selectedDays are the weekdays or less, then start with a Monday
     else date.setDate(firstMonday.getDate() + i);
 
+    //if the day is in the selected list --> add to dateList else continue
     if (selectedDays.includes(date.getDay())) dateList.push(date);
   }
 
   const handleRightClick = () => {
+    /*
+      Handles the click event of the right controller.
+      The maximum possible dates span in a range of 60 days. +30 from current date
+    */
     const newDate = new Date(firstDate);
+
+    //if SelectedDays are not weekdays then add 5 to current first date dateList[0]
     if (selectedDays.length > 5) newDate.setDate(newDate.getDate() + 5);
+    //if selectedDats are the weekdats then, increment by a week.
     else newDate.setDate(newDate.getDate() + 7);
 
+    //only allow clicking until +30 days from today
     if (Math.round((newDate - new Date()) / 86400000) < 30)
       setFirstDate(newDate);
   };
 
   const handleLeftClick = () => {
+    /*
+      handles the click event of the Left Controller
+    */
     const newDate = new Date(firstDate);
-    newDate.setDate(newDate.getDate() - 5);
+
+    //Similar to right controller
+    if (selectedDays.length > 5) newDate.setDate(newDate.getDate() - 5);
+    else newDate.setDate(newDate.getDate() - 7);
+
+    //only allow navigating upto -30 days from today
     if (Math.round((new Date() - newDate) / 86400000) < 30)
       setFirstDate(newDate);
   };
@@ -68,12 +92,14 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
           <Day
             key={date}
             dateObj={date}
+            isToday={date.setHours(0, 0, 0, 0) === today}
             hourIntervals={hourIntervals}
             dayReservations={spaceReservations.filter(
               (reservation) =>
                 reservation.date ===
                 date.toLocaleDateString("sv-SE", { timeZone: "Asia/Colombo" })
             )}
+            startTime={startTime}
           />
         ))}
         <TimeColumn hours={hourIntervals} />
@@ -84,14 +110,31 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
 
 export default Calendar;
 
-const Day = ({ dateObj, hourIntervals, dayReservations }) => {
+const Day = ({ dateObj, hourIntervals, dayReservations, isToday }) => {
+  /*
+    A Day column in the calendar
+
+    Args:
+    dateObj: the date object representing the Day column
+    hourIntervals: Selected hour slots
+    dayReservations: All reservations in the selected space for this date
+    isToday: if the day represented is today
+  */
   const dayName = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(
     dateObj
   );
 
+  //check if there are reservations which started before the first interval, but continues after that.
+  //todo: APPROACH: Pass this to the first slot set the height to match the time from the first interval to the endTime
+  const prevReservations = dayReservations.filter(
+    (reservation) =>
+      reservation.startTime < hourIntervals[0] * 100 &&
+      reservation.endTime > hourIntervals[0] * 100
+  );
+
   return (
     <div className={styles.day}>
-      <div className={styles.date}>
+      <div className={`${styles.date} ${isToday ? styles.today : " "}`}>
         <h4>{dateObj.getDate()}</h4>
         <p>{dayName.toUpperCase()}</p>
       </div>
@@ -108,10 +151,36 @@ const Day = ({ dateObj, hourIntervals, dayReservations }) => {
 };
 
 const Slot = ({ slotReservations }) => {
+  //configuring the modals
+  const portalEl = document.getElementById("portal");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [coords, setCoords] = useState(null);
+  //listen to a click event and close modal if an outside element is clicked.
+  useEffect(() => {
+    let handler = (e) => {
+      if (
+        //e.target.id !== "slot" && //if the click is on another slot
+        !portalEl.contains(e.target) //if the click is on the modal
+      ) {
+        setIsModalOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  });
+  const handleSlotClick = (e) => {
+    if (e.currentTarget !== e.target) return;
+
+    setIsModalOpen(true);
+    setCoords(e.currentTarget.getBoundingClientRect());
+  };
   return (
     //TODO: Add Tab Navigation -- Conflict of erronous clicks
 
-    <div className={styles.slot}>
+    <div className={styles.slot} onClick={handleSlotClick} id="slot">
       {slotReservations.map((reservation) => {
         const minutes =
           (Math.floor(reservation.endTime / 100) -
@@ -129,12 +198,14 @@ const Slot = ({ slotReservations }) => {
                 reservation.reservedBy[0]
               )}`,
             }}
-            onClick={(e) => console.log(reservation, e)}
           >
             {reservation.title}
           </button>
         );
       })}
+      {isModalOpen && (
+        <Modal setIsOpen={setIsModalOpen} isOpen={isModalOpen} rect={coords} />
+      )}
     </div>
   );
 };

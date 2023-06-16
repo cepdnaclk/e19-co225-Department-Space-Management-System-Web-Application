@@ -35,6 +35,7 @@ const Navbar = () => {
     setToken("");
   };
 
+
   const handleLogout = () => {
     setLoggedIn(false);
     setValid(false);
