@@ -2,6 +2,8 @@ package com.example.SharedSpaces.models;
 
 import jakarta.persistence.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -17,21 +19,11 @@ public class Waiting {
     private Date reservationDateTime;
     private Date startDateTime;
     private Date endDateTime;
+    private String date;
     private long reservedById;
     private long responsiblePersonId;
 
     public Waiting(){
-
-    }
-
-    public Waiting(Reservation reservation){
-        this.spaceID = reservation.getSpaceID();
-        this.title = reservation.getTitle();
-        this.reservationDateTime = reservation.getReservationDateTime();
-        this.startDateTime = reservation.getStartDateTime();
-        this.endDateTime = reservation.getEndDateTime();
-        this.reservedById = reservation.getReservedById();
-        this.responsiblePersonId = reservation.getResponsiblePersonId();
 
     }
 
@@ -44,10 +36,24 @@ public class Waiting {
                 ", reservationDateTime=" + reservationDateTime +
                 ", startDateTime=" + startDateTime +
                 ", endDateTime=" + endDateTime +
+                ", date=" + date +
                 ", reservedById=" + reservedById +
                 ", responsiblePersonId=" + responsiblePersonId +
                 '}';
     }
+
+    public Waiting(Reservation reservation){
+        this.spaceID = reservation.getSpaceID();
+        this.title = reservation.getTitle();
+        this.reservationDateTime = reservation.getReservationDateTime();
+        this.startDateTime = reservation.getStartDateTime();
+        this.endDateTime = reservation.getEndDateTime();
+        this.reservedById = reservation.getReservedById();
+        this.responsiblePersonId = reservation.getResponsiblePersonId();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        this.date = dateFormat.format(reservation.getStartDateTime());
+    }
+
 
     public long getId() {
         return id;
@@ -122,5 +128,15 @@ public class Waiting {
         this.endDateTime = endDateTime;
         this.reservedById = reservedById;
         this.responsiblePersonId = responsiblePersonId;
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        this.date = dateFormat.format(startDateTime);
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

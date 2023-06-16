@@ -2,8 +2,11 @@ package com.example.SharedSpaces.service;
 
 import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
 import com.example.SharedSpaces.db.AdminDB;
+import com.example.SharedSpaces.db.ReservationDB;
 import com.example.SharedSpaces.db.ResponsiblePersonDB;
 import com.example.SharedSpaces.db.UserDB;
+import com.example.SharedSpaces.models.Admin;
+import com.example.SharedSpaces.models.ResponsiblePerson;
 import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,34 +31,42 @@ public class LogService {
         this.adminDB = adminDB;
     }
 
-
-    public LogResponse log(String credential){
+    public LogResponse log(String credential) {
 
         try {
             User user = jwtService.extractClaimsGoogle(credential);
 
-            // get role
-            String role;
-            if (responsiblePersonDB.getResponsiblePersonByEmail(user.getEmail()).isPresent())
-                role = "responsible_person";
-            else if (adminDB.getAdminByEmail(user.getEmail()).isPresent())
-                role = "admin";
-            else
-                role = "user";
-
             if (isEmailValid(user.getEmail())) {
 
                 Map<String, Object> map = new HashMap<>();
-                map.put("user", user);
+
+                // get role
+                String role;
+
+                if (responsiblePersonDB.getResponsiblePersonByEmail(user.getEmail()).isPresent()) {
+                    ResponsiblePerson responsiblePerson = responsiblePersonDB.getResponsiblePersonByEmail(user.getEmail()).get();
+                    role = "responsible_person";
+                    map.put("user", responsiblePerson);
+                }
+                else if (adminDB.getAdminByEmail(user.getEmail()).isPresent()) {
+                    role = "admin";
+                    Admin admin = adminDB.getAdminByEmail(user.getUsername()).get();
+                    map.put("user", admin);
+                }
+                else {
+                    if (userDB.getUserByEmail(user.getEmail()).isEmpty())
+                        userDB.createUser(user);
+                    role = "user";
+                    User currentUser = userDB.getUserByEmail(user.getEmail()).get();
+                    map.put("user", currentUser);
+                }
+
                 map.put("role", role);
 
                 String reFreshToken = jwtService.generateRefreshToken(map, user);
 
                 LogResponse response = new LogResponse(reFreshToken);
                 response.setValid(true);
-
-                if(!role.equals("responsible_person") && !role.equals("admin") && userDB.getUserByEmail(user.getEmail()).isEmpty())
-                    userDB.createUser(user);
 
                 return response;
             }
@@ -64,22 +75,20 @@ public class LogService {
             response.setValid(false);
             return response;
 
-        } catch (Exception e){
+        } catch (Exception e) {
             LogResponse response = new LogResponse();
             response.setValid(false);
             return response;
         }
     }
 
-    public boolean isEmailValid(String email){
+    public boolean isEmailValid(String email) {
 
-        if (email.substring(email.length()-14, email.length()).equals("@eng.pdn.ac.lk"))
+        if (email.substring(email.length() - 14, email.length()).equals("@eng.pdn.ac.lk"))
             return true;
         else
             return false;
 
     }
-
-
 
 }

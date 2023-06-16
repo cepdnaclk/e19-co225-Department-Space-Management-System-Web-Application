@@ -7,7 +7,6 @@ public class RegisterRequest {
     private String email;
     private String firstName;
     private String lastName;
-//    private Role role;
 
     public RegisterRequest(String email, String firstName, String lastName){
         this.email = email;

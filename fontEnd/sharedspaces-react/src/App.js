@@ -1,6 +1,7 @@
+import * as React from "react";
 import "./styles/App.scss";
 import Navbar from "./components/Navbar";
-import AppRouter from "./AppRouter";
+import AppRouter from "./components/AppRouter";
 
 const App = () => {
   return (

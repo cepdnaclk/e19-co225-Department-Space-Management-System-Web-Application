@@ -1,14 +1,20 @@
 package com.example.SharedSpaces.controller;
 
+import com.example.SharedSpaces.controller.RequestResponse.ReservationRequest;
+import com.example.SharedSpaces.controller.RequestResponse.ReservationResponse;
+import com.example.SharedSpaces.controller.RequestResponse.Slot;
 import com.example.SharedSpaces.controller.RequestResponse.WaitingResponse;
+import com.example.SharedSpaces.models.Waiting;
 import com.example.SharedSpaces.service.WaitingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("waiting")
 public class WaitingController {
@@ -21,7 +27,48 @@ public class WaitingController {
     }
 
     @GetMapping
-    public List<WaitingResponse> getWaitingList(){
+    public List<WaitingResponse> getWaitingList(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime, @RequestParam int endTime){
+        Slot slot = new Slot(spaceID, date, startTime, endTime);
+        return waitingService.getWaitingList(slot);
+    }
+
+    @GetMapping("/user")
+    public  List<ReservationResponse> getUserWaitingList(@RequestParam String email){
+
+//        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
+//            return new ArrayList<>();
+//        }
+
+        System.out.println(email);
+        return waitingService.getUserWaitingList(email);
+    }
+
+    @GetMapping("/responsible")
+    public  List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email){
+
+//        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
+//            return new ArrayList<>();
+//        }
+
+        return waitingService.getResponsibleWaitingList(email);
+    }
+
+    @PostMapping
+    public ReservationResponse createWaiting(ReservationRequest waiting){
+        System.out.println(waiting);
+        return waitingService.handleWaiting(waiting);
+    }
+
+    @DeleteMapping()
+    public  String deleteWaiting(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime, @RequestParam int endTime, @RequestParam String email){
+
+//        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
+//            return "Error";
+//        }
+
+        Slot slot = new Slot(spaceID, date, startTime, endTime);
+
+        return waitingService.waitingDeleteBySlot(slot, email);
 
     }
 

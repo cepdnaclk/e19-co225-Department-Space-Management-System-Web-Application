@@ -44,7 +44,6 @@ public class AdminDB {
     }
 
 
-
     public Admin createAdmin(Admin admin) {
         return adminRepository.save(admin);
     }

@@ -1,8 +1,10 @@
 package com.example.SharedSpaces.service;
 
+import com.example.SharedSpaces.controller.RequestResponse.Slot;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationRequest;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationResponse;
 import com.example.SharedSpaces.db.ReservationDB;
+import com.example.SharedSpaces.db.ResponsiblePersonDB;
 import com.example.SharedSpaces.db.UserDB;
 import com.example.SharedSpaces.db.WaitingDB;
 import com.example.SharedSpaces.models.Reservation;
@@ -11,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ReservationService {
@@ -21,24 +21,25 @@ public class ReservationService {
     private final ReservationDB reservationDB;
     private final WaitingDB waitingDB;
     private final UserDB userDB;
+    private final WaitingService waitingService;
+    private final ResponsiblePersonDB responsiblePersonDB;
 
     @Autowired
-    public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB){
+    public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB, WaitingService waitingService, ResponsiblePersonDB responsiblePersonDB){
         this.reservationDB = reservationDB;
         this.userDB = userDB;
         this.waitingDB = waitingDB;
+        this.waitingService = waitingService;
+        this.responsiblePersonDB = responsiblePersonDB;
     }
 
     public List<ReservationResponse> getAllResevations(){
         List<ReservationResponse> reservationResponses = new ArrayList<>();
 
-        System.out.println(reservationDB.getAllResevation());
-
         for (Reservation reservation: reservationDB.getAllResevation()){
             reservationResponses.add(reservationToRequest(reservation));
         }
 
-        System.out.println(reservationResponses);
         return reservationResponses;
     }
 
@@ -52,7 +53,6 @@ public class ReservationService {
             reservationResponse.setStatus("reserved");
         }
         else {
-            waitingDB.createWaiting(new Waiting(reservation));
             reservationResponse.setStatus("waiting");
         }
 
@@ -78,10 +78,32 @@ public class ReservationService {
         reservation.getEndDateTime().setHours(reservationRequest.getEndTime()/100);
         reservation.getEndDateTime().setMinutes(reservationRequest.getEndTime()%100);
 
-        reservation.setReservedById(userDB.getUserByEmail(reservationRequest.getReservedBy()).get().getId());
+        reservation.setReservedById(reservation.getReservedById());
         reservation.setResponsiblePersonId(reservationRequest.getResponsiblePerson());
 
         return reservation;
+    }
+
+    public List<ReservationResponse> getUserReservationList(String email){
+
+        List<ReservationResponse> respons = new ArrayList<>();
+
+        for (Reservation waiting: reservationDB.getAllResevation(email)){
+            respons.add(reservationToRequest(waiting));
+        }
+
+        return respons;
+    }
+
+    public List<ReservationResponse> getResponsibleReservationList(String email){
+
+        List<ReservationResponse> respons = new ArrayList<>();
+
+        for (Reservation waiting: reservationDB.getAllResponsibleWaiting(email)){
+            respons.add(reservationToRequest(waiting));
+        }
+
+        return respons;
     }
 
     public ReservationResponse reservationToRequest(Reservation reservation){
@@ -96,10 +118,42 @@ public class ReservationService {
         reservationResponse.setStartTime(reservation.getStartDateTime().getHours()*100 + reservation.getStartDateTime().getMinutes());
         reservationResponse.setEndTime(reservation.getEndDateTime().getHours()*100 + reservation.getEndDateTime().getMinutes());
 
-        reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getEmail());
-        reservationResponse.setResponsiblePerson(userDB.getUserById(reservation.getResponsiblePersonId()).get().getEmail());
+        // try and catch
+
+        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()){
+            reservationResponse.setReservedBy(responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
+        } else
+            reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getFullName());
+
+        reservationResponse.setResponsiblePerson(responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
 
         return reservationResponse;
     }
+
+    public String reservationDeleteBySlot(Slot slot, String email){
+        Optional<Reservation> optional = reservationDB.getReservationByDetails(slot.getSpaceID(), slot.getStartDateTime(), slot.getEndDateTime());
+
+        if (optional.isEmpty())
+            return "Bad Request";
+
+        Reservation reservation = optional.get();
+
+        if (!email.equals(userDB.getUserById(reservation.getReservedById()).get().getEmail()) && !email.equals(userDB.getUserById(reservation.getResponsiblePersonId()).get().getEmail()))
+            return "Bad Request";
+
+        List<Waiting> waitingList = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(), slot.getEndDateTime());
+
+        try {
+            waitingList.sort(Comparator.comparing(Waiting::getReservationDateTime));
+        } catch (Exception e){
+            System.out.println(e);
+        }
+
+        reservationDB.deleteReservation(reservation.getId());
+
+        return "Deleted";
+    }
+
+
 
 }

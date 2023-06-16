@@ -47,5 +47,10 @@ public class ResponsiblePerson extends User{
         this.type = type;
     }
 
+    public String fullName(){
+        return this.type + " " + getFirstName() + " " + getLastName();
+    }
+
+
 
 }
