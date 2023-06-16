@@ -80,6 +80,11 @@ const spaces = [
     name: "Network Engineering Lab",
     description: "First Floor Lab",
   },
+  {
+    id: 4,
+    name: "Escal MakerSpace",
+    description: "Second Floor Lab",
+  },
 ];
 
 const SechduleManager = () => {

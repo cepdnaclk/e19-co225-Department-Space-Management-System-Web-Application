@@ -1,0 +1,47 @@
+.container {
+  position: absolute;
+
+  height: 25em;
+  aspect-ratio: 0.8;
+  background-color: #fafafa;
+  border: 0.3em solid white;
+  z-index: 100;
+
+  transition: opacity ease-in-out 200ms;
+  border-radius: 2em;
+  box-shadow: 0px 8px 14px -3px rgba(0, 0, 0, 0.1);
+
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.addEvent {
+  height: 100%;
+  padding: 2.5em 2em;
+  position: relative;
+
+  input {
+    border: 0;
+    font-size: 1.4em;
+    font-weight: 600;
+    width: 100%;
+    background-color: inherit;
+    border-bottom: 2px solid rgb(135, 135, 135);
+    padding-bottom: 0.3em;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .info {
+    margin-top: 2em;
+    font-size: 0.9em;
+
+    p {
+      margin-top: 0.2em;
+    }
+  }
+}
