@@ -3,6 +3,9 @@ import styles from "../styles/Calendar.module.scss";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { generateColorCode } from "../utils";
 import Modal from "./Modal";
+import AddEvent from "./AddEvent";
+import ReservationInfo from "./ReservationInfo";
+import { reservations } from "../data";
 const Calendar = ({ selectSpace, spaceReservations }) => {
   /*
     The Main Calendar Component
@@ -77,6 +80,52 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
     (_, index) => index + startTime
   );
 
+  //configuring the modals
+  const portalEl = document.getElementById("portal");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [coords, setCoords] = useState({
+    left: 500,
+    top: 500,
+  });
+  const modalRef = useRef();
+  const [clickedHour, setClickedHour] = useState(0);
+  const [clickedDate, setClickedDate] = useState(null);
+  const [isAddEventOrRes, setIsAddEventOrRes] = useState(true); //true if clicked on an slot, false is clicked on a reservation
+  const [clickedReservation, setClickedReservation] = useState(null);
+  //listen to a click event and close modal if an outside element is clicked.
+  useEffect(() => {
+    let handler = (e) => {
+      if (
+        e.target.id !== "slot" && //if the click is on another slot
+        e.target.id !== "reservation" && //if the click is on a reservation
+        !modalRef.current.contains(e.target) //if the click is on the modal
+      ) {
+        setIsModalOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  });
+  const handleSlotClick = (e, hour, date) => {
+    if (e.currentTarget !== e.target) return;
+
+    setIsModalOpen(true);
+    setCoords(e.currentTarget.getBoundingClientRect());
+    setClickedHour(hour);
+    setIsAddEventOrRes(true);
+    setClickedDate(date);
+  };
+
+  const handleReservationClick = (e, reservation) => {
+    setIsModalOpen(true);
+    setIsAddEventOrRes(false);
+    setClickedReservation(reservation);
+    setCoords(e.currentTarget.getBoundingClientRect());
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.controller}>
@@ -100,17 +149,43 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
                 date.toLocaleDateString("sv-SE", { timeZone: "Asia/Colombo" })
             )}
             startTime={startTime}
+            handleSlotClick={handleSlotClick}
+            handleReservationClick={handleReservationClick}
           />
         ))}
         <TimeColumn hours={hourIntervals} />
       </div>
+
+      <Modal
+        modalRef={modalRef}
+        setIsOpen={setIsModalOpen}
+        isOpen={isModalOpen}
+        rect={coords}
+      >
+        {isAddEventOrRes ? (
+          <AddEvent
+            hour={clickedHour}
+            spaceId={selectSpace}
+            date={clickedDate}
+          />
+        ) : (
+          <ReservationInfo reservation={clickedReservation} />
+        )}
+      </Modal>
     </div>
   );
 };
 
 export default Calendar;
 
-const Day = ({ dateObj, hourIntervals, dayReservations, isToday }) => {
+const Day = ({
+  dateObj,
+  hourIntervals,
+  dayReservations,
+  isToday,
+  handleSlotClick,
+  handleReservationClick,
+}) => {
   /*
     A Day column in the calendar
 
@@ -144,43 +219,31 @@ const Day = ({ dateObj, hourIntervals, dayReservations, isToday }) => {
           slotReservations={dayReservations.filter(
             (reservation) => Math.floor(reservation.startTime / 100) === hour
           )}
+          handleSlotClick={handleSlotClick}
+          hour={hour}
+          date={dateObj}
+          handleResevationClick={handleReservationClick}
         />
       ))}
     </div>
   );
 };
 
-const Slot = ({ slotReservations }) => {
-  //configuring the modals
-  const portalEl = document.getElementById("portal");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [coords, setCoords] = useState(null);
-  //listen to a click event and close modal if an outside element is clicked.
-  useEffect(() => {
-    let handler = (e) => {
-      if (
-        //e.target.id !== "slot" && //if the click is on another slot
-        !portalEl.contains(e.target) //if the click is on the modal
-      ) {
-        setIsModalOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-
-    return () => {
-      document.removeEventListener("mousedown", handler);
-    };
-  });
-  const handleSlotClick = (e) => {
-    if (e.currentTarget !== e.target) return;
-
-    setIsModalOpen(true);
-    setCoords(e.currentTarget.getBoundingClientRect());
-  };
+const Slot = ({
+  slotReservations,
+  handleSlotClick,
+  handleResevationClick,
+  hour,
+  date,
+}) => {
   return (
     //TODO: Add Tab Navigation -- Conflict of erronous clicks
 
-    <div className={styles.slot} onClick={handleSlotClick} id="slot">
+    <div
+      className={styles.slot}
+      onClick={(e) => handleSlotClick(e, hour, date)}
+      id="slot"
+    >
       {slotReservations.map((reservation) => {
         const minutes =
           (Math.floor(reservation.endTime / 100) -
@@ -198,14 +261,13 @@ const Slot = ({ slotReservations }) => {
                 reservation.reservedBy[0]
               )}`,
             }}
+            id="reservation"
+            onClick={(e) => handleResevationClick(e, reservation)}
           >
             {reservation.title}
           </button>
         );
       })}
-      {isModalOpen && (
-        <Modal setIsOpen={setIsModalOpen} isOpen={isModalOpen} rect={coords} />
-      )}
     </div>
   );
 };
