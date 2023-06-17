@@ -1,0 +1,32 @@
+.container {
+  height: fit-content;
+
+  position: relative;
+
+  .infoTop {
+    width: 100%;
+    padding: 2.5em 2em 1em 2em;
+    .title {
+      font-size: 1.4em;
+      font-weight: 700;
+      color: white;
+    }
+
+    .info {
+      margin: 2em 0em;
+      font-size: 0.9em;
+      color: hsl(0, 0%, 100%);
+
+      .infoItem {
+        margin-top: 0.4em;
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+
+        .time {
+          max-width: 4em;
+        }
+      }
+    }
+  }
+}

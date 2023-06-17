@@ -1,13 +1,14 @@
 import React, { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import styles from "../styles/Modal.module.scss";
-const Modal = ({ setIsOpen, isOpen, rect }) => {
+
+export const Modal = ({ setIsOpen, isOpen, rect, modalRef, children }) => {
   const posLeft = {
     left: `calc(${rect.left}px + ${rect.width}px + 5dvh)`,
   };
 
   const posRight = {
-    right: `calc(100vw - ${rect.right}px + 30dvh)`,
+    left: `calc(${rect.right}px - ${rect.width}px - 22dvw)`,
   };
 
   const posTop = {
@@ -15,7 +16,7 @@ const Modal = ({ setIsOpen, isOpen, rect }) => {
   };
 
   const posBottom = {
-    bottom: `calc(100vh - ${rect.bottom}px)`,
+    top: `calc(${rect.bottom}px - 10dvh)`,
   };
 
   const posX = (rect.left / window.innerWidth) * 100 > 50 ? posRight : posLeft;
@@ -25,23 +26,16 @@ const Modal = ({ setIsOpen, isOpen, rect }) => {
       : posTop;
 
   return createPortal(
-    <div className={styles.container} id="modal" style={{ ...posX, ...posY }}>
-      <AddEvent />
+    <div
+      className={`${styles.container} ${isOpen ? styles.visible : ""}`}
+      id="modal"
+      style={{ ...posX, ...posY }}
+      ref={modalRef}
+    >
+      {children}
     </div>,
     document.getElementById("portal")
   );
 };
 
 export default Modal;
-
-const AddEvent = () => {
-  return (
-    <form className={styles.addEvent}>
-      <input type="text" placeholder="Add Title" />
-      <div className={styles.info}>
-        <p>Computer Lab 01</p>
-        <p>Monday, May 21</p>
-      </div>
-    </form>
-  );
-};

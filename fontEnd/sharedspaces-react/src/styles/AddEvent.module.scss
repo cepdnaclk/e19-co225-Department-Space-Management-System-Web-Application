@@ -1,0 +1,75 @@
+$confirmBtnColor: hsl(166, 25%, 50%);
+.addEvent {
+  height: fit-content;
+  padding: 2.5em 2em;
+  position: relative;
+
+  input {
+    border: 0;
+    background-color: inherit;
+    &:focus {
+      outline: none;
+    }
+  }
+  .inputTitle {
+    font-size: 1.4em;
+    font-weight: 600;
+    width: 100%;
+    background-color: inherit;
+    border-bottom: 2px solid rgb(135, 135, 135);
+    padding-bottom: 0.3em;
+  }
+
+  .info {
+    margin: 2em 0em;
+    font-size: 0.9em;
+    color: grey;
+
+    .infoItem {
+      margin-top: 0.4em;
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+
+      .time {
+        max-width: 4em;
+      }
+    }
+  }
+
+  .inputResPerson {
+    @extend .inputTitle;
+    margin-top: 0.5em;
+    font-size: 1em;
+    font-weight: 400;
+    border-bottom: 1px solid rgb(154, 154, 154);
+    &::placeholder {
+      color: rgb(83, 83, 83);
+    }
+  }
+
+  .confirmBtn {
+    width: 100%;
+    color: white;
+    background-color: $confirmBtnColor;
+    padding: 0.6em 0;
+    border-radius: 0.6em;
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-top: 2em;
+    cursor: pointer;
+    box-shadow: none;
+    transition: box-shadow ease-in-out 100ms, transform ease-in-out 100ms;
+
+    &:hover,
+    &:focus {
+      box-shadow: 0px 12px 12px -12px hsl(190, 40%, 30%);
+      outline: 1px lighten($color: hsl(166, 25%, 50), $amount: 50) solid;
+      transform: scale(1.05);
+    }
+  }
+  .pResPerson {
+    font-size: 0.8em;
+    font-weight: 600;
+  }
+}
