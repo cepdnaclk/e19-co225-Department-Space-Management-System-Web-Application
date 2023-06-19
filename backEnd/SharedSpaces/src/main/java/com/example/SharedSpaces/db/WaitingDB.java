@@ -5,8 +5,10 @@ import com.example.SharedSpaces.models.Waiting;
 import com.example.SharedSpaces.repos.ReservationRepository;
 import com.example.SharedSpaces.repos.WaitingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +59,12 @@ public class WaitingDB {
 
     public void deleteWaiting(Long id) {
         waitingRepository.deleteById(id);
+    }
+
+    @Scheduled(fixedRate = 60000) // runs every minute
+    public void cleanWaitingList() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        waitingRepository.deleteByReservationDateTimeBefore(currentDateTime);
     }
 
 
