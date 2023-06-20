@@ -64,7 +64,7 @@ public class WaitingDB {
     @Scheduled(fixedRate = 60000) // runs every minute
     public void cleanWaitingList() {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        waitingRepository.deleteByReservationDateTimeBefore(currentDateTime);
+        waitingRepository.deleteByWaitingDateTimeBefore(currentDateTime);
     }
 
 

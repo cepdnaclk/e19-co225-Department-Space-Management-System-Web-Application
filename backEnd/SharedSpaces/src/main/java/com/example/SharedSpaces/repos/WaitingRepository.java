@@ -12,5 +12,5 @@ import java.util.Optional;
 @Repository
 public interface WaitingRepository extends CrudRepository<Waiting, Long> {
     List<Waiting> findBySpaceIDAndStartDateTimeAndEndDateTime(int spaceID, Date startDateTime, Date endDateTime);
-    void deleteByReservationDateTimeBefore(LocalDateTime maxReservationDateTime);
+    void deleteByWaitingDateTimeBefore(LocalDateTime maxReservationDateTime);
 }
