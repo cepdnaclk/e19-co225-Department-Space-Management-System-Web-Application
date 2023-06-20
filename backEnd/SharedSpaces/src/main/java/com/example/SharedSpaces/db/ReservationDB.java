@@ -4,8 +4,10 @@ import com.example.SharedSpaces.models.Reservation;
 import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.repos.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -56,6 +58,13 @@ public class ReservationDB {
 
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?") // Run every day at midnight
+    public void deleteExpiredReservations() {
+        LocalDate expirationDate = LocalDate.now().minusDays(30);
+        List<Reservation> expiredReservations = reservationRepository.findByReservationDateTimeBefore(expirationDate);
+        reservationRepository.deleteAll(expiredReservations);
     }
 
 
