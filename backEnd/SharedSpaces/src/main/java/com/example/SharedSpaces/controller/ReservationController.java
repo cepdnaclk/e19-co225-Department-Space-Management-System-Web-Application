@@ -15,49 +15,49 @@ import java.util.List;
 @RequestMapping("reservation")
 public class ReservationController {
 
-    private final ReservationService reservationService;
-
-    @Autowired
-    public ReservationController(ReservationService reservationService) {
-        this.reservationService = reservationService;
-    }
-
-    @GetMapping
-    public List<ReservationResponse> getAllReservations(){
-        return reservationService.getAllResevations();
-    }
-
-    @PostMapping
-    public ReservationResponse addResevation(ReservationRequest reservationRequest){
-        return  reservationService.hadleReservation(reservationRequest);
-    }
-
-//    @PutMapping()
-//    public void updateResevation(){
+//    private final ReservationService reservationService;
 //
+//    @Autowired
+//    public ReservationController(ReservationService reservationService) {
+//        this.reservationService = reservationService;
+//    }
+
+//    @GetMapping
+//    public List<ReservationResponse> getAllReservations(){
+//        return reservationService.getAllResevations();
 //    }
 //
-
-    @DeleteMapping()
-    public  String deleteResevation(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime, @RequestParam int endTime, @RequestParam String email){
-
-        Request request = new Request();
-        request.setSpaceID(spaceID);
-
-        try {
-            request.setStartDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(date));
-            request.setEndDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(date));
-        } catch (Exception e){
-            System.out.println(e);
-        }
-
-        request.getStartDateTime().setHours(startTime/100);
-        request.getStartDateTime().setMinutes(startTime%100);
-        request.getEndDateTime().setHours(endTime/100);
-        request.getEndDateTime().setMinutes(endTime%100);
-
-        return reservationService.reservationDeleteByRequest(request, email);
-
-    }
+//    @PostMapping
+//    public ReservationResponse addResevation(ReservationRequest reservationRequest){
+//        return  reservationService.hadleReservation(reservationRequest);
+//    }
+//
+////    @PutMapping()
+////    public void updateResevation(){
+////
+////    }
+////
+//
+//    @DeleteMapping()
+//    public  String deleteResevation(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime, @RequestParam int endTime, @RequestParam String email){
+//
+//        Request request = new Request();
+//        request.setSpaceID(spaceID);
+//
+//        try {
+//            request.setStartDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(date));
+//            request.setEndDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(date));
+//        } catch (Exception e){
+//            System.out.println(e);
+//        }
+//
+//        request.getStartDateTime().setHours(startTime/100);
+//        request.getStartDateTime().setMinutes(startTime%100);
+//        request.getEndDateTime().setHours(endTime/100);
+//        request.getEndDateTime().setMinutes(endTime%100);
+//
+//        return reservationService.reservationDeleteByRequest(request, email);
+//
+//    }
 
 }

@@ -13,5 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ReservationRepository extends CrudRepository<Reservation, Long> {
     Optional<Reservation> findBySpaceIDAndStartDateTimeAndEndDateTime(int spaceID, Date startDateTime, Date endDateTime);
+
     List<Reservation> findByReservationDateTimeBefore(LocalDate expirationDate);
+
 }

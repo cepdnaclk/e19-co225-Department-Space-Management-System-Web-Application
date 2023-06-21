@@ -1,7 +1,7 @@
 package com.example.SharedSpaces.controller;
 
 import com.example.SharedSpaces.models.EmailRequest;
-import com.example.SharedSpaces.service.MailchimpService;
+import com.example.SharedSpaces.service.MailchimpServices;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MailchimpController {
 
-    private final MailchimpService mailchimpService;
+    private final MailchimpServices mailchimpService;
 
-    public MailchimpController(MailchimpService mailchimpService) {
+    public MailchimpController(MailchimpServices mailchimpService) {
         this.mailchimpService = mailchimpService;
     }
 

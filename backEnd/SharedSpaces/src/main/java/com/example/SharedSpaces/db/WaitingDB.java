@@ -61,11 +61,11 @@ public class WaitingDB {
         waitingRepository.deleteById(id);
     }
 
-    @Scheduled(fixedRate = 60000) // runs every minute
-    public void cleanWaitingList() {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        waitingRepository.deleteByWaitingDateTimeBefore(currentDateTime);
-    }
+//    @Scheduled(fixedRate = 60000) // runs every minute
+//    public void cleanWaitingList() {
+//        LocalDateTime currentDateTime = LocalDateTime.now();
+//        waitingRepository.deleteByWaitingDateTimeBefore(currentDateTime);
+//    }
 
 
 }

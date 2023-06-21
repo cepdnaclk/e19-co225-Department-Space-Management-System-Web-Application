@@ -1,6 +1,7 @@
 package com.example.SharedSpaces.service;
 
 import lombok.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -9,19 +10,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class MailchimpService {
+public class MailchimpServices {
 
     private final RestTemplate restTemplate;
 
-    @Value("${mailchimp.campaign_id}")
-    private String campaignId;
-
-    @Value("${mailchimp.list_id}")
-    private String listId;
-
-    public MailchimpService(RestTemplate restTemplate) {
+    @Autowired
+    public MailchimpServices(RestTemplate restTemplate){
         this.restTemplate = restTemplate;
     }
+
+    private String campaignId = "8e7983514b33";
+
+    private String listId = "e1f686760e";
 
     public void sendEmail(String[] recipients, String subject, String htmlContent) {
         Map<String, Object> requestBody = new HashMap<>();
