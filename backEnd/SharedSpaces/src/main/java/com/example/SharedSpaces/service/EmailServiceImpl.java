@@ -17,11 +17,12 @@ public class EmailServiceImpl {
 
     public void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("iammansitha@gmail.com");
         message.setTo(to);
-        message.setSubject(subject);
         message.setText(body);
-
+        message.setSubject(subject);
         mailSender.send(message);
+        System.out.println("Mail Send...");
     }
 }
 

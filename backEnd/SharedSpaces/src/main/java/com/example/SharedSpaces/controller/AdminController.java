@@ -21,7 +21,7 @@ public class AdminController {
 
     @GetMapping
     public void getAllSpaces() {
-        emailServicel.sendEmail("e19129@eng.pdn.ac.lk", "hii", "hello");
+        emailServicel.sendEmail("e19372@eng.pdn.ac.lk", "hii", "hello");
     }
 
 }
