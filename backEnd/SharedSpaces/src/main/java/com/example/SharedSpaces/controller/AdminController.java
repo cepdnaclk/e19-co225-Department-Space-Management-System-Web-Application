@@ -1,7 +1,7 @@
 package com.example.SharedSpaces.controller;
 
 import com.example.SharedSpaces.service.AdminService;
-import com.example.SharedSpaces.service.EmailServiceImpl;
+import com.example.SharedSpaces.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AdminService adminService;
-    private final EmailServiceImpl emailServicel;
+    private final EmailService emailService;
 
     @Autowired
-    public AdminController(AdminService adminService, EmailServiceImpl emailServicel) {
+    public AdminController(AdminService adminService, EmailService emailService) {
         this.adminService = adminService;
-        this.emailServicel = emailServicel;
+        this.emailService = emailService;
     }
 
     @GetMapping
     public void getAllSpaces() {
-        emailServicel.sendEmail("e19372@eng.pdn.ac.lk", "hii", "hello");
+        emailService.sendEmail("e19372@eng.pdn.ac.lk", "hii", "hello");
     }
 
 }
