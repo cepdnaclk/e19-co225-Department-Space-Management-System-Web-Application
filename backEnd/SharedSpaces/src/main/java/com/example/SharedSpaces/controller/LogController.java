@@ -2,7 +2,6 @@ package com.example.SharedSpaces.controller;
 
 import com.example.SharedSpaces.controller.RequestResponse.LogRequest;
 import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
-import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +24,7 @@ public class LogController {
     @PostMapping
     public LogResponse getLog(@RequestBody LogRequest logRequest) {
 
-        if (!clientId.equals(logRequest.getClientId()))
-        {
+        if (!clientId.equals(logRequest.getClientId())) {
             LogResponse response = new LogResponse();
             response.setValid(false);
             return response;

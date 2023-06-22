@@ -22,49 +22,51 @@ public class WaitingController {
     private final WaitingService waitingService;
 
     @Autowired
-    public WaitingController(WaitingService waitingService){
+    public WaitingController(WaitingService waitingService) {
         this.waitingService = waitingService;
     }
 
     @GetMapping
-    public List<WaitingResponse> getWaitingList(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime, @RequestParam int endTime){
+    public List<WaitingResponse> getWaitingList(@RequestParam int spaceID, @RequestParam String date,
+            @RequestParam int startTime, @RequestParam int endTime) {
         Slot slot = new Slot(spaceID, date, startTime, endTime);
         return waitingService.getWaitingList(slot);
     }
 
     @GetMapping("/user")
-    public  List<ReservationResponse> getUserWaitingList(@RequestParam String email){
+    public List<ReservationResponse> getUserWaitingList(@RequestParam String email) {
 
-//        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
-//            return new ArrayList<>();
-//        }
+        // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
+        // return new ArrayList<>();
+        // }
 
         System.out.println(email);
         return waitingService.getUserWaitingList(email);
     }
 
     @GetMapping("/responsible")
-    public  List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email){
+    public List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email) {
 
-//        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
-//            return new ArrayList<>();
-//        }
+        // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
+        // return new ArrayList<>();
+        // }
 
         return waitingService.getResponsibleWaitingList(email);
     }
 
     @PostMapping
-    public ReservationResponse createWaiting(ReservationRequest waiting){
+    public ReservationResponse createWaiting(ReservationRequest waiting) {
         System.out.println(waiting);
         return waitingService.handleWaiting(waiting);
     }
 
     @DeleteMapping()
-    public  String deleteWaiting(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime, @RequestParam int endTime, @RequestParam String email){
+    public String deleteWaiting(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime,
+            @RequestParam int endTime, @RequestParam String email) {
 
-//        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
-//            return "Error";
-//        }
+        // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
+        // return "Error";
+        // }
 
         Slot slot = new Slot(spaceID, date, startTime, endTime);
 

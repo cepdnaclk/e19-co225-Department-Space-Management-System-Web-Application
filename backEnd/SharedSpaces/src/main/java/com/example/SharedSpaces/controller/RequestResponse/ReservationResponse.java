@@ -1,9 +1,5 @@
 package com.example.SharedSpaces.controller.RequestResponse;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
-
 public class ReservationResponse {
 
     private int spaceID;
@@ -15,11 +11,12 @@ public class ReservationResponse {
     private String responsiblePerson;
     private String status;
 
-    public ReservationResponse(){
+    public ReservationResponse() {
 
     }
 
-    public ReservationResponse(int spaceID, String title, String date, int startTime, int endTime, String reservedBy, String responsiblePerson) {
+    public ReservationResponse(int spaceID, String title, String date, int startTime, int endTime, String reservedBy,
+            String responsiblePerson) {
         this.spaceID = spaceID;
         this.title = title;
         this.date = date;
