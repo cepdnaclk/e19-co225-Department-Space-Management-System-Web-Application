@@ -16,7 +16,7 @@ public class EmailSenderService {
 
     public void sendSimpleEmail(String toEmail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("iammansitha@gmail.com");
+        message.setFrom("sender@gmail.com");
         message.setTo(toEmail);
         message.setText(body);
         message.setSubject(subject);
@@ -27,6 +27,7 @@ public class EmailSenderService {
     }
     public void sendReservationNotification(Reservation reservation) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("sender@gmail.com");
         message.setTo(reservation.getResponsiblePersonEmail());
         message.setSubject("New reservation placed");
         message.setText("A new reservation has been placed for " + reservation.getSpaceID() + ".");
@@ -35,6 +36,7 @@ public class EmailSenderService {
 
     public void sendConfirmationNotification(Reservation reservation) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("sender@gmail.com");
         message.setTo(reservation.getPersonEmail());
         message.setSubject("Reservation confirmation");
         message.setText("Your reservation for " + reservation.getSpaceName() + " has been confirmed.");
@@ -43,6 +45,7 @@ public class EmailSenderService {
 
     public void sendDeletionNotification(Reservation reservation) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("sender@gmail.com");
         message.setTo(reservation.getPersonEmail());
         message.setSubject("Reservation deletion");
         message.setText("Your reservation for " + reservation.getSpaceName() + " has been deleted.");
@@ -51,6 +54,7 @@ public class EmailSenderService {
 
     public void sendWaitingListNotification(Reservation reservation) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("sender@gmail.com");
         message.setTo(reservation.getWaitingListPersonEmail());
         message.setSubject("Slot available");
         message.setText("A slot is now available for " + reservation.getSpaceName() + ". Please confirm within 24 hours if you wish to book this space.");
