@@ -11,7 +11,7 @@ public class EmailServiceImpl {
     @Autowired
     private JavaMailSender mailSender;
 
-    public EmailServiceImpl(JavaMailSender mailSender){
+    public EmailServiceImpl(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
@@ -24,3 +24,5 @@ public class EmailServiceImpl {
         mailSender.send(message);
     }
 }
+
+// xcbaoqmmutatjtxm
