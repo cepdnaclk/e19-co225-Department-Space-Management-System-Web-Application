@@ -22,7 +22,7 @@ public class SharedSpacesApplication {
 	@EventListener(ApplicationReadyEvent.class)
 	public void triggerMail() throws MessagingException {
 
-		senderService.sendSimpleEmail("iammansitha@gmail.com", "Spring Mail Test", "ADOo");
+		senderService.sendSimpleEmail("iammansitha@gmail.com", "final", "finaleeeeeeee");
 
 
 
