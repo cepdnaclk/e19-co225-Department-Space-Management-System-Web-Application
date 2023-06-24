@@ -71,7 +71,7 @@ $confirmBtnColor: hsl(166, 25%, 50%);
     &:hover,
     &:focus {
       box-shadow: 0px 12px 12px -12px hsl(190, 40%, 30%);
-      outline: 1px lighten($color: hsl(166, 25%, 50), $amount: 50) solid;
+      outline: 1px lighten($color: hsl(166, 25%, 50%), $amount: 50%) solid;
       transform: scale(1.05);
     }
   }
@@ -79,4 +79,14 @@ $confirmBtnColor: hsl(166, 25%, 50%);
     font-size: 0.8em;
     font-weight: 600;
   }
+}
+
+//react-select
+.selectControl {
+  margin-top: 0.5em;
+  font-size: 0.9em;
+}
+
+.selectOption {
+  font-size: 0.9em;
 }

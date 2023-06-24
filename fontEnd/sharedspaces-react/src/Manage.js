@@ -3,6 +3,7 @@ import Hero from "./components/Hero";
 import styles from "./styles/ManageReservations.module.scss";
 import MyReservations from "./components/manageReservations/MyReservations";
 import MyWaiting from "./components/manageReservations/MyWaiting";
+
 const Manage = () => {
   //State to store whether to render Confirmed Reservations or The Waiting List
   const [isWaiting, setIsWaiting] = useState(false);
