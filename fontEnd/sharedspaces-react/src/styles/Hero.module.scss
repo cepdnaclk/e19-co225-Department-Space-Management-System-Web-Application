@@ -5,6 +5,11 @@
   background-color: $bgcolor;
   text-align: center;
   padding: 10em 0 5em 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   h1 {
     font-size: 2.4em;

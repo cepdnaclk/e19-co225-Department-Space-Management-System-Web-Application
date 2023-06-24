@@ -2,7 +2,7 @@ export const reservations = [
   {
     spaceId: 0,
     title: "CO224 Labs",
-    date: "2023-06-16",
+    date: "2023-06-19",
     startTime: 830,
     endTime: 1000,
     reservedBy: "Silva A.K.M. - E/19/372",
@@ -13,7 +13,7 @@ export const reservations = [
   {
     spaceId: 0,
     title: "CO221 Labs",
-    date: "2023-06-15",
+    date: "2023-06-20",
     startTime: 1400,
     endTime: 1430,
     reservedBy: "Ubayasiri S.J. - E/19/408",
@@ -24,7 +24,7 @@ export const reservations = [
   {
     spaceId: 0,
     title: "CO224 Labs",
-    date: "2023-06-13",
+    date: "2023-06-21",
     startTime: 830,
     endTime: 1000,
     reservedBy: "Gunawardana K.H. - E/19/129A",
@@ -35,7 +35,7 @@ export const reservations = [
   {
     spaceId: 3,
     title: "CO225 Labs",
-    date: "2023-06-15",
+    date: "2023-06-22",
     startTime: 1640,
     endTime: 1820,
     reservedBy: "Silva A.K.M. - E/19/372",
@@ -46,7 +46,7 @@ export const reservations = [
   {
     spaceId: 1,
     title: "CO225 Labs",
-    date: "2023-06-14",
+    date: "2023-06-23",
     startTime: 900,
     endTime: 1000,
     reservedBy: "Silva A.K.M. - E/19/372",
@@ -56,7 +56,7 @@ export const reservations = [
   {
     spaceId: 0,
     title: "CO225 Labs",
-    date: "2023-06-14",
+    date: "2023-06-22",
     startTime: 1240,
     endTime: 1355,
     reservedBy: "Eashwara M. - E/19/094",
