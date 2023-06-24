@@ -63,7 +63,6 @@ public class ReservationService {
             throw new AllReadyReservedException("Reserved");
         }
 
-        // seding the emails
         ReservationResponse reservationResponse;
         String spaceName = spaceDB.getSpaceById((long)reservation.getSpaceID()).get().getName();
         if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()){
@@ -154,8 +153,6 @@ public class ReservationService {
         reservationResponse.setStartTime(reservation.getStartDateTime().getHours()*100 + reservation.getStartDateTime().getMinutes());
         reservationResponse.setEndTime(reservation.getEndDateTime().getHours()*100 + reservation.getEndDateTime().getMinutes());
 
-        // try and catch
-
         if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()){
             reservationResponse.setReservedBy(responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
         } else
@@ -177,8 +174,6 @@ public class ReservationService {
 
         reservationResponse.setStartTime(reservation.getStartDateTime().getHours()*100 + reservation.getStartDateTime().getMinutes());
         reservationResponse.setEndTime(reservation.getEndDateTime().getHours()*100 + reservation.getEndDateTime().getMinutes());
-
-        // try and catch
 
         if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()){
             reservationResponse.setReservedBy(responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
@@ -206,8 +201,8 @@ public class ReservationService {
         reservationDB.deleteReservation(reservation.getId());
 
         String spaceName = spaceDB.getSpaceById((long) reservation.getSpaceID()).get().getName();
-        if (!admin) {
-            List<Waiting> waitingList = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(), slot.getEndDateTime());
+        List<Waiting> waitingList = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(), slot.getEndDateTime());
+        if (!admin && waitingList != null) {
 
             try {
                 waitingList.sort(Comparator.comparing(Waiting::getReservationDateTime));
@@ -231,9 +226,7 @@ public class ReservationService {
         User reservedUser = userDB.getUserById(reservation.getReservedById()).get();
 
         if (responsiblePersonDB.getResponsiblePersonByEmail(email).isPresent()){
-
             ResponsiblePerson deletePerson = responsiblePersonDB.getResponsiblePersonByEmail(email).get();
-
             try{
                 emailService.sendDelecteeReservationNotification(reservedUser, spaceName, reservation.getStartDateTime(), reservation.getEndDateTime(), deletePerson.fullName());
             } catch (Exception e){
@@ -247,10 +240,9 @@ public class ReservationService {
                 throw new EmailException("emailError");
             }
         }
+
         else {
-
             User deletePerson = userDB.getUserByEmail(email).get();
-
             try{
                 emailService.sendDelecteeReservationNotification(reservedUser, spaceName, reservation.getStartDateTime(), reservation.getEndDateTime(), deletePerson.getFullName());
             } catch (Exception e){

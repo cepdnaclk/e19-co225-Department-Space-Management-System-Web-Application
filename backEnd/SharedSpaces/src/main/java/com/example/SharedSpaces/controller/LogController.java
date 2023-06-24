@@ -20,7 +20,7 @@ public class LogController {
     private final LogService log;
 
     @Value("${client.id}")
-    private String clientId = "461418541066-5c9p2cf0d6d8qthhgh7n2tjrd28pf3t9.apps.googleusercontent.com" ;
+    private String clientId ;
 
     @Autowired
     public LogController(LogService log) {

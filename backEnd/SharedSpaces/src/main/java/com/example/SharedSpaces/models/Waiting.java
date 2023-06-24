@@ -54,6 +54,20 @@ public class Waiting {
         this.date = dateFormat.format(reservation.getStartDateTime());
     }
 
+    public Waiting(long id, int spaceID, String title, Date reservationDateTime, Date startDateTime, Date endDateTime, long reservedById, long responsiblePersonId) {
+        this.id = id;
+        this.spaceID = spaceID;
+        this.title = title;
+        this.reservationDateTime = reservationDateTime;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.reservedById = reservedById;
+        this.responsiblePersonId = responsiblePersonId;
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        this.date = dateFormat.format(startDateTime);
+    }
+
+
 
     public long getId() {
         return id;
@@ -117,19 +131,6 @@ public class Waiting {
 
     public void setResponsiblePersonId(long responsiblePersonId) {
         this.responsiblePersonId = responsiblePersonId;
-    }
-
-    public Waiting(long id, int spaceID, String title, Date reservationDateTime, Date startDateTime, Date endDateTime, long reservedById, long responsiblePersonId) {
-        this.id = id;
-        this.spaceID = spaceID;
-        this.title = title;
-        this.reservationDateTime = reservationDateTime;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
-        this.reservedById = reservedById;
-        this.responsiblePersonId = responsiblePersonId;
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        this.date = dateFormat.format(startDateTime);
     }
 
     public String getDate() {
