@@ -1,8 +1,6 @@
 package com.example.SharedSpaces.db;
 
-import com.example.SharedSpaces.models.Reservation;
 import com.example.SharedSpaces.models.Waiting;
-import com.example.SharedSpaces.repos.ReservationRepository;
 import com.example.SharedSpaces.repos.WaitingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

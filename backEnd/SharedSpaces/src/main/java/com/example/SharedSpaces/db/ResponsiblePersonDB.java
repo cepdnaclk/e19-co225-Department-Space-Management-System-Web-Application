@@ -1,7 +1,6 @@
 package com.example.SharedSpaces.db;
 
 import com.example.SharedSpaces.models.ResponsiblePerson;
-import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.repos.ResponsiblePersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

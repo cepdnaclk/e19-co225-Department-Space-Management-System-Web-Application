@@ -2,7 +2,6 @@ package com.example.SharedSpaces.service;
 
 import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
 import com.example.SharedSpaces.db.AdminDB;
-import com.example.SharedSpaces.db.ReservationDB;
 import com.example.SharedSpaces.db.ResponsiblePersonDB;
 import com.example.SharedSpaces.db.UserDB;
 import com.example.SharedSpaces.exception.InvalidEmailException;
@@ -11,7 +10,6 @@ import com.example.SharedSpaces.models.ResponsiblePerson;
 import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

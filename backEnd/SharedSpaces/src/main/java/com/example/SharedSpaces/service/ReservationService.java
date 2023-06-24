@@ -23,7 +23,6 @@ public class ReservationService {
     private final ReservationDB reservationDB;
     private final WaitingDB waitingDB;
     private final UserDB userDB;
-    private final WaitingService waitingService;
     private final ResponsiblePersonDB responsiblePersonDB;
     private final EmailService emailService;
     private final SpaceDB spaceDB;
@@ -31,12 +30,11 @@ public class ReservationService {
 
     @Autowired
     public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB,
-            WaitingService waitingService, ResponsiblePersonDB responsiblePersonDB, EmailService emailService,
+            ResponsiblePersonDB responsiblePersonDB, EmailService emailService,
             SpaceDB spaceDB, AdminDB adminDB) {
         this.reservationDB = reservationDB;
         this.userDB = userDB;
         this.waitingDB = waitingDB;
-        this.waitingService = waitingService;
         this.responsiblePersonDB = responsiblePersonDB;
         this.emailService = emailService;
         this.spaceDB = spaceDB;
@@ -99,105 +97,6 @@ public class ReservationService {
             }
 
         }
-
-        return reservationResponse;
-    }
-
-    public Reservation requestToReservation(ReservationRequest reservationRequest) {
-        Reservation reservation = new Reservation();
-
-        reservation.setTitle(reservationRequest.getTitle());
-        reservation.setReservationDateTime(new Date(Long.parseLong(reservationRequest.getReservationDateTime())));
-        reservation.setSpaceID(reservationRequest.getSpaceID());
-
-        try {
-            reservation.setStartDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
-            reservation.setEndDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        reservation.getStartDateTime().setHours(reservationRequest.getStartTime() / 100);
-        reservation.getStartDateTime().setMinutes(reservationRequest.getStartTime() % 100);
-        reservation.getEndDateTime().setHours(reservationRequest.getEndTime() / 100);
-        reservation.getEndDateTime().setMinutes(reservationRequest.getEndTime() % 100);
-
-        reservation.setReservedById(reservationRequest.getReservedBy());
-        reservation.setResponsiblePersonId(reservationRequest.getResponsiblePerson());
-
-        return reservation;
-    }
-
-    public List<ReservationResponse> getUserReservationList(String email) {
-
-        List<ReservationResponse> respons = new ArrayList<>();
-
-        for (Reservation waiting : reservationDB.getAllResevation(email)) {
-            respons.add(reservationToRequest(waiting));
-        }
-
-        return respons;
-    }
-
-    public List<ReservationResponse> getResponsibleReservationList(String email) {
-
-        List<ReservationResponse> respons = new ArrayList<>();
-
-        for (Reservation waiting : reservationDB.getAllResponsibleWaiting(email)) {
-            respons.add(reservationToRequest(waiting));
-        }
-
-        return respons;
-    }
-
-    public ReservationResponse reservationToRequest(Reservation reservation, String user, String responsible) {
-        ReservationResponse reservationResponse = new ReservationResponse();
-
-        reservationResponse.setSpaceID(reservation.getSpaceID());
-        reservationResponse.setTitle(reservation.getTitle());
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        reservationResponse.setDate(simpleDateFormat.format(reservation.getStartDateTime()));
-
-        reservationResponse.setStartTime(
-                reservation.getStartDateTime().getHours() * 100 + reservation.getStartDateTime().getMinutes());
-        reservationResponse
-                .setEndTime(reservation.getEndDateTime().getHours() * 100 + reservation.getEndDateTime().getMinutes());
-
-        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()) {
-            reservationResponse.setReservedBy(
-                    responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
-        } else
-            reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getFullName());
-
-        reservationResponse.setResponsiblePerson(
-                responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
-
-        return reservationResponse;
-    }
-
-    public ReservationResponse reservationToRequest(Reservation reservation) {
-        ReservationResponse reservationResponse = new ReservationResponse();
-
-        reservationResponse.setSpaceID(reservation.getSpaceID());
-        reservationResponse.setTitle(reservation.getTitle());
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        reservationResponse.setDate(simpleDateFormat.format(reservation.getStartDateTime()));
-
-        reservationResponse.setStartTime(
-                reservation.getStartDateTime().getHours() * 100 + reservation.getStartDateTime().getMinutes());
-        reservationResponse
-                .setEndTime(reservation.getEndDateTime().getHours() * 100 + reservation.getEndDateTime().getMinutes());
-
-        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()) {
-            reservationResponse.setReservedBy(
-                    responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
-        } else
-            reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getFullName());
-
-        reservationResponse.setResponsiblePerson(
-                responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
 
         return reservationResponse;
     }
@@ -276,6 +175,105 @@ public class ReservationService {
         }
 
         return "Deleted";
+    }
+
+    public List<ReservationResponse> getUserReservationList(String email) {
+
+        List<ReservationResponse> respons = new ArrayList<>();
+
+        for (Reservation waiting : reservationDB.getAllResevation(email)) {
+            respons.add(reservationToRequest(waiting));
+        }
+
+        return respons;
+    }
+
+    public List<ReservationResponse> getResponsibleReservationList(String email) {
+
+        List<ReservationResponse> respons = new ArrayList<>();
+
+        for (Reservation waiting : reservationDB.getAllResponsibleWaiting(email)) {
+            respons.add(reservationToRequest(waiting));
+        }
+
+        return respons;
+    }
+
+    public ReservationResponse reservationToRequest(Reservation reservation, String user, String responsible) {
+        ReservationResponse reservationResponse = new ReservationResponse();
+
+        reservationResponse.setSpaceID(reservation.getSpaceID());
+        reservationResponse.setTitle(reservation.getTitle());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        reservationResponse.setDate(simpleDateFormat.format(reservation.getStartDateTime()));
+
+        reservationResponse.setStartTime(
+                reservation.getStartDateTime().getHours() * 100 + reservation.getStartDateTime().getMinutes());
+        reservationResponse
+                .setEndTime(reservation.getEndDateTime().getHours() * 100 + reservation.getEndDateTime().getMinutes());
+
+        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()) {
+            reservationResponse.setReservedBy(
+                    responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
+        } else
+            reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getFullName());
+
+        reservationResponse.setResponsiblePerson(
+                responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
+
+        return reservationResponse;
+    }
+
+    public ReservationResponse reservationToRequest(Reservation reservation) {
+        ReservationResponse reservationResponse = new ReservationResponse();
+
+        reservationResponse.setSpaceID(reservation.getSpaceID());
+        reservationResponse.setTitle(reservation.getTitle());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        reservationResponse.setDate(simpleDateFormat.format(reservation.getStartDateTime()));
+
+        reservationResponse.setStartTime(
+                reservation.getStartDateTime().getHours() * 100 + reservation.getStartDateTime().getMinutes());
+        reservationResponse
+                .setEndTime(reservation.getEndDateTime().getHours() * 100 + reservation.getEndDateTime().getMinutes());
+
+        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()) {
+            reservationResponse.setReservedBy(
+                    responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
+        } else
+            reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getFullName());
+
+        reservationResponse.setResponsiblePerson(
+                responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
+
+        return reservationResponse;
+    }
+
+    public Reservation requestToReservation(ReservationRequest reservationRequest) {
+        Reservation reservation = new Reservation();
+
+        reservation.setTitle(reservationRequest.getTitle());
+        reservation.setReservationDateTime(new Date(Long.parseLong(reservationRequest.getReservationDateTime())));
+        reservation.setSpaceID(reservationRequest.getSpaceID());
+
+        try {
+            reservation.setStartDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
+            reservation.setEndDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        reservation.getStartDateTime().setHours(reservationRequest.getStartTime() / 100);
+        reservation.getStartDateTime().setMinutes(reservationRequest.getStartTime() % 100);
+        reservation.getEndDateTime().setHours(reservationRequest.getEndTime() / 100);
+        reservation.getEndDateTime().setMinutes(reservationRequest.getEndTime() % 100);
+
+        reservation.setReservedById(reservationRequest.getReservedBy());
+        reservation.setResponsiblePersonId(reservationRequest.getResponsiblePerson());
+
+        return reservation;
     }
 
 }

@@ -89,6 +89,40 @@ public class WaitingService {
         return respons;
     }
 
+    public ReservationResponse handleWaiting(ReservationRequest reservationRequest) throws AllReadyWaitingException {
+
+        Waiting reservation = requestToWaiting(reservationRequest);
+        ReservationResponse reservationResponse = WaitingToRequest(reservation);
+
+        Waiting waiting = waitingDB.getWaitingByDetails(reservation.getSpaceID(), reservation.getStartDateTime(),
+                reservation.getEndDateTime(), reservation.getReservedById());
+
+        if (waiting != null)
+            throw new AllReadyWaitingException("invalid");
+
+        waitingDB.createWaiting(reservation);
+        reservationResponse.setStatus("Waiting");
+
+        return reservationResponse;
+    }
+
+    public String waitingDeleteBySlot(Slot slot, String email) throws InvalidDataException {
+        Waiting waiting = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(),
+                slot.getEndDateTime(), email);
+
+        if (waiting == null)
+            throw new InvalidDataException("invalid");
+
+        if (!email.equals(userDB.getUserById(waiting.getReservedById()).get().getEmail())
+                && !email.equals(userDB.getUserById(waiting.getResponsiblePersonId()).get().getEmail())
+                && !adminDB.getAdminByEmail(email).isPresent())
+            throw new InvalidDataException("invalid");
+
+        waitingDB.deleteWaiting(waiting.getId());
+
+        return "Deleted";
+    }
+
     public ReservationResponse WaitingToRequest(Waiting reservation) {
         ReservationResponse reservationResponse = new ReservationResponse();
 
@@ -111,23 +145,6 @@ public class WaitingService {
 
         reservationResponse.setResponsiblePerson(
                 responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
-
-        return reservationResponse;
-    }
-
-    public ReservationResponse handleWaiting(ReservationRequest reservationRequest) throws AllReadyWaitingException {
-
-        Waiting reservation = requestToWaiting(reservationRequest);
-        ReservationResponse reservationResponse = WaitingToRequest(reservation);
-
-        Waiting waiting = waitingDB.getWaitingByDetails(reservation.getSpaceID(), reservation.getStartDateTime(),
-                reservation.getEndDateTime(), reservation.getReservedById());
-
-        if (waiting != null)
-            throw new AllReadyWaitingException("invalid");
-
-        waitingDB.createWaiting(reservation);
-        reservationResponse.setStatus("Waiting");
 
         return reservationResponse;
     }
@@ -158,23 +175,6 @@ public class WaitingService {
         reservation.setDate(dateFormat.format(reservation.getStartDateTime()));
 
         return reservation;
-    }
-
-    public String waitingDeleteBySlot(Slot slot, String email) throws InvalidDataException {
-        Waiting waiting = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(),
-                slot.getEndDateTime(), email);
-
-        if (waiting == null)
-            throw new InvalidDataException("invalid");
-
-        if (!email.equals(userDB.getUserById(waiting.getReservedById()).get().getEmail())
-                && !email.equals(userDB.getUserById(waiting.getResponsiblePersonId()).get().getEmail())
-                && !adminDB.getAdminByEmail(email).isPresent())
-            throw new InvalidDataException("invalid");
-
-        waitingDB.deleteWaiting(waiting.getId());
-
-        return "Deleted";
     }
 
 }

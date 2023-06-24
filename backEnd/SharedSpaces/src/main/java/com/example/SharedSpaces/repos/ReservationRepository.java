@@ -1,8 +1,6 @@
 package com.example.SharedSpaces.repos;
 
-import com.example.SharedSpaces.models.Admin;
 import com.example.SharedSpaces.models.Reservation;
-import com.example.SharedSpaces.models.Waiting;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
