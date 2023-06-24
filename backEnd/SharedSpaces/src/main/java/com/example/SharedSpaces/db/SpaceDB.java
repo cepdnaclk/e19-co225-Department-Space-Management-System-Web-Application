@@ -11,16 +11,14 @@ import java.util.Optional;
 @Service
 public class SpaceDB {
 
-
     private SpaceRepository spaceRepository;
 
     @Autowired
-    public SpaceDB(SpaceRepository spaceRepository){
+    public SpaceDB(SpaceRepository spaceRepository) {
         this.spaceRepository = spaceRepository;
     }
 
     public List<Space> getAllSpacess() {
-
         return spaceRepository.findAll();
     }
 

@@ -17,7 +17,7 @@ public class SpaceService {
         this.spacedata = spacedata;
     }
 
-    public List<Space> getAllSpaces(){
+    public List<Space> getAllSpaces() {
         return spacedata.getAllSpacess();
     }
 

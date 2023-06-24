@@ -10,43 +10,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 
-@OpenAPIDefinition(
-        info = @Info(
-                contact = @Contact(
-                        name = "SharedSpaces",
-                        email = "e19129@eng.pdn.ac.lk",
-                        url = ""
-                ),
-                description = "SharedSpaces",
-                title = "",
-                version = "1.0",
-                license = @License(
-                        name = "Licence name",
-                        url = "https://some-url.com"
-                ),
-                termsOfService = "Terms of service"
-        ),
-        servers = {
-                @Server(
-                        description = "LocalHost",
-                        url = "http://localhost:8080"
-                ),
-        },
-        security = {
-                @SecurityRequirement(
-                        name = "bearerAuth"
-                )
-        }
-)
+@OpenAPIDefinition(info = @Info(contact = @Contact(name = "SharedSpaces", email = "e19129@eng.pdn.ac.lk", url = ""), description = "SharedSpaces", title = "", version = "1.0", license = @License(name = "Licence name", url = "https://some-url.com"), termsOfService = "Terms of service"), servers = {
+                @Server(description = "LocalHost", url = "http://localhost:8080"),
+}, security = {
+                @SecurityRequirement(name = "bearerAuth")
+})
 
-@SecurityScheme(
-        name = "bearerAuth",
-        description = "JWT auth description",
-        scheme = "bearer",
-        type = SecuritySchemeType.HTTP,
-        bearerFormat = "JWT",
-        in = SecuritySchemeIn.HEADER
-)
+@SecurityScheme(name = "bearerAuth", description = "JWT auth description", scheme = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", in = SecuritySchemeIn.HEADER)
 
 public class OpenApiConfig {
 }

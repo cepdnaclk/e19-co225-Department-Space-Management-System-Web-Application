@@ -2,15 +2,10 @@ package com.example.SharedSpaces.models.token;
 
 import com.example.SharedSpaces.models.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.Objects;
 
 @Entity
-@Table(name="token")
+@Table(name = "token")
 public class Token {
 
     @Id
@@ -22,33 +17,16 @@ public class Token {
     public boolean expired;
     public User user;
 
-    public Token(){
+    public Token() {
 
     }
 
-    @Override
-    public String toString() {
-        return "Token{" +
-                "id=" + id +
-                ", token='" + token + '\'' +
-                ", tokenType=" + tokenType +
-                ", revoked=" + revoked +
-                ", expired=" + expired +
-                ", user=" + user +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Token token1 = (Token) o;
-        return revoked == token1.revoked && expired == token1.expired && Objects.equals(id, token1.id) && Objects.equals(token, token1.token) && tokenType == token1.tokenType && Objects.equals(user, token1.user);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, token, tokenType, revoked, expired, user);
+    public Token(User user, String token, TokenType tokenType, boolean revoked, boolean expired) {
+        this.user = user;
+        this.token = token;
+        this.tokenType = tokenType;
+        this.revoked = revoked;
+        this.expired = expired;
     }
 
     public Integer getId() {
@@ -99,13 +77,33 @@ public class Token {
         this.user = user;
     }
 
-    public Token(User user, String token, TokenType tokenType, boolean revoked, boolean expired){
-        this.user = user;
-        this.token = token;
-        this.tokenType = tokenType;
-        this.revoked = revoked;
-        this.expired = expired;
+    @Override
+    public String toString() {
+        return "Token{" +
+                "id=" + id +
+                ", token='" + token + '\'' +
+                ", tokenType=" + tokenType +
+                ", revoked=" + revoked +
+                ", expired=" + expired +
+                ", user=" + user +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Token token1 = (Token) o;
+        return revoked == token1.revoked && expired == token1.expired && Objects.equals(id, token1.id)
+                && Objects.equals(token, token1.token) && tokenType == token1.tokenType
+                && Objects.equals(user, token1.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, token, tokenType, revoked, expired, user);
     }
 
 }
-

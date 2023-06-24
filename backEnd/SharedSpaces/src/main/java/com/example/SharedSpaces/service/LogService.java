@@ -2,7 +2,6 @@ package com.example.SharedSpaces.service;
 
 import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
 import com.example.SharedSpaces.db.AdminDB;
-import com.example.SharedSpaces.db.ReservationDB;
 import com.example.SharedSpaces.db.ResponsiblePersonDB;
 import com.example.SharedSpaces.db.UserDB;
 import com.example.SharedSpaces.exception.InvalidEmailException;
@@ -11,11 +10,7 @@ import com.example.SharedSpaces.models.ResponsiblePerson;
 import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.ArrayList;
 
 import java.util.*;
 
@@ -48,16 +43,15 @@ public class LogService {
                 String role;
 
                 if (responsiblePersonDB.getResponsiblePersonByEmail(user.getEmail()).isPresent()) {
-                    ResponsiblePerson responsiblePerson = responsiblePersonDB.getResponsiblePersonByEmail(user.getEmail()).get();
+                    ResponsiblePerson responsiblePerson = responsiblePersonDB
+                            .getResponsiblePersonByEmail(user.getEmail()).get();
                     role = "responsible_person";
                     map.put("user", responsiblePerson);
-                }
-                else if (adminDB.getAdminByEmail(user.getEmail()).isPresent()) {
+                } else if (adminDB.getAdminByEmail(user.getEmail()).isPresent()) {
                     role = "admin";
                     Admin admin = adminDB.getAdminByEmail(user.getUsername()).get();
                     map.put("user", admin);
-                }
-                else {
+                } else {
                     if (userDB.getUserByEmail(user.getEmail()).isEmpty())
                         userDB.createUser(user);
                     role = "user";
@@ -74,14 +68,14 @@ public class LogService {
                 return response;
 
             } else {
-//                LogResponse response = new LogResponse();
-//                response.setValid(false);
-//                return response;
-                throw  new InvalidEmailException("invalid");
+                // LogResponse response = new LogResponse();
+                // response.setValid(false);
+                // return response;
+                throw new InvalidEmailException("invalid");
             }
 
-        }catch (InvalidEmailException e){
-            throw  new InvalidEmailException("invalid");
+        } catch (InvalidEmailException e) {
+            throw new InvalidEmailException("invalid");
 
         } catch (Exception e) {
             LogResponse response = new LogResponse();

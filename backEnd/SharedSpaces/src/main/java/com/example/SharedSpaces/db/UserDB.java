@@ -11,11 +11,10 @@ import java.util.Optional;
 @Service
 public class UserDB {
 
-
     private UserRepository userRepository;
 
     @Autowired
-    public UserDB(UserRepository userRepository){
+    public UserDB(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -27,7 +26,7 @@ public class UserDB {
         return userRepository.findById(id);
     }
 
-    public String getUserFullName(long id){
+    public String getUserFullName(long id) {
         User user = getUserById(id).get();
         return user.getFirstName() + user.getLastName();
     }
@@ -45,7 +44,7 @@ public class UserDB {
             return Optional.empty();
         }
 
-    return optionalUser;
+        return optionalUser;
     }
 
     public User createUser(User user) {
@@ -61,6 +60,4 @@ public class UserDB {
         userRepository.deleteById(id);
     }
 
-
 }
-

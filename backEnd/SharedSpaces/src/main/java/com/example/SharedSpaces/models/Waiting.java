@@ -13,7 +13,6 @@ public class Waiting {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
     private int spaceID;
     private String title;
     private Date reservationDateTime;
@@ -23,26 +22,11 @@ public class Waiting {
     private long reservedById;
     private long responsiblePersonId;
 
-    public Waiting(){
+    public Waiting() {
 
     }
 
-    @Override
-    public String toString() {
-        return "Waiting{" +
-                "id=" + id +
-                ", spaceID=" + spaceID +
-                ", title='" + title + '\'' +
-                ", reservationDateTime=" + reservationDateTime +
-                ", startDateTime=" + startDateTime +
-                ", endDateTime=" + endDateTime +
-                ", date=" + date +
-                ", reservedById=" + reservedById +
-                ", responsiblePersonId=" + responsiblePersonId +
-                '}';
-    }
-
-    public Waiting(Reservation reservation){
+    public Waiting(Reservation reservation) {
         this.spaceID = reservation.getSpaceID();
         this.title = reservation.getTitle();
         this.reservationDateTime = reservation.getReservationDateTime();
@@ -54,7 +38,8 @@ public class Waiting {
         this.date = dateFormat.format(reservation.getStartDateTime());
     }
 
-    public Waiting(long id, int spaceID, String title, Date reservationDateTime, Date startDateTime, Date endDateTime, long reservedById, long responsiblePersonId) {
+    public Waiting(long id, int spaceID, String title, Date reservationDateTime, Date startDateTime, Date endDateTime,
+            long reservedById, long responsiblePersonId) {
         this.id = id;
         this.spaceID = spaceID;
         this.title = title;
@@ -66,8 +51,6 @@ public class Waiting {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         this.date = dateFormat.format(startDateTime);
     }
-
-
 
     public long getId() {
         return id;
@@ -139,5 +122,20 @@ public class Waiting {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Waiting{" +
+                "id=" + id +
+                ", spaceID=" + spaceID +
+                ", title='" + title + '\'' +
+                ", reservationDateTime=" + reservationDateTime +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                ", date=" + date +
+                ", reservedById=" + reservedById +
+                ", responsiblePersonId=" + responsiblePersonId +
+                '}';
     }
 }

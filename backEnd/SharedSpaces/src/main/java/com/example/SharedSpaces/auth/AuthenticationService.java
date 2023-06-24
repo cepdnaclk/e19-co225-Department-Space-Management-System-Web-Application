@@ -1,6 +1,5 @@
 package com.example.SharedSpaces.auth;
 
-import com.example.SharedSpaces.auth.RequestResponse.AuthenticationRequest;
 import com.example.SharedSpaces.auth.RequestResponse.AuthenticationResponse;
 import com.example.SharedSpaces.db.AdminDB;
 import com.example.SharedSpaces.db.ResponsiblePersonDB;
@@ -18,7 +17,6 @@ import java.util.Map;
 @Service
 public class AuthenticationService {
 
-    // private final UserRepository repository;
     private final JwtService jwtService;
     private final UserDB userDB;
     private final ResponsiblePersonDB responsiblePersonDB;

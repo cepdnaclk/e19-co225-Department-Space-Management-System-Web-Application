@@ -1,7 +1,6 @@
 package com.example.SharedSpaces.controller;
 
 import com.example.SharedSpaces.service.AdminService;
-import com.example.SharedSpaces.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

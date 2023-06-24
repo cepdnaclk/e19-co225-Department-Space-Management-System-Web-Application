@@ -25,39 +25,6 @@ public class ReservationRequest {
         this.responsiblePerson = responsiblePerson;
     }
 
-    @Override
-    public String toString() {
-        return "ReservationRequest{" +
-                "spaceID=" + spaceID +
-                ", title='" + title + '\'' +
-                ", reservationDateTime='" + reservationDateTime + '\'' +
-                ", startTime=" + startTime +
-                ", date='" + date + '\'' +
-                ", endTime=" + endTime +
-                ", reservedBy='" + reservedBy + '\'' +
-                ", responsiblePerson='" + responsiblePerson + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        ReservationRequest that = (ReservationRequest) o;
-        return spaceID == that.spaceID && startTime == that.startTime && endTime == that.endTime
-                && Objects.equals(title, that.title) && Objects.equals(reservationDateTime, that.reservationDateTime)
-                && Objects.equals(date, that.date) && Objects.equals(reservedBy, that.reservedBy)
-                && Objects.equals(responsiblePerson, that.responsiblePerson);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(spaceID, title, reservationDateTime, startTime, date, endTime, reservedBy,
-                responsiblePerson);
-    }
-
     public int getSpaceID() {
         return spaceID;
     }
@@ -120,5 +87,38 @@ public class ReservationRequest {
 
     public void setResponsiblePerson(int responsiblePerson) {
         this.responsiblePerson = responsiblePerson;
+    }
+
+    @Override
+    public String toString() {
+        return "ReservationRequest{" +
+                "spaceID=" + spaceID +
+                ", title='" + title + '\'' +
+                ", reservationDateTime='" + reservationDateTime + '\'' +
+                ", startTime=" + startTime +
+                ", date='" + date + '\'' +
+                ", endTime=" + endTime +
+                ", reservedBy='" + reservedBy + '\'' +
+                ", responsiblePerson='" + responsiblePerson + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        ReservationRequest that = (ReservationRequest) o;
+        return spaceID == that.spaceID && startTime == that.startTime && endTime == that.endTime
+                && Objects.equals(title, that.title) && Objects.equals(reservationDateTime, that.reservationDateTime)
+                && Objects.equals(date, that.date) && Objects.equals(reservedBy, that.reservedBy)
+                && Objects.equals(responsiblePerson, that.responsiblePerson);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(spaceID, title, reservationDateTime, startTime, date, endTime, reservedBy,
+                responsiblePerson);
     }
 }

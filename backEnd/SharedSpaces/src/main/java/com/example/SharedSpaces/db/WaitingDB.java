@@ -1,8 +1,6 @@
 package com.example.SharedSpaces.db;
 
-import com.example.SharedSpaces.models.Reservation;
 import com.example.SharedSpaces.models.Waiting;
-import com.example.SharedSpaces.repos.ReservationRepository;
 import com.example.SharedSpaces.repos.WaitingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,7 +17,7 @@ public class WaitingDB {
     private UserDB userDB;
 
     @Autowired
-    public WaitingDB(WaitingRepository waitingRepository, UserDB userDB){
+    public WaitingDB(WaitingRepository waitingRepository, UserDB userDB) {
         this.waitingRepository = waitingRepository;
         this.userDB = userDB;
     }
@@ -63,8 +61,11 @@ public class WaitingDB {
 
         List<Waiting> waitings = new ArrayList<>();
 
-        for (Waiting waiting: waitingList){
-            if ((waiting.getStartDateTime().compareTo(startDateTime) >= 0 && waiting.getStartDateTime().compareTo(endDateTime) < 0) || (waiting.getEndDateTime().compareTo(startDateTime) > 0 && waiting.getEndDateTime().compareTo(endDateTime) <= 0)){
+        for (Waiting waiting : waitingList) {
+            if ((waiting.getStartDateTime().compareTo(startDateTime) >= 0
+                    && waiting.getStartDateTime().compareTo(endDateTime) < 0)
+                    || (waiting.getEndDateTime().compareTo(startDateTime) > 0
+                            && waiting.getEndDateTime().compareTo(endDateTime) <= 0)) {
                 waitings.add(waiting);
             }
         }
@@ -84,12 +85,13 @@ public class WaitingDB {
         }
 
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Waiting waitingList = waitingRepository.findBySpaceIDAndDateAndReservedById(spaceID, dateFormat.format(startDateTime), userDB.getUserByEmail(email).get().getId());
+        Waiting waitingList = waitingRepository.findBySpaceIDAndDateAndReservedById(spaceID,
+                dateFormat.format(startDateTime), userDB.getUserByEmail(email).get().getId());
 
-        if (waitingList == null){
-            waitingList = waitingRepository.findBySpaceIDAndDateAndResponsiblePersonId(spaceID, dateFormat.format(startDateTime), userDB.getUserByEmail(email).get().getId());
+        if (waitingList == null) {
+            waitingList = waitingRepository.findBySpaceIDAndDateAndResponsiblePersonId(spaceID,
+                    dateFormat.format(startDateTime), userDB.getUserByEmail(email).get().getId());
         }
-
 
         if (waitingList == null) {
 
@@ -106,8 +108,8 @@ public class WaitingDB {
         }
 
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Waiting waitingList = waitingRepository.findBySpaceIDAndDateAndReservedById(spaceID, dateFormat.format(startDateTime),  reserdById);
-
+        Waiting waitingList = waitingRepository.findBySpaceIDAndDateAndReservedById(spaceID,
+                dateFormat.format(startDateTime), reserdById);
 
         if (waitingList == null) {
 
@@ -121,10 +123,9 @@ public class WaitingDB {
     @Scheduled(cron = "0 0 0 * * ?") // Run every day at midnight
     public void deleteExpiredReservations() {
         Date to = new Date();
-        Date from = new Date(to.getTime()-1000*60*60*24*1);
+        Date from = new Date(to.getTime() - 1000 * 60 * 60 * 24 * 1);
         List<Waiting> expiredReservations = waitingRepository.findByReservationDateTimeBefore(from);
         waitingRepository.deleteAll(expiredReservations);
     }
-
 
 }

@@ -6,16 +6,12 @@ import com.example.SharedSpaces.controller.RequestResponse.Slot;
 import com.example.SharedSpaces.controller.RequestResponse.WaitingResponse;
 import com.example.SharedSpaces.exception.AllReadyWaitingException;
 import com.example.SharedSpaces.exception.InvalidDataException;
-import com.example.SharedSpaces.models.Waiting;
 import com.example.SharedSpaces.service.WaitingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -58,11 +54,11 @@ public class WaitingController {
     }
 
     @PostMapping
-    public ReservationResponse createWaiting(ReservationRequest waiting) throws  ResponseStatusException {
+    public ReservationResponse createWaiting(ReservationRequest waiting) throws ResponseStatusException {
 
-        try{
+        try {
             return waitingService.handleWaiting(waiting);
-        } catch (AllReadyWaitingException e){
+        } catch (AllReadyWaitingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
         }
 
@@ -76,10 +72,10 @@ public class WaitingController {
         // return "Error";
         // }
 
-        try{
+        try {
             Slot slot = new Slot(spaceID, date, startTime, endTime);
             return waitingService.waitingDeleteBySlot(slot, email);
-        } catch (InvalidDataException e){
+        } catch (InvalidDataException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
         }
 

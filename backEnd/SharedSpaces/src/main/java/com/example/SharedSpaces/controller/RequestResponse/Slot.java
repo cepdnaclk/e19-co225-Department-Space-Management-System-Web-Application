@@ -35,15 +35,6 @@ public class Slot {
         this.getEndDateTime().setMinutes(endTime % 100);
     }
 
-    @Override
-    public String toString() {
-        return "WaitingRequest{" +
-                "spaceID=" + spaceID +
-                ", startDateTime=" + startDateTime +
-                ", endDateTime=" + endDateTime +
-                '}';
-    }
-
     public int getSpaceID() {
         return spaceID;
     }
@@ -66,5 +57,14 @@ public class Slot {
 
     public void setEndDateTime(Date endDateTime) {
         this.endDateTime = endDateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "WaitingRequest{" +
+                "spaceID=" + spaceID +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                '}';
     }
 }

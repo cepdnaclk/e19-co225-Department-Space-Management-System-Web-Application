@@ -4,7 +4,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     @Value("${secret.key.r}")
-    private String secretKeyR ;
+    private String secretKeyR;
 
     @Autowired
     public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
@@ -42,7 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        if(!request.getServletPath().contains("/auth/authenticate") && !request.getServletPath().contains("/auth/refresh-token")) {
+        if (!request.getServletPath().contains("/auth/authenticate")
+                && !request.getServletPath().contains("/auth/refresh-token")) {
             final String authHeader = request.getHeader("Authorization");
             final String jwt;
             final String userEmail;
@@ -83,7 +83,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
-        } else{
+        } else {
             final String authHeader = request.getHeader("Authorization");
             final String jwt;
             final String userEmail;
@@ -94,8 +94,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             jwt = authHeader.substring(7);
-
-
 
             if (jwtService.isTokenExpired(jwt, secretKeyR)) {
                 filterChain.doFilter(request, response);
