@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../styles/ReservationInfo.module.scss";
 import { FiMapPin } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
-import { FaRegClock } from "react-icons/fa";
+import { FaRegClock, FaPlus } from "react-icons/fa";
 import { getDateInFormat, getTimeString, generateColorCode } from "../utils";
 import { spaces } from "../data";
 const ReservationInfo = ({ reservation }) => {
@@ -32,6 +32,22 @@ const ReservationInfo = ({ reservation }) => {
               reservation.endTime
             )}`}
           </p>
+        </div>
+      </div>
+
+      <div className={styles.infoBottom}>
+        <p className={styles.infoText}>Reserved By</p>
+        <p className={styles.person}>{reservation.reservedBy}</p>
+        <p className={styles.infoText + " " + styles.resPerson}>
+          Responsible Person
+        </p>
+        <p className={styles.person}>{reservation.responsibePerson}</p>
+        <div className={styles.waitingList}>
+          <button className={styles.waitingListBtn}>
+            <FaPlus className={styles.plusIcon} />
+            Add to Waiting List
+          </button>
+          <p className={styles.NumberWaiting}>7 Waiting</p>
         </div>
       </div>
     </div>

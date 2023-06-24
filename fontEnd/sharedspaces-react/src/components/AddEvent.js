@@ -1,5 +1,5 @@
 import styles from "../styles/AddEvent.module.scss";
-import { FiMapPin } from "react-icons/fi";
+import { FiMapPin, FiCheck } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock } from "react-icons/fa";
 import { spaces } from "../data";
@@ -42,6 +42,7 @@ const AddEvent = ({ hour, spaceId, date }) => {
           className={styles.inputResPerson}
         />
         <button type="submit" className={styles.confirmBtn}>
+          <FiCheck className={styles.checkIcon} />
           Confirm Reservation
         </button>
       </form>

@@ -60,7 +60,14 @@ $confirmBtnColor: hsl(166, 25%, 50%);
     cursor: pointer;
     box-shadow: none;
     transition: box-shadow ease-in-out 100ms, transform ease-in-out 100ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4em;
 
+    .checkIcon {
+      transform: scale(1.2);
+    }
     &:hover,
     &:focus {
       box-shadow: 0px 12px 12px -12px hsl(190, 40%, 30%);

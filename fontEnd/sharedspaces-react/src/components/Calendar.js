@@ -85,7 +85,7 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coords, setCoords] = useState({
     left: 500,
-    top: 500,
+    top: 200,
   });
   const modalRef = useRef();
   const [clickedHour, setClickedHour] = useState(0);

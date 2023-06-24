@@ -42,6 +42,7 @@ export const reservations = [
     responsibePerson: "Dr. Isuru Nawinne",
     waitingList: [],
   },
+
   {
     spaceId: 1,
     title: "CO225 Labs",
@@ -50,6 +51,16 @@ export const reservations = [
     endTime: 1000,
     reservedBy: "Silva A.K.M. - E/19/372",
     responsibePerson: "Dr. Isuru Nawinne",
+    waitingList: [],
+  },
+  {
+    spaceId: 0,
+    title: "CO225 Labs",
+    date: "2023-06-14",
+    startTime: 1240,
+    endTime: 1355,
+    reservedBy: "Eashwara M. - E/19/094",
+    responsibePerson: "Dr. Has a really long name which spans over two lines",
     waitingList: [],
   },
 ];
