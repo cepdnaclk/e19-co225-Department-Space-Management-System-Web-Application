@@ -1,5 +1,6 @@
 package com.example.SharedSpaces.repos;
 
+import com.example.SharedSpaces.models.Reservation;
 import com.example.SharedSpaces.models.Waiting;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,8 @@ public interface WaitingRepository extends CrudRepository<Waiting, Long> {
     Waiting findBySpaceIDAndDateAndResponsiblePersonId(int spaceID, String date, long responsiblePersonId);
 
     List<Waiting> findByReservedById(long id);
+
+    List<Waiting> findByReservationDateTimeBefore(Date reservationDateTime);
 
     List<Waiting> findByResponsiblePersonId(long id);
 }

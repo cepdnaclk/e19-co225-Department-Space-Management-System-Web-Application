@@ -20,6 +20,7 @@ public class SpaceDB {
     }
 
     public List<Space> getAllSpacess() {
+
         return spaceRepository.findAll();
     }
 

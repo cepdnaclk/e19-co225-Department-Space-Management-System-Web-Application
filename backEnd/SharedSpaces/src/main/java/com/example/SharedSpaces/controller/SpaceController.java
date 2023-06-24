@@ -22,23 +22,8 @@ public class SpaceController {
 
     @GetMapping
     public List<Space> getAllSpaces(){
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
         return spaceservices.getAllSpaces();
     }
 
-//    @PostMapping
-//    public void addSpace(){
-//
-//    }
-//
-//    @PutMapping(path = "{spaceId}")
-//    public void updateSopace(){
-//
-//    }
-//
-//    @DeleteMapping(path = "{spaceId}")
-//    public  void deleteSpace(){
-//
-//    }
 
 }

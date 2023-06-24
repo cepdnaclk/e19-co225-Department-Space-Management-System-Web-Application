@@ -24,6 +24,4 @@ public class ResponsiblePersonController {
         return responsiblePersonService.getAllResponsiblePersons();
     }
 
-
-
 }

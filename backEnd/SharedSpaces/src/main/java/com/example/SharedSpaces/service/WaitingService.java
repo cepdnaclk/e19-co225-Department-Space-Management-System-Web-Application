@@ -4,10 +4,12 @@ import com.example.SharedSpaces.controller.RequestResponse.ReservationRequest;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationResponse;
 import com.example.SharedSpaces.controller.RequestResponse.Slot;
 import com.example.SharedSpaces.controller.RequestResponse.WaitingResponse;
+import com.example.SharedSpaces.db.AdminDB;
 import com.example.SharedSpaces.db.ResponsiblePersonDB;
 import com.example.SharedSpaces.db.UserDB;
 import com.example.SharedSpaces.db.WaitingDB;
-import com.example.SharedSpaces.models.Reservation;
+import com.example.SharedSpaces.exception.AllReadyWaitingException;
+import com.example.SharedSpaces.exception.InvalidDataException;
 import com.example.SharedSpaces.models.Waiting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,12 +24,14 @@ public class WaitingService {
     private final WaitingDB waitingDB;
     private final UserDB userDB;
     private final ResponsiblePersonDB responsiblePersonDB;
+    private final AdminDB adminDB;
 
     @Autowired
-    public WaitingService( WaitingDB waitingDB, UserDB userDB, ResponsiblePersonDB responsiblePersonDB){
+    public WaitingService( WaitingDB waitingDB, UserDB userDB, ResponsiblePersonDB responsiblePersonDB, AdminDB adminDB){
         this.waitingDB = waitingDB;
         this.userDB = userDB;
         this.responsiblePersonDB = responsiblePersonDB;
+        this.adminDB = adminDB;
     }
 
     public List<WaitingResponse> getWaitingList(Slot slot){
@@ -104,11 +108,15 @@ public class WaitingService {
         return reservationResponse;
     }
 
-    public ReservationResponse handleWaiting(ReservationRequest reservationRequest) {
-
+    public ReservationResponse handleWaiting(ReservationRequest reservationRequest) throws AllReadyWaitingException {
 
         Waiting reservation = requestToWaiting(reservationRequest);
         ReservationResponse reservationResponse = WaitingToRequest(reservation);
+
+        Waiting waiting = waitingDB.getWaitingByDetails(reservation.getSpaceID(), reservation.getStartDateTime(), reservation.getEndDateTime(), reservation.getReservedById());
+
+        if (waiting != null)
+            throw new AllReadyWaitingException("invalid");
 
         waitingDB.createWaiting(reservation);
         reservationResponse.setStatus("Waiting");
@@ -144,11 +152,14 @@ public class WaitingService {
         return reservation;
     }
 
-    public String waitingDeleteBySlot(Slot slot, String email){
+    public String waitingDeleteBySlot(Slot slot, String email) throws InvalidDataException {
         Waiting waiting = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(), slot.getEndDateTime(), email);
 
         if (waiting == null)
-            return "Bad Request";
+            throw new InvalidDataException("invalid");
+
+        if (!email.equals(userDB.getUserById(waiting.getReservedById()).get().getEmail()) && !email.equals(userDB.getUserById(waiting.getResponsiblePersonId()).get().getEmail()) && !adminDB.getAdminByEmail(email).isPresent())
+            throw new InvalidDataException("invalid");
 
         waitingDB.deleteWaiting(waiting.getId());
 

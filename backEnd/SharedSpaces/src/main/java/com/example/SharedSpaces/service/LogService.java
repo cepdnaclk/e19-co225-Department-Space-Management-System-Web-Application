@@ -5,12 +5,16 @@ import com.example.SharedSpaces.db.AdminDB;
 import com.example.SharedSpaces.db.ReservationDB;
 import com.example.SharedSpaces.db.ResponsiblePersonDB;
 import com.example.SharedSpaces.db.UserDB;
+import com.example.SharedSpaces.exception.InvalidEmailException;
 import com.example.SharedSpaces.models.Admin;
 import com.example.SharedSpaces.models.ResponsiblePerson;
 import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 
 import java.util.*;
@@ -31,7 +35,7 @@ public class LogService {
         this.adminDB = adminDB;
     }
 
-    public LogResponse log(String credential) {
+    public LogResponse log(String credential) throws InvalidEmailException {
 
         try {
             User user = jwtService.extractClaimsGoogle(credential);
@@ -57,8 +61,7 @@ public class LogService {
                     if (userDB.getUserByEmail(user.getEmail()).isEmpty())
                         userDB.createUser(user);
                     role = "user";
-                    User currentUser = userDB.getUserByEmail(user.getEmail()).get();
-                    map.put("user", currentUser);
+                    map.put("user", user);
                 }
 
                 map.put("role", role);
@@ -69,11 +72,16 @@ public class LogService {
                 response.setValid(true);
 
                 return response;
+
+            } else {
+//                LogResponse response = new LogResponse();
+//                response.setValid(false);
+//                return response;
+                throw  new InvalidEmailException("invalid");
             }
 
-            LogResponse response = new LogResponse();
-            response.setValid(false);
-            return response;
+        }catch (InvalidEmailException e){
+            throw  new InvalidEmailException("invalid");
 
         } catch (Exception e) {
             LogResponse response = new LogResponse();
