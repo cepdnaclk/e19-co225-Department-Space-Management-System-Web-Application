@@ -32,6 +32,7 @@ public class ResponsiblePersonDB {
     public Optional<ResponsiblePerson> getResponsiblePersonById(Long id) {
         return responsiblePersonRepository.findById(id);
     }
+
     public Optional<ResponsiblePerson> getResponsiblePersonByEmail(String email) {
         if (email == null) {
             return Optional.empty();

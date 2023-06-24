@@ -33,21 +33,20 @@ public class UserDB {
     }
 
     public Optional<User> getUserByEmail(String email) {
-    if (email == null) {
-        return Optional.empty();
-    }
+        if (email == null) {
+            return Optional.empty();
+        }
 
-    Optional<User> optionalUser = userRepository.findByEmail(email);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
 
-    if (!optionalUser.isPresent()) {
+        if (!optionalUser.isPresent()) {
 
-        // In here, we are returning an empty optional
-        return Optional.empty();
-    }
+            // In here, we are returning an empty optional
+            return Optional.empty();
+        }
 
     return optionalUser;
-}
-
+    }
 
     public User createUser(User user) {
         return userRepository.save(user);

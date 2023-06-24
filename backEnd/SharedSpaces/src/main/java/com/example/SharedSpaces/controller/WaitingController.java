@@ -30,7 +30,7 @@ public class WaitingController {
         this.waitingService = waitingService;
     }
 
-    @GetMapping
+    @GetMapping("/slot")
     public List<WaitingResponse> getWaitingList(@RequestParam int spaceID, @RequestParam String date,
             @RequestParam int startTime, @RequestParam int endTime) {
         Slot slot = new Slot(spaceID, date, startTime, endTime);
