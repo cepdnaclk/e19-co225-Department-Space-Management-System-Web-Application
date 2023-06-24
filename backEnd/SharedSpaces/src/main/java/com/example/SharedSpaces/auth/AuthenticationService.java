@@ -70,11 +70,9 @@ public class AuthenticationService {
         map.put("role", role);
 
         String reFreshToken = jwtService.generateRefreshToken(map, user);
-
         var jwtToken = "";
 
         return new AuthenticationResponse(jwtToken, reFreshToken);
-
     }
 
 }

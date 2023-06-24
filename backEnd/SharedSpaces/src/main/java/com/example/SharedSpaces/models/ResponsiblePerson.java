@@ -5,9 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
-import java.util.Date;
-import java.util.Objects;
-
 @Entity
 @Table(name = "responsible_person")
 @PrimaryKeyJoinColumn(name = "id")
@@ -48,7 +45,7 @@ public class ResponsiblePerson extends User{
     }
 
     public String fullName(){
-        return this.type + " " + getFirstName() + " " + getLastName();
+        return this.type + " " +  getFirstName() + " " + getLastName();
     }
 
 

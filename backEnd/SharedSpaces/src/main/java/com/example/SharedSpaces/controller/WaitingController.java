@@ -4,11 +4,15 @@ import com.example.SharedSpaces.controller.RequestResponse.ReservationRequest;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationResponse;
 import com.example.SharedSpaces.controller.RequestResponse.Slot;
 import com.example.SharedSpaces.controller.RequestResponse.WaitingResponse;
+import com.example.SharedSpaces.exception.AllReadyWaitingException;
+import com.example.SharedSpaces.exception.InvalidDataException;
 import com.example.SharedSpaces.models.Waiting;
 import com.example.SharedSpaces.service.WaitingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +44,6 @@ public class WaitingController {
         // return new ArrayList<>();
         // }
 
-        System.out.println(email);
         return waitingService.getUserWaitingList(email);
     }
 
@@ -55,22 +58,30 @@ public class WaitingController {
     }
 
     @PostMapping
-    public ReservationResponse createWaiting(ReservationRequest waiting) {
-        System.out.println(waiting);
-        return waitingService.handleWaiting(waiting);
+    public ReservationResponse createWaiting(ReservationRequest waiting) throws  ResponseStatusException {
+
+        try{
+            return waitingService.handleWaiting(waiting);
+        } catch (AllReadyWaitingException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
+        }
+
     }
 
     @DeleteMapping()
     public String deleteWaiting(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime,
-            @RequestParam int endTime, @RequestParam String email) {
+            @RequestParam int endTime, @RequestParam String email) throws ResponseStatusException {
 
         // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
         // return "Error";
         // }
 
-        Slot slot = new Slot(spaceID, date, startTime, endTime);
-
-        return waitingService.waitingDeleteBySlot(slot, email);
+        try{
+            Slot slot = new Slot(spaceID, date, startTime, endTime);
+            return waitingService.waitingDeleteBySlot(slot, email);
+        } catch (InvalidDataException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
+        }
 
     }
 

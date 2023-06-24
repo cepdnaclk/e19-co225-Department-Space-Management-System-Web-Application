@@ -5,6 +5,7 @@ import com.example.SharedSpaces.models.Waiting;
 import com.example.SharedSpaces.repos.ReservationRepository;
 import com.example.SharedSpaces.repos.WaitingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -97,6 +98,32 @@ public class WaitingDB {
         }
 
         return waitingList;
+    }
+
+    public Waiting getWaitingByDetails(int spaceID, Date startDateTime, Date endDateTime, long reserdById) {
+        if (startDateTime == null || endDateTime == null) {
+            return null;
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Waiting waitingList = waitingRepository.findBySpaceIDAndDateAndReservedById(spaceID, dateFormat.format(startDateTime),  reserdById);
+
+
+        if (waitingList == null) {
+
+            // In here, we are returning an empty optional
+            return null;
+        }
+
+        return waitingList;
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?") // Run every day at midnight
+    public void deleteExpiredReservations() {
+        Date to = new Date();
+        Date from = new Date(to.getTime()-1000*60*60*24*1);
+        List<Waiting> expiredReservations = waitingRepository.findByReservationDateTimeBefore(from);
+        waitingRepository.deleteAll(expiredReservations);
     }
 
 

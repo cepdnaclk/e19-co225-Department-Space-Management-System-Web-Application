@@ -11,19 +11,10 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AdminService adminService;
-    private final EmailService emailService;
 
     @Autowired
-    public AdminController(AdminService adminService, EmailService emailService) {
+    public AdminController(AdminService adminService) {
         this.adminService = adminService;
-        this.emailService = emailService;
-    }
-
-    @GetMapping
-    public void getAllSpaces() {
-        emailService.sendEmail("e19008@eng.pdn.ac.lk", "hii", "hello");
-        // emailService.sendEmail("e19009@eng.pdn.ac.lk", "hii", "hello");
-        // emailService.sendEmail("e19408@eng.pdn.ac.lk", "hii", "hello");
     }
 
 }

@@ -5,8 +5,13 @@ import com.example.SharedSpaces.models.User;
 import com.example.SharedSpaces.models.Waiting;
 import com.example.SharedSpaces.repos.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +48,7 @@ public class ReservationDB {
         if (startDateTime == null || endDateTime == null) {
             return Optional.empty();
         }
+
         Optional<Reservation> optionalReservation = reservationRepository.findBySpaceIDAndStartDateTimeAndEndDateTime(spaceID, startDateTime, endDateTime);
 
         if (!optionalReservation.isPresent()) {
@@ -50,6 +56,29 @@ public class ReservationDB {
             return Optional.empty();
         }
         return optionalReservation;
+    }
+
+    public List<Reservation> getReservationsByDetails(int spaceID, Date startDateTime, Date endDateTime) {
+        if (startDateTime == null || endDateTime == null) {
+            return null;
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        List<Reservation> waitingList = reservationRepository.findBySpaceIDAndDate(spaceID, dateFormat.format(startDateTime));
+
+        List<Reservation> waitings = new ArrayList<>();
+
+        for (Reservation waiting: waitingList){
+            if ((waiting.getStartDateTime().compareTo(startDateTime) >= 0 && waiting.getStartDateTime().compareTo(endDateTime) < 0) || (waiting.getEndDateTime().compareTo(startDateTime) > 0 && waiting.getEndDateTime().compareTo(endDateTime) <= 0)){
+                waitings.add(waiting);
+            }
+        }
+
+        if (waitings.isEmpty()) {
+            return null;
+        }
+
+        return waitings;
     }
 
 
@@ -64,6 +93,14 @@ public class ReservationDB {
 
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?") // Run every day at midnight
+    public void deleteExpiredReservations() {
+        Date to = new Date();
+        Date from = new Date(to.getTime()-1000*60*60*24*30);
+        List<Reservation> expiredReservations = reservationRepository.findByReservationDateTimeBefore(from);
+        reservationRepository.deleteAll(expiredReservations);
     }
 
 

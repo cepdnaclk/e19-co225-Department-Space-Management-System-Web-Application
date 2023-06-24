@@ -2,6 +2,8 @@ package com.example.SharedSpaces.models;
 
 import jakarta.persistence.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -22,6 +24,7 @@ public class Reservation {
     private Date reservationDateTime;
     private Date startDateTime;
     private Date endDateTime;
+    private String date;
     private long reservedById;
     private long responsiblePersonId;
 
@@ -33,6 +36,8 @@ public class Reservation {
         this.endDateTime = endDateTime;
         this.reservedById = reservedById;
         this.responsiblePersonId = responsiblePersonId;
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        this.date = dateFormat.format(this.startDateTime);
     }
 
     public Reservation(Waiting waiting){
@@ -43,7 +48,19 @@ public class Reservation {
         this.endDateTime = waiting.getEndDateTime();
         this.reservedById = waiting.getReservedById();
         this.responsiblePersonId = waiting.getResponsiblePersonId();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        this.date = dateFormat.format(this.startDateTime);
     }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+
 
     @Override
     public String toString() {
@@ -54,6 +71,7 @@ public class Reservation {
                 ", reservationDateTime=" + reservationDateTime +
                 ", startDateTime=" + startDateTime +
                 ", endDateTime=" + endDateTime +
+                ", date=" + date +
                 ", reservedById=" + reservedById +
                 ", responsiblePersonId=" + responsiblePersonId +
                 '}';
@@ -110,6 +128,8 @@ public class Reservation {
 
     public void setStartDateTime(Date startDateTime) {
         this.startDateTime = startDateTime;
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        this.date = dateFormat.format(this.startDateTime);
     }
 
     public Date getEndDateTime() {
