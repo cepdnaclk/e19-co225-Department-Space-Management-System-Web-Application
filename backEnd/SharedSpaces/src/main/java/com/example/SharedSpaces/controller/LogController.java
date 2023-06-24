@@ -20,7 +20,7 @@ public class LogController {
     private final LogService log;
 
     @Value("${client.id}")
-    private String clientId ;
+    private String clientId;
 
     @Autowired
     public LogController(LogService log) {
@@ -35,9 +35,9 @@ public class LogController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
         }
 
-        try{
+        try {
             return log.log(logRequest.getCredential());
-        } catch (InvalidEmailException e){
+        } catch (InvalidEmailException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "invalidEmail\n");
         }
 

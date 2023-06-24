@@ -20,7 +20,7 @@ public class ResponsiblePersonController {
     }
 
     @GetMapping
-    public List<ResponsiblePerson> getAllResponsiblePerson(){
+    public List<ResponsiblePerson> getAllResponsiblePerson() {
         return responsiblePersonService.getAllResponsiblePersons();
     }
 

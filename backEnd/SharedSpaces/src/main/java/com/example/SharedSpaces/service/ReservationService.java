@@ -30,50 +30,57 @@ public class ReservationService {
     private final AdminDB adminDB;
 
     @Autowired
-    public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB, WaitingService waitingService, ResponsiblePersonDB responsiblePersonDB, EmailService emailService, SpaceDB spaceDB, AdminDB adminDB){
+    public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB,
+            WaitingService waitingService, ResponsiblePersonDB responsiblePersonDB, EmailService emailService,
+            SpaceDB spaceDB, AdminDB adminDB) {
         this.reservationDB = reservationDB;
         this.userDB = userDB;
         this.waitingDB = waitingDB;
         this.waitingService = waitingService;
         this.responsiblePersonDB = responsiblePersonDB;
-        this.emailService =emailService;
+        this.emailService = emailService;
         this.spaceDB = spaceDB;
         this.adminDB = adminDB;
     }
 
-    public List<ReservationResponse> getAllResevations(){
+    public List<ReservationResponse> getAllResevations() {
         List<ReservationResponse> reservationResponses = new ArrayList<>();
 
-        for (Reservation reservation: reservationDB.getAllResevation()){
+        for (Reservation reservation : reservationDB.getAllResevation()) {
             reservationResponses.add(reservationToRequest(reservation));
         }
 
         return reservationResponses;
     }
 
-    public ReservationResponse hadleReservation(ReservationRequest reservationRequest) throws AllReadyReservedException, EmailException {
+    public ReservationResponse hadleReservation(ReservationRequest reservationRequest)
+            throws AllReadyReservedException, EmailException {
 
         Reservation reservation = requestToReservation(reservationRequest);
 
-        ResponsiblePerson responsiblePerson = responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get();
+        ResponsiblePerson responsiblePerson = responsiblePersonDB
+                .getResponsiblePersonById(reservation.getResponsiblePersonId()).get();
 
-        if (reservationDB.getReservationsByDetails(reservation.getSpaceID(), reservation.getStartDateTime(), reservation.getEndDateTime()) == null) {
+        if (reservationDB.getReservationsByDetails(reservation.getSpaceID(), reservation.getStartDateTime(),
+                reservation.getEndDateTime()) == null) {
             reservationDB.createReservation(reservation);
-        }else{
+        } else {
             throw new AllReadyReservedException("Reserved");
         }
 
         ReservationResponse reservationResponse;
-        String spaceName = spaceDB.getSpaceById((long)reservation.getSpaceID()).get().getName();
-        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()){
+        String spaceName = spaceDB.getSpaceById((long) reservation.getSpaceID()).get().getName();
+        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()) {
 
             ResponsiblePerson user = responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get();
             reservationResponse = reservationToRequest(reservation, user.fullName(), responsiblePerson.fullName());
 
-            try{
-                emailService.sendReservationNotificationResponsible(responsiblePerson, spaceName, reservation.getStartDateTime(), reservation.getEndDateTime());
-                emailService.sendReservationNotificationUSer(user, responsiblePerson, spaceName, reservation.getStartDateTime(), reservation.getEndDateTime());
-            } catch (Exception e){
+            try {
+                emailService.sendReservationNotificationResponsible(responsiblePerson, spaceName,
+                        reservation.getStartDateTime(), reservation.getEndDateTime());
+                emailService.sendReservationNotificationUSer(user, responsiblePerson, spaceName,
+                        reservation.getStartDateTime(), reservation.getEndDateTime());
+            } catch (Exception e) {
                 throw new EmailException("emailError");
             }
 
@@ -82,10 +89,12 @@ public class ReservationService {
             User user = userDB.getUserById(reservation.getReservedById()).get();
             reservationResponse = reservationToRequest(reservation, user.getFullName(), responsiblePerson.fullName());
 
-            try{
-                emailService.sendReservationNotificationResponsible(user, responsiblePerson, spaceName, reservation.getStartDateTime(), reservation.getEndDateTime());
-                emailService.sendReservationNotificationUSer(user, responsiblePerson, spaceName, reservation.getStartDateTime(), reservation.getEndDateTime());
-            } catch (Exception e){
+            try {
+                emailService.sendReservationNotificationResponsible(user, responsiblePerson, spaceName,
+                        reservation.getStartDateTime(), reservation.getEndDateTime());
+                emailService.sendReservationNotificationUSer(user, responsiblePerson, spaceName,
+                        reservation.getStartDateTime(), reservation.getEndDateTime());
+            } catch (Exception e) {
                 throw new EmailException("emailError");
             }
 
@@ -94,7 +103,7 @@ public class ReservationService {
         return reservationResponse;
     }
 
-    public Reservation requestToReservation(ReservationRequest reservationRequest){
+    public Reservation requestToReservation(ReservationRequest reservationRequest) {
         Reservation reservation = new Reservation();
 
         reservation.setTitle(reservationRequest.getTitle());
@@ -104,14 +113,14 @@ public class ReservationService {
         try {
             reservation.setStartDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
             reservation.setEndDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
 
-        reservation.getStartDateTime().setHours(reservationRequest.getStartTime()/100);
-        reservation.getStartDateTime().setMinutes(reservationRequest.getStartTime()%100);
-        reservation.getEndDateTime().setHours(reservationRequest.getEndTime()/100);
-        reservation.getEndDateTime().setMinutes(reservationRequest.getEndTime()%100);
+        reservation.getStartDateTime().setHours(reservationRequest.getStartTime() / 100);
+        reservation.getStartDateTime().setMinutes(reservationRequest.getStartTime() % 100);
+        reservation.getEndDateTime().setHours(reservationRequest.getEndTime() / 100);
+        reservation.getEndDateTime().setMinutes(reservationRequest.getEndTime() % 100);
 
         reservation.setReservedById(reservationRequest.getReservedBy());
         reservation.setResponsiblePersonId(reservationRequest.getResponsiblePerson());
@@ -119,29 +128,29 @@ public class ReservationService {
         return reservation;
     }
 
-    public List<ReservationResponse> getUserReservationList(String email){
+    public List<ReservationResponse> getUserReservationList(String email) {
 
         List<ReservationResponse> respons = new ArrayList<>();
 
-        for (Reservation waiting: reservationDB.getAllResevation(email)){
+        for (Reservation waiting : reservationDB.getAllResevation(email)) {
             respons.add(reservationToRequest(waiting));
         }
 
         return respons;
     }
 
-    public List<ReservationResponse> getResponsibleReservationList(String email){
+    public List<ReservationResponse> getResponsibleReservationList(String email) {
 
         List<ReservationResponse> respons = new ArrayList<>();
 
-        for (Reservation waiting: reservationDB.getAllResponsibleWaiting(email)){
+        for (Reservation waiting : reservationDB.getAllResponsibleWaiting(email)) {
             respons.add(reservationToRequest(waiting));
         }
 
         return respons;
     }
 
-    public ReservationResponse reservationToRequest(Reservation reservation, String user, String responsible){
+    public ReservationResponse reservationToRequest(Reservation reservation, String user, String responsible) {
         ReservationResponse reservationResponse = new ReservationResponse();
 
         reservationResponse.setSpaceID(reservation.getSpaceID());
@@ -150,20 +159,24 @@ public class ReservationService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         reservationResponse.setDate(simpleDateFormat.format(reservation.getStartDateTime()));
 
-        reservationResponse.setStartTime(reservation.getStartDateTime().getHours()*100 + reservation.getStartDateTime().getMinutes());
-        reservationResponse.setEndTime(reservation.getEndDateTime().getHours()*100 + reservation.getEndDateTime().getMinutes());
+        reservationResponse.setStartTime(
+                reservation.getStartDateTime().getHours() * 100 + reservation.getStartDateTime().getMinutes());
+        reservationResponse
+                .setEndTime(reservation.getEndDateTime().getHours() * 100 + reservation.getEndDateTime().getMinutes());
 
-        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()){
-            reservationResponse.setReservedBy(responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
+        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()) {
+            reservationResponse.setReservedBy(
+                    responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
         } else
             reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getFullName());
 
-       reservationResponse.setResponsiblePerson(responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
+        reservationResponse.setResponsiblePerson(
+                responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
 
         return reservationResponse;
     }
 
-    public ReservationResponse reservationToRequest(Reservation reservation){
+    public ReservationResponse reservationToRequest(Reservation reservation) {
         ReservationResponse reservationResponse = new ReservationResponse();
 
         reservationResponse.setSpaceID(reservation.getSpaceID());
@@ -172,21 +185,26 @@ public class ReservationService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         reservationResponse.setDate(simpleDateFormat.format(reservation.getStartDateTime()));
 
-        reservationResponse.setStartTime(reservation.getStartDateTime().getHours()*100 + reservation.getStartDateTime().getMinutes());
-        reservationResponse.setEndTime(reservation.getEndDateTime().getHours()*100 + reservation.getEndDateTime().getMinutes());
+        reservationResponse.setStartTime(
+                reservation.getStartDateTime().getHours() * 100 + reservation.getStartDateTime().getMinutes());
+        reservationResponse
+                .setEndTime(reservation.getEndDateTime().getHours() * 100 + reservation.getEndDateTime().getMinutes());
 
-        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()){
-            reservationResponse.setReservedBy(responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
+        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()) {
+            reservationResponse.setReservedBy(
+                    responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
         } else
             reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getFullName());
 
-        reservationResponse.setResponsiblePerson(responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
+        reservationResponse.setResponsiblePerson(
+                responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
 
         return reservationResponse;
     }
 
     public String reservationDeleteBySlot(Slot slot, String email) throws InvalidDataException, EmailException {
-        Optional<Reservation> optional = reservationDB.getReservationByDetails(slot.getSpaceID(), slot.getStartDateTime(), slot.getEndDateTime());
+        Optional<Reservation> optional = reservationDB.getReservationByDetails(slot.getSpaceID(),
+                slot.getStartDateTime(), slot.getEndDateTime());
         boolean admin = adminDB.getAdminByEmail(email).isPresent();
 
         if (optional.isEmpty())
@@ -194,14 +212,15 @@ public class ReservationService {
 
         Reservation reservation = optional.get();
 
-
-        if (!email.equals(userDB.getUserById(reservation.getReservedById()).get().getEmail()) && !email.equals(userDB.getUserById(reservation.getResponsiblePersonId()).get().getEmail()) && !admin)
+        if (!email.equals(userDB.getUserById(reservation.getReservedById()).get().getEmail())
+                && !email.equals(userDB.getUserById(reservation.getResponsiblePersonId()).get().getEmail()) && !admin)
             throw new InvalidDataException("invalid");
 
         reservationDB.deleteReservation(reservation.getId());
 
         String spaceName = spaceDB.getSpaceById((long) reservation.getSpaceID()).get().getName();
-        List<Waiting> waitingList = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(), slot.getEndDateTime());
+        List<Waiting> waitingList = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(),
+                slot.getEndDateTime());
         if (!admin && waitingList != null) {
 
             try {
@@ -214,9 +233,11 @@ public class ReservationService {
 
             User waitingUser = userDB.getUserById(waiting.getReservedById()).get();
 
-            if (reservationDB.getReservationsByDetails(waiting.getSpaceID(), waiting.getStartDateTime(), waiting.getEndDateTime()) == null) {
+            if (reservationDB.getReservationsByDetails(waiting.getSpaceID(), waiting.getStartDateTime(),
+                    waiting.getEndDateTime()) == null) {
                 try {
-                    emailService.sendFreeReservationNotification(waitingUser, spaceName, waiting.getStartDateTime(), waiting.getEndDateTime());
+                    emailService.sendFreeReservationNotification(waitingUser, spaceName, waiting.getStartDateTime(),
+                            waiting.getEndDateTime());
                 } catch (Exception e) {
                     throw new EmailException("emailError");
                 }
@@ -225,27 +246,30 @@ public class ReservationService {
 
         User reservedUser = userDB.getUserById(reservation.getReservedById()).get();
 
-        if (responsiblePersonDB.getResponsiblePersonByEmail(email).isPresent()){
+        if (responsiblePersonDB.getResponsiblePersonByEmail(email).isPresent()) {
             ResponsiblePerson deletePerson = responsiblePersonDB.getResponsiblePersonByEmail(email).get();
-            try{
-                emailService.sendDelecteeReservationNotification(reservedUser, spaceName, reservation.getStartDateTime(), reservation.getEndDateTime(), deletePerson.fullName());
-            } catch (Exception e){
+            try {
+                emailService.sendDelecteeReservationNotification(reservedUser, spaceName,
+                        reservation.getStartDateTime(), reservation.getEndDateTime(), deletePerson.fullName());
+            } catch (Exception e) {
                 throw new EmailException("emailError");
             }
 
-        }else if(adminDB.getAdminByEmail(email).isPresent()){
-            try{
-                emailService.sendDelecteeReservationNotification(reservedUser, spaceName, reservation.getStartDateTime(), reservation.getEndDateTime(), "Admin");
-            } catch (Exception e){
+        } else if (adminDB.getAdminByEmail(email).isPresent()) {
+            try {
+                emailService.sendDelecteeReservationNotification(reservedUser, spaceName,
+                        reservation.getStartDateTime(), reservation.getEndDateTime(), "Admin");
+            } catch (Exception e) {
                 throw new EmailException("emailError");
             }
         }
 
         else {
             User deletePerson = userDB.getUserByEmail(email).get();
-            try{
-                emailService.sendDelecteeReservationNotification(reservedUser, spaceName, reservation.getStartDateTime(), reservation.getEndDateTime(), deletePerson.getFullName());
-            } catch (Exception e){
+            try {
+                emailService.sendDelecteeReservationNotification(reservedUser, spaceName,
+                        reservation.getStartDateTime(), reservation.getEndDateTime(), deletePerson.getFullName());
+            } catch (Exception e) {
                 throw new EmailException("emailError");
             }
 
@@ -253,7 +277,5 @@ public class ReservationService {
 
         return "Deleted";
     }
-
-
 
 }

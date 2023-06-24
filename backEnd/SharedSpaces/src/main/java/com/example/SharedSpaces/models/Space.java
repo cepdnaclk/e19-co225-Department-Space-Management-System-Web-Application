@@ -18,7 +18,11 @@ public class Space {
     private String facilities;
     private String image;
 
-    public Space(Long id,String name, String description, int capacity, String facilities, String image){
+    public Space() {
+
+    }
+
+    public Space(Long id, String name, String description, int capacity, String facilities, String image) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -27,43 +31,14 @@ public class Space {
         this.image = image;
     }
 
-    public Space() {
-
-    }
-
-    @Override
-    public String toString() {
-        return "Space{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", capacity=" + capacity +
-                ", facilities=" + getFacilitiesList() +
-                ", image='" + image + '\'' +
-                '}';
-    }
-
-    public List<String> getFacilitiesList(){
+    public List<String> getFacilitiesList() {
         List<String> list = new ArrayList<>();
 
-        for (String facilities: this.getFacilities().split("\\,")){
+        for (String facilities : this.getFacilities().split("\\,")) {
             list.add(facilities);
         }
 
         return list;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Space space = (Space) o;
-        return capacity == space.capacity && Objects.equals(id, space.id) && Objects.equals(name, space.name) && Objects.equals(description, space.description) && Objects.equals(facilities, space.facilities) && Objects.equals(image, space.image);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, capacity, facilities, image);
     }
 
     public Long getId() {
@@ -112,5 +87,34 @@ public class Space {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "Space{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", capacity=" + capacity +
+                ", facilities=" + getFacilitiesList() +
+                ", image='" + image + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Space space = (Space) o;
+        return capacity == space.capacity && Objects.equals(id, space.id) && Objects.equals(name, space.name)
+                && Objects.equals(description, space.description) && Objects.equals(facilities, space.facilities)
+                && Objects.equals(image, space.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, capacity, facilities, image);
     }
 }

@@ -11,14 +11,9 @@ import java.util.Objects;
 @Table(name = "reservation")
 public class Reservation {
 
-    public Reservation(){
-
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
     private int spaceID;
     private String title;
     private Date reservationDateTime;
@@ -28,7 +23,12 @@ public class Reservation {
     private long reservedById;
     private long responsiblePersonId;
 
-    public Reservation(int spaceID, String title, Date reservationDateTime, Date startDateTime, Date endDateTime, long reservedById, long responsiblePersonId) {
+    public Reservation() {
+
+    }
+
+    public Reservation(int spaceID, String title, Date reservationDateTime, Date startDateTime, Date endDateTime,
+            long reservedById, long responsiblePersonId) {
         this.spaceID = spaceID;
         this.title = title;
         this.reservationDateTime = reservationDateTime;
@@ -40,7 +40,7 @@ public class Reservation {
         this.date = dateFormat.format(this.startDateTime);
     }
 
-    public Reservation(Waiting waiting){
+    public Reservation(Waiting waiting) {
         this.spaceID = waiting.getSpaceID();
         this.title = waiting.getTitle();
         this.reservationDateTime = waiting.getReservationDateTime();
@@ -58,36 +58,6 @@ public class Reservation {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "id=" + id +
-                ", spaceID=" + spaceID +
-                ", title='" + title + '\'' +
-                ", reservationDateTime=" + reservationDateTime +
-                ", startDateTime=" + startDateTime +
-                ", endDateTime=" + endDateTime +
-                ", date=" + date +
-                ", reservedById=" + reservedById +
-                ", responsiblePersonId=" + responsiblePersonId +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Reservation that = (Reservation) o;
-        return id == that.id && spaceID == that.spaceID && reservedById == that.reservedById && responsiblePersonId == that.responsiblePersonId && Objects.equals(title, that.title) && Objects.equals(reservationDateTime, that.reservationDateTime) && Objects.equals(startDateTime, that.startDateTime) && Objects.equals(endDateTime, that.endDateTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, spaceID, title, reservationDateTime, startDateTime, endDateTime, reservedById, responsiblePersonId);
     }
 
     public long getId() {
@@ -154,5 +124,39 @@ public class Reservation {
 
     public void setResponsiblePersonId(long responsiblePersonId) {
         this.responsiblePersonId = responsiblePersonId;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", spaceID=" + spaceID +
+                ", title='" + title + '\'' +
+                ", reservationDateTime=" + reservationDateTime +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                ", date=" + date +
+                ", reservedById=" + reservedById +
+                ", responsiblePersonId=" + responsiblePersonId +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Reservation that = (Reservation) o;
+        return id == that.id && spaceID == that.spaceID && reservedById == that.reservedById
+                && responsiblePersonId == that.responsiblePersonId && Objects.equals(title, that.title)
+                && Objects.equals(reservationDateTime, that.reservationDateTime)
+                && Objects.equals(startDateTime, that.startDateTime) && Objects.equals(endDateTime, that.endDateTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, spaceID, title, reservationDateTime, startDateTime, endDateTime, reservedById,
+                responsiblePersonId);
     }
 }

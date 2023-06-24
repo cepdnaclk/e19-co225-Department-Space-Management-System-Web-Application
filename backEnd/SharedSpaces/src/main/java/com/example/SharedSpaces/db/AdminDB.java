@@ -11,11 +11,10 @@ import java.util.Optional;
 @Service
 public class AdminDB {
 
-
     private AdminRepository adminRepository;
 
     @Autowired
-    public AdminDB(AdminRepository adminRepository){
+    public AdminDB(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
     }
 
@@ -43,7 +42,6 @@ public class AdminDB {
         return optionalAdmin;
     }
 
-
     public Admin createAdmin(Admin admin) {
         return adminRepository.save(admin);
     }
@@ -57,4 +55,3 @@ public class AdminDB {
         adminRepository.deleteById(id);
     }
 }
-

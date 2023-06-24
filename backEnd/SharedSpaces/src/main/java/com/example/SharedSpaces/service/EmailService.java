@@ -16,38 +16,42 @@ public class EmailService {
 
     @Autowired
     private JavaMailSender mailSender;
-    private UserDB userDB;
     private SimpleMailMessage message;
-    private ResponsiblePersonDB responsiblePersonDB;
 
-    public EmailService(JavaMailSender mailSender, UserDB userDB, ResponsiblePersonDB responsiblePersonDB) {
+    public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
-        this.userDB = userDB;
         this.message = new SimpleMailMessage();
-        this.responsiblePersonDB = responsiblePersonDB;
     }
 
-    public void sendReservationNotificationUSer(User user, ResponsiblePerson responsiblePerson, String spaceName, Date start, Date end) {
+    public void sendReservationNotificationUSer(User user, ResponsiblePerson responsiblePerson, String spaceName,
+            Date start, Date end) {
         this.message.setFrom("sharedspaces225@gmail.com");
         this.message.setTo(user.getEmail());
         this.message.setSubject("New reservation placed");
-        this.message.setText("A new reservation has been placed for " + spaceName + " - From : " + start +  " To : " + end);
+        this.message
+                .setText("A new reservation has been placed for " + spaceName + " - From : " + start + " To : " + end);
         mailSender.send(this.message);
     }
 
-    public void sendReservationNotificationResponsible(User user, ResponsiblePerson responsiblePerson, String spaceName, Date start, Date end) {
+    public void sendReservationNotificationResponsible(User user, ResponsiblePerson responsiblePerson, String spaceName,
+            Date start, Date end) {
         this.message.setFrom("sharedspaces225@gmail.com");
         this.message.setTo(responsiblePerson.getEmail());
         this.message.setSubject("Notify about Reservation");
-        this.message.setText("A new reservation has been placed by " + user.getFullName() + " for " + spaceName + " - From : " + start +  " To : " + end + " Selecting " + responsiblePerson.fullName() +  " as the responsible person");
+        this.message.setText("A new reservation has been placed by " + user.getFullName() + " for " + spaceName
+                + " - From : " + start + " To : " + end + " Selecting " + responsiblePerson.fullName()
+                + " as the responsible person");
         mailSender.send(this.message);
     }
 
-    public void sendReservationNotificationResponsible(ResponsiblePerson responsiblePerson, String spaceName, Date start, Date end) {
+    public void sendReservationNotificationResponsible(ResponsiblePerson responsiblePerson, String spaceName,
+            Date start, Date end) {
         this.message.setFrom("sharedspaces225@gmail.com");
         this.message.setTo(responsiblePerson.getEmail());
         this.message.setSubject("Notify about Reservation");
-        this.message.setText("A new reservation has been placed by " + responsiblePerson.fullName() + " for " + spaceName + " - From : " + start +  " To : " + end + " Selecting " + responsiblePerson.fullName() +  " as the responsible person");
+        this.message.setText("A new reservation has been placed by " + responsiblePerson.fullName() + " for "
+                + spaceName + " - From : " + start + " To : " + end + " Selecting " + responsiblePerson.fullName()
+                + " as the responsible person");
         mailSender.send(this.message);
     }
 
@@ -59,13 +63,14 @@ public class EmailService {
         mailSender.send(this.message);
     }
 
-    public void sendDelecteeReservationNotification(User user, String spaceName, Date start, Date end, String deletePerson) {
+    public void sendDelecteeReservationNotification(User user, String spaceName, Date start, Date end,
+            String deletePerson) {
         this.message.setFrom("sharedspaces225@gmail.com");
         this.message.setTo(user.getEmail());
         this.message.setSubject("Reservation deleted");
-        this.message.setText("The reservation Space: " + spaceName + " From: " + start + " To: " + end + " has been deleted by " + deletePerson);
+        this.message.setText("The reservation Space: " + spaceName + " From: " + start + " To: " + end
+                + " has been deleted by " + deletePerson);
         mailSender.send(this.message);
     }
-
 
 }

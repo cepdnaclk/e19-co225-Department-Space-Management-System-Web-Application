@@ -11,28 +11,7 @@ public class AuthenticationResponse {
     @JsonProperty("refresh_token")
     private String refreshToken;
 
-    @Override
-    public String toString() {
-        return "AuthenticationResponse{" +
-                "accessToken='" + accessToken + '\'' +
-                ", refreshToken='" + refreshToken + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AuthenticationResponse that = (AuthenticationResponse) o;
-        return Objects.equals(accessToken, that.accessToken) && Objects.equals(refreshToken, that.refreshToken);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(accessToken, refreshToken);
-    }
-
-    public AuthenticationResponse(String accessToken, String refreshToken){
+    public AuthenticationResponse(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
@@ -51,5 +30,28 @@ public class AuthenticationResponse {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    @Override
+    public String toString() {
+        return "AuthenticationResponse{" +
+                "accessToken='" + accessToken + '\'' +
+                ", refreshToken='" + refreshToken + '\'' +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accessToken, refreshToken);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        AuthenticationResponse that = (AuthenticationResponse) o;
+        return Objects.equals(accessToken, that.accessToken) && Objects.equals(refreshToken, that.refreshToken);
     }
 }

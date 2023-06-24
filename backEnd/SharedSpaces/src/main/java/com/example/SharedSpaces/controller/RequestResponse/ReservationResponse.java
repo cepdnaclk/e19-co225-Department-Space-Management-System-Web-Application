@@ -26,19 +26,6 @@ public class ReservationResponse {
         this.responsiblePerson = responsiblePerson;
     }
 
-    @Override
-    public String toString() {
-        return "ReservationResponse{" +
-                "spaceID=" + spaceID +
-                ", title='" + title + '\'' +
-                ", date='" + date + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", reservedBy='" + reservedBy + '\'' +
-                ", responsiblePerson='" + responsiblePerson + '\'' +
-                '}';
-    }
-
     public int getSpaceID() {
         return spaceID;
     }
@@ -101,5 +88,18 @@ public class ReservationResponse {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "ReservationResponse{" +
+                "spaceID=" + spaceID +
+                ", title='" + title + '\'' +
+                ", date='" + date + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", reservedBy='" + reservedBy + '\'' +
+                ", responsiblePerson='" + responsiblePerson + '\'' +
+                '}';
     }
 }
