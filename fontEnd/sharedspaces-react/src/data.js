@@ -22,7 +22,7 @@ export const reservations = [
   {
     spaceId: 0,
     title: "CO224 Labs",
-    date: "2023-06-21",
+    date: "2023-06-23",
     startTime: 830,
     endTime: 1000,
     reservedBy: "Gunawardana K.H. - E/19/129A",
