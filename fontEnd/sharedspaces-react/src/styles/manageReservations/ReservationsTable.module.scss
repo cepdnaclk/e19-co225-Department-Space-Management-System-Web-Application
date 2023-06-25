@@ -80,14 +80,26 @@
     font-weight: 600;
     font-size: 0.9em;
     transform: translateX(-12%);
+    transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
   }
 
   .cancelBtn {
-    background-color: rgb(227, 104, 104);
-    color: rgb(251, 251, 251);
+    border: 1px solid rgb(227, 104, 104);
+    border-radius: 1em;
+    background-color: inherit;
+    color: rgb(227, 104, 104);
+
+    &:hover {
+      background-color: rgb(227, 104, 104);
+      color: white;
+    }
   }
 
   .acceptBtn {
     background-color: $confirmedColor;
+
+    &:hover {
+      background-color: darken($confirmedColor, $amount: 15);
+    }
   }
 }
