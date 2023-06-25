@@ -1,7 +1,8 @@
 import styles from "../styles/ScheduleManager.module.scss";
 import Calendar from "./Calendar";
 import AvailableSpaces from "./AvailableSpaces";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getAllSpaces } from "../services/spaceService";
 
 const reservations = [
   {
@@ -59,39 +60,49 @@ const reservations = [
   },
 ];
 
-const spaces = [
-  {
-    id: 0,
-    name: "Computer Lab 02",
-    description: "First Floor Computer Lab",
-  },
-  {
-    id: 1,
-    name: "Computer Lab 01",
-    description: "Fourth Floor Computer Lab",
-  },
-  {
-    id: 2,
-    name: "Discussion Room",
-    description: "Second Floor",
-  },
-  {
-    id: 3,
-    name: "Network Engineering Lab",
-    description: "First Floor Lab",
-  },
-  {
-    id: 4,
-    name: "Escal MakerSpace",
-    description: "Second Floor Lab",
-  },
-];
+// const spaces = [
+//   {
+//     id: 0,
+//     name: "Computer Lab 02",
+//     description: "First Floor Computer Lab",
+//   },
+//   {
+//     id: 1,
+//     name: "Computer Lab 01",
+//     description: "Fourth Floor Computer Lab",
+//   },
+//   {
+//     id: 2,
+//     name: "Discussion Room",
+//     description: "Second Floor",
+//   },
+//   {
+//     id: 3,
+//     name: "Network Engineering Lab",
+//     description: "First Floor Lab",
+//   },
+//   {
+//     id: 4,
+//     name: "Escal MakerSpace",
+//     description: "Second Floor Lab",
+//   },
+// ];
 
 const SechduleManager = () => {
   //filter reservations according to the space selected - default - 0
   const [spaceReservations, setSpaceReservations] = useState(
     reservations.filter((reservation) => reservation.spaceId === 0)
   );
+  const [spaces, setSpaces] = useState([]);
+
+  async function getSpaces() {
+    const space = await getAllSpaces();
+    setSpaces(space);
+  }
+
+  useEffect(() => {
+    getSpaces();
+  });
 
   //Available Spaces Selection
   const [selectSpace, setSelectSpace] = useState(0);
