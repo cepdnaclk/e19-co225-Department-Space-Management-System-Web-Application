@@ -3,8 +3,8 @@ import { spaces } from "../../data";
 import styles from "../../styles/manageReservations/ReservationsTable.module.scss";
 import { getTimeString, getDateInFormat } from "../../utils";
 import classNames from "classnames";
-import { MdClose } from "react-icons/md";
-function ReservationTable({ reservations, isActionable }) {
+import { MdClose, MdCheck } from "react-icons/md";
+function ReservationTable({ reservations, isActionable, isAcceptable }) {
   return (
     <div className={styles.container}>
       <table className={styles.resTable}>
@@ -32,14 +32,24 @@ function ReservationTable({ reservations, isActionable }) {
                 <td>{getTimeString(reservation.endTime)}</td>
                 <td>{reservation.responsibePerson}</td>
                 {isActionable && (
-                  <td>
+                  <td className={styles.actionColCell}>
+                    {isAcceptable && (
+                      <button
+                        className={classNames(styles.btn, styles.acceptBtn)}
+                        onClick={() => console.log("Cancel clicked")}
+                      >
+                        <MdCheck />
+                        Accept
+                      </button>
+                    )}
+
                     <button
                       className={classNames(styles.btn, styles.cancelBtn)}
                       onClick={() => console.log("Cancel clicked")}
                     >
                       <MdClose />
                       Cancel
-                    </button>{" "}
+                    </button>
                   </td>
                 )}
               </tr>

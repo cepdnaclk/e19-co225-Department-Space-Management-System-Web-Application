@@ -59,6 +59,13 @@
     //   text-align: center;
     //   transform: translateX(-10%);
     // }
+
+    .actionColCell {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.5em;
+    }
   }
 
   .btn {
@@ -66,15 +73,21 @@
     align-items: center;
     justify-content: center;
     gap: 0.2em;
-    padding: 0.4em 1em;
+    padding: 0.4em 1em 0.4em 0.8em;
     color: white;
     border-radius: 1em;
     cursor: pointer;
-    text-transform: uppercase;
+    font-weight: 600;
     font-size: 0.9em;
+    transform: translateX(-12%);
   }
 
   .cancelBtn {
     background-color: rgb(227, 104, 104);
+    color: rgb(251, 251, 251);
+  }
+
+  .acceptBtn {
+    background-color: $confirmedColor;
   }
 }
