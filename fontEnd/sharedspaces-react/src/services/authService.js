@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 
 const endPointAuth = "http://localhost:8080/auth/authenticate";
 
-async function getAuthentincate(setAccessToken) {
+async function getAuthentincate(result, ...args) {
   const token = localStorage.getItem("token");
   console.log(token);
   axios
@@ -17,7 +17,7 @@ async function getAuthentincate(setAccessToken) {
       }
     )
     .then((response) => {
-      setAccessToken(response.data.access_token);
+      result(response.data.access_token, args);
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
