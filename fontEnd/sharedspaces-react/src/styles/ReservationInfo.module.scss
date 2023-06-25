@@ -73,7 +73,7 @@
       &:hover,
       &:focus {
         box-shadow: 0px 12px 12px -12px hsl(190, 40%, 30%);
-        outline: 1px lighten($color: hsl(166, 25%, 50), $amount: 50) solid;
+        outline: 1px lighten($color: hsl(166, 25%, 50%), $amount: 50%) solid;
         transform: scale(1.05);
       }
     }

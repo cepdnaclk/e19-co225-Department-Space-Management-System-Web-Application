@@ -32,19 +32,15 @@ $confirmBtnColor: hsl(166, 25%, 50%);
       gap: 0.4em;
 
       .time {
-        max-width: 4em;
-      }
-    }
-  }
+        max-width: 4.6em;
+        border-bottom: 1px solid rgb(135, 135, 135);
+        cursor: pointer;
+        padding: 0em 0.2em;
 
-  .inputResPerson {
-    @extend .inputTitle;
-    margin-top: 0.5em;
-    font-size: 1em;
-    font-weight: 400;
-    border-bottom: 1px solid rgb(154, 154, 154);
-    &::placeholder {
-      color: rgb(83, 83, 83);
+        &:hover {
+          border-bottom: 1px solid black;
+        }
+      }
     }
   }
 
@@ -79,14 +75,45 @@ $confirmBtnColor: hsl(166, 25%, 50%);
     font-size: 0.8em;
     font-weight: 600;
   }
-}
+  //react-select
+  .selectControl {
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    background-color: inherit;
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid rgb(154, 154, 154);
+    border-radius: 0;
+    transition: all 100ms eas;
+  }
 
-//react-select
-.selectControl {
-  margin-top: 0.5em;
-  font-size: 0.9em;
-}
+  .selectControlFocused {
+    box-shadow: none;
+    border-bottom: 1px solid black;
+  }
 
-.selectOption {
-  font-size: 0.9em;
+  .selectControl:hover {
+    border-bottom: 1px solid black;
+  }
+
+  // .selectPlaceholder {
+  //   transform: translateX(-5%);
+  // }
+  .selectOption {
+    font-size: 0.9em;
+  }
+
+  // .selectInput {
+  //   transform: translateX(-5%);
+  // }
+
+  .selectMenu {
+    border-radius: 0.5em;
+    overflow: hidden;
+    transform: scaleX(1.05);
+  }
+
+  .selectValueContainer {
+    transform: translateX(-5%);
+  }
 }
