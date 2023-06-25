@@ -103,7 +103,12 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>6.0.9</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.dukescript.api</groupId>
+            <artifactId>junit-browser-runner</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>
