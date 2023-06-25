@@ -109,9 +109,10 @@ const SechduleManager = () => {
   useEffect(() => {
     if (reservations !== []) {
       setSpaceReservations(
-        reservations.filter((reservation) => reservation.spaceID === 1)
+        reservations.filter((reservation) => reservation.spaceId === 0)
       );
     }
+    console.log(spaceReservations);
   }, [reservations]);
 
   useEffect(() => {
