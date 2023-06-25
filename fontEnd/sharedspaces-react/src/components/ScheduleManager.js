@@ -93,9 +93,7 @@ import { getAllReservation } from "../services/reservationService";
 const SechduleManager = () => {
   //filter reservations according to the space selected - default - 0
   const [reservations, setReservations] = useState([]);
-
   const [spaceReservations, setSpaceReservations] = useState([]);
-
   const [spaces, setSpaces] = useState([]);
 
   async function getSpaces() {
@@ -109,15 +107,11 @@ const SechduleManager = () => {
   }
 
   useEffect(() => {
-    console.log(reservations);
-    console.log(reservations[0]);
-    console.log(reservations[0].spaceID);
-    console.log(
-      reservations.filter((reservation) => reservation.spaceId === 1)
-    );
-    setSpaceReservations(
-      reservations.filter((reservation) => reservation.spaceId === 1)
-    );
+    if (reservations !== []) {
+      setSpaceReservations(
+        reservations.filter((reservation) => reservation.spaceID === 1)
+      );
+    }
   }, [reservations]);
 
   useEffect(() => {
