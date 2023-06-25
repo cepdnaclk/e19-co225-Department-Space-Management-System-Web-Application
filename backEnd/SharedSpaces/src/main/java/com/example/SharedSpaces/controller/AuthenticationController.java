@@ -18,11 +18,13 @@ public class AuthenticationController {
         this.service = service;
     }
 
+    @CrossOrigin
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate() {
         return ResponseEntity.ok(service.authenticate());
     }
 
+    @CrossOrigin
     @PostMapping("/refresh-token")
     public ResponseEntity<AuthenticationResponse> refreshToken() {
         return ResponseEntity.ok(service.refreshToken());

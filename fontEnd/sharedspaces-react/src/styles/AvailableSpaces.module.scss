@@ -43,6 +43,9 @@
       transition: opacity ease-in-out 300ms;
     }
 
+    &:hover {
+      color: black;
+    }
     &Selected {
       @extend .Space;
       padding: 1.2em 1.2em;
@@ -54,6 +57,10 @@
         opacity: 1;
         height: auto;
         //bottom: 0;
+      }
+
+      &:hover {
+        color: white;
       }
     }
   }
