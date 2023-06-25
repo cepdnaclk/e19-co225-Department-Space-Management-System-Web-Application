@@ -1,0 +1,80 @@
+@use "../variables" as *;
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2em 1em;
+
+  .resTable {
+    border-radius: 0.8em;
+    border-collapse: collapse;
+    overflow: hidden;
+    width: 90%;
+    font-size: 0.9em;
+    box-shadow: 0px 6px 23px -6px rgba(0, 0, 0, 0.1);
+
+    thead tr {
+      color: hsl(0, 0%, 95%);
+      background-color: rgb(55, 55, 55);
+      text-align: left;
+    }
+
+    th,
+    td {
+      padding: 1.2em 1em;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    tr {
+      th:first-child {
+        padding-left: 2em;
+      }
+      td:first-child {
+        padding-left: 2em;
+      }
+
+      th:last-child {
+        padding-right: 2em;
+      }
+      td:last-child {
+        padding-right: 2em;
+      }
+    }
+
+    tbody {
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      tr {
+        background-color: white;
+      }
+      tr:hover {
+        background-color: #f2f2f2;
+      }
+    }
+
+    // .actionCol {
+    //   text-align: center;
+    //   transform: translateX(-10%);
+    // }
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2em;
+    padding: 0.4em 1em;
+    color: white;
+    border-radius: 1em;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.9em;
+  }
+
+  .cancelBtn {
+    background-color: rgb(227, 104, 104);
+  }
+}

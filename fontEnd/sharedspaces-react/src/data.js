@@ -7,7 +7,6 @@ export const reservations = [
     endTime: 1000,
     reservedBy: "Silva A.K.M. - E/19/372",
     responsibePerson: "Dr. Isuru Nawinne",
-    waitingList: [],
   },
 
   {
@@ -18,7 +17,6 @@ export const reservations = [
     endTime: 1430,
     reservedBy: "Ubayasiri S.J. - E/19/408",
     responsibePerson: "Dr. Isuru Nawinne",
-    waitingList: [],
   },
 
   {
@@ -29,7 +27,6 @@ export const reservations = [
     endTime: 1000,
     reservedBy: "Gunawardana K.H. - E/19/129A",
     responsibePerson: "Dr. Isuru Nawinne",
-    waitingList: [],
   },
 
   {
@@ -40,7 +37,6 @@ export const reservations = [
     endTime: 1820,
     reservedBy: "Silva A.K.M. - E/19/372",
     responsibePerson: "Dr. Isuru Nawinne",
-    waitingList: [],
   },
 
   {
@@ -51,7 +47,6 @@ export const reservations = [
     endTime: 1000,
     reservedBy: "Silva A.K.M. - E/19/372",
     responsibePerson: "Dr. Isuru Nawinne",
-    waitingList: [],
   },
   {
     spaceId: 0,
@@ -60,8 +55,7 @@ export const reservations = [
     startTime: 1240,
     endTime: 1355,
     reservedBy: "Eashwara M. - E/19/094",
-    responsibePerson: "Dr. Has a really long name which spans over two lines",
-    waitingList: [],
+    responsibePerson: "Dr. Kaushitha Silva",
   },
 ];
 
