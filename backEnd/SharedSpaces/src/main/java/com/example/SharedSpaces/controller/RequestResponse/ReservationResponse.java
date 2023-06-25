@@ -2,7 +2,7 @@ package com.example.SharedSpaces.controller.RequestResponse;
 
 public class ReservationResponse {
 
-    private int spaceID;
+    private int spaceId;
     private String title;
     private String date;
     private int startTime;
@@ -15,9 +15,9 @@ public class ReservationResponse {
 
     }
 
-    public ReservationResponse(int spaceID, String title, String date, int startTime, int endTime, String reservedBy,
-            String responsiblePerson) {
-        this.spaceID = spaceID;
+    public ReservationResponse(int spaceId, String title, String date, int startTime, int endTime, String reservedBy,
+                               String responsiblePerson) {
+        this.spaceId = spaceId;
         this.title = title;
         this.date = date;
         this.startTime = startTime;
@@ -26,12 +26,12 @@ public class ReservationResponse {
         this.responsiblePerson = responsiblePerson;
     }
 
-    public int getSpaceID() {
-        return spaceID;
+    public int getSpaceId() {
+        return spaceId;
     }
 
-    public void setSpaceID(int spaceID) {
-        this.spaceID = spaceID;
+    public void setSpaceId(int spaceId) {
+        this.spaceId = spaceId;
     }
 
     public String getTitle() {
@@ -93,7 +93,7 @@ public class ReservationResponse {
     @Override
     public String toString() {
         return "ReservationResponse{" +
-                "spaceID=" + spaceID +
+                "spaceID=" + spaceId +
                 ", title='" + title + '\'' +
                 ", date='" + date + '\'' +
                 ", startTime=" + startTime +

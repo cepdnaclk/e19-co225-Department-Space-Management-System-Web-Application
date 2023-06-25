@@ -202,7 +202,7 @@ public class ReservationService {
     public ReservationResponse reservationToRequest(Reservation reservation, String user, String responsible) {
         ReservationResponse reservationResponse = new ReservationResponse();
 
-        reservationResponse.setSpaceID(reservation.getSpaceID());
+        reservationResponse.setSpaceId(reservation.getSpaceID());
         reservationResponse.setTitle(reservation.getTitle());
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -228,7 +228,7 @@ public class ReservationService {
     public ReservationResponse reservationToRequest(Reservation reservation) {
         ReservationResponse reservationResponse = new ReservationResponse();
 
-        reservationResponse.setSpaceID(reservation.getSpaceID());
+        reservationResponse.setSpaceId(reservation.getSpaceID());
         reservationResponse.setTitle(reservation.getTitle());
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
