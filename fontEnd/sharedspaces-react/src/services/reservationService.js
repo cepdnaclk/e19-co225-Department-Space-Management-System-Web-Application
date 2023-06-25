@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const endPointSpace = "http://localhost:8080/space";
+const endPointReservation = "http://localhost:8080/reservation";
 
-async function getAllSpaces() {
+async function getAllReservation() {
   let data = [];
 
   await axios
-    .get(endPointSpace)
+    .get(endPointReservation)
     .then((res) => {
       data = res.data;
     })
@@ -17,4 +17,4 @@ async function getAllSpaces() {
   return data;
 }
 
-export { getAllSpaces };
+export { getAllReservation };

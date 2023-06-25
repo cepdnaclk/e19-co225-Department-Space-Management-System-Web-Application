@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const endPointSpace = "http://localhost:8080/space";
+const endPointResponsible = "http://localhost:8080/responsible";
 
-async function getAllSpaces() {
+async function getAllResponsible() {
   let data = [];
 
   await axios
-    .get(endPointSpace)
+    .get(endPointResponsible)
     .then((res) => {
       data = res.data;
     })
@@ -17,4 +17,4 @@ async function getAllSpaces() {
   return data;
 }
 
-export { getAllSpaces };
+export { getAllResponsible };
