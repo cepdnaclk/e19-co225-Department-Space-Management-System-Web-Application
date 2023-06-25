@@ -1,7 +1,7 @@
 import styles from "../styles/AddEvent.module.scss";
 import { FiMapPin, FiCheck } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
-import { FaRegClock } from "react-icons/fa";
+import { FaRegClock, FaPlus } from "react-icons/fa";
 import { spaces } from "../data";
 import { getDateInFormat, getTimeString } from "../utils";
 import Select from "react-select";
@@ -27,14 +27,14 @@ const groupedOptions = [
   },
 ];
 
-const AddEvent = ({ hour, spaceId, date }) => {
-  const [startTime, setStartTime] = useState(getTimeString(hour * 100));
-  const [endTime, setEndTime] = useState(getTimeString(hour * 100 + 40));
+const AddEvent = ({ startTimeProp, endTimeProp, spaceId, date }) => {
+  const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
+  const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
 
   useEffect(() => {
-    setStartTime(getTimeString(hour * 100));
-    setEndTime(getTimeString(hour * 100 + 40));
-  }, [hour]);
+    setStartTime(getTimeString(startTimeProp));
+    setEndTime(getTimeString(endTimeProp));
+  }, [startTimeProp, endTimeProp]);
 
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
@@ -44,6 +44,7 @@ const AddEvent = ({ hour, spaceId, date }) => {
     setEndTime(event.target.value);
   };
 
+  const isClash = true;
   const spaceName = spaces.find((s) => s.id === spaceId).name;
   return (
     <div className={styles.addEvent}>
@@ -83,10 +84,23 @@ const AddEvent = ({ hour, spaceId, date }) => {
         <p className={styles.pResPerson}>Responsible Person</p>
 
         <ResponsibleSelect />
-        <button type="submit" className={styles.confirmBtn}>
-          <FiCheck className={styles.checkIcon} />
-          Confirm Reservation
-        </button>
+        {isClash ? (
+          <button
+            type="submit"
+            className={classNames(styles.submitBtn, styles.addWaitingListBtn)}
+          >
+            <FaPlus />
+            Add to Waiting List
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className={classNames(styles.submitBtn, styles.confirmBtn)}
+          >
+            <FiCheck className={styles.checkIcon} />
+            Confirm Reservation
+          </button>
+        )}
       </form>
     </div>
   );

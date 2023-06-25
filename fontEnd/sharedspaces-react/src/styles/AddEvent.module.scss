@@ -1,4 +1,6 @@
+@use "variables" as *;
 $confirmBtnColor: hsl(166, 25%, 50%);
+
 .addEvent {
   height: fit-content;
   padding: 2.5em 2em;
@@ -44,10 +46,10 @@ $confirmBtnColor: hsl(166, 25%, 50%);
     }
   }
 
-  .confirmBtn {
+  .submitBtn {
     width: 100%;
     color: white;
-    background-color: $confirmBtnColor;
+
     padding: 0.6em 0;
     border-radius: 0.6em;
     font-size: 0.9em;
@@ -61,6 +63,14 @@ $confirmBtnColor: hsl(166, 25%, 50%);
     justify-content: center;
     gap: 0.4em;
 
+    &:hover,
+    &:focus {
+      transform: scale(1.05);
+    }
+  }
+
+  .confirmBtn {
+    background-color: $confirmedColor;
     .checkIcon {
       transform: scale(1.2);
     }
@@ -68,7 +78,16 @@ $confirmBtnColor: hsl(166, 25%, 50%);
     &:focus {
       box-shadow: 0px 12px 12px -12px hsl(190, 40%, 30%);
       outline: 1px lighten($color: hsl(166, 25%, 50%), $amount: 50%) solid;
-      transform: scale(1.05);
+    }
+  }
+
+  .addWaitingListBtn {
+    background-color: $waitingColor;
+
+    &:hover,
+    &:focus {
+      box-shadow: 0px 12px 12px -12px hsl(37, 88%, 27%);
+      outline: 1px lighten($color: $waitingColor, $amount: 50%) solid;
     }
   }
   .pResPerson {

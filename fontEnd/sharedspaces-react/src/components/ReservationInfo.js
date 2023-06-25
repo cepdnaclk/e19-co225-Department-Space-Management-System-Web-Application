@@ -5,7 +5,7 @@ import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
 import { getDateInFormat, getTimeString, generateColorCode } from "../utils";
 import { spaces } from "../data";
-const ReservationInfo = ({ reservation }) => {
+const ReservationInfo = ({ reservation, onClick }) => {
   const spaceName = spaces.find((s) => s.id === reservation.spaceId).name;
   return (
     <div className={styles.container}>
@@ -43,7 +43,7 @@ const ReservationInfo = ({ reservation }) => {
         </p>
         <p className={styles.person}>{reservation.responsibePerson}</p>
         <div className={styles.waitingList}>
-          <button className={styles.waitingListBtn}>
+          <button className={styles.waitingListBtn} onClick={onClick}>
             <FaPlus className={styles.plusIcon} />
             Add to Waiting List
           </button>

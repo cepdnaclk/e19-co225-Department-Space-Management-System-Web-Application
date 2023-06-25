@@ -1,4 +1,4 @@
-$disabledTextColor: rgb(175, 175, 175);
+@use "variables" as *;
 .toggleSwitch {
   background-color: white;
   width: fit-content;
@@ -42,7 +42,7 @@ $disabledTextColor: rgb(175, 175, 175);
     &::before {
       width: 37%;
       transform: translateY(-50%) translateX(83%);
-      background-color: rgb(230, 174, 68);
+      background-color: $waitingColor;
     }
   }
 
@@ -54,7 +54,7 @@ $disabledTextColor: rgb(175, 175, 175);
     border-radius: 5em;
     top: 50%;
     transform: translateY(-50%) translateX(-27%);
-    background-color: rgb(106, 187, 160);
+    background-color: $confirmedColor;
     transition: transform 300ms cubic-bezier(0.18, 0.89, 0.35, 1.15),
       width 50ms ease-in-out, background-color 250ms ease-in-out;
   }
