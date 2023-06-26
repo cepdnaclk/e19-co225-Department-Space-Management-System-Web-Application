@@ -55,7 +55,6 @@ public class ReservationService {
             reservationResponses.add(reservationToRequest(reservation));
         }
 
-
         return reservationResponses;
     }
 
@@ -64,10 +63,10 @@ public class ReservationService {
 
         Reservation reservation = requestToReservation(reservationRequest);
 
-        if (reservationRequest.getWaitingId() > 0){
-            try{
-                waitingDB.deleteWaiting((long)reservationRequest.getWaitingId());
-            } catch (Exception e){
+        if (reservationRequest.getWaitingId() > 0) {
+            try {
+                waitingDB.deleteWaiting((long) reservationRequest.getWaitingId());
+            } catch (Exception e) {
                 throw new InvalidDataException("invalid user");
             }
         }
@@ -277,8 +276,8 @@ public class ReservationService {
         reservation.setSpaceID(reservationRequest.getSpaceID());
 
         try {
-            reservation.setStartDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
-            reservation.setEndDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
+            reservation.setStartDateTime(new SimpleDateFormat("yyyy-MM-dd").parse(reservationRequest.getDate()));
+            reservation.setEndDateTime(new SimpleDateFormat("yyyy-MM-dd").parse(reservationRequest.getDate()));
         } catch (Exception e) {
             System.out.println(e);
         }

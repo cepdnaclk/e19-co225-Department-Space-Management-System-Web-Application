@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { getAllSpaces } from "../services/spaceService";
 import { getAllResponsible } from "../services/responsibleService";
 import { getAllReservation } from "../services/reservationService";
+import { getAuthentincate } from "../services/authService";
 
 // const reservations = [
 //   {
@@ -97,22 +98,19 @@ const SechduleManager = () => {
   const [spaces, setSpaces] = useState([]);
 
   async function getSpaces() {
-    const space = await getAllSpaces();
-    setSpaces(space);
+    await getAllSpaces(setSpaces);
   }
 
   async function getReservation() {
-    const reservation = await getAllReservation();
-    setReservations(reservation);
+    await getAllReservation(setReservations);
   }
 
   useEffect(() => {
     if (reservations !== []) {
       setSpaceReservations(
-        reservations.filter((reservation) => reservation.spaceId === 0)
+        reservations.filter((reservation) => reservation.spaceId === 1)
       );
     }
-    console.log(spaceReservations);
   }, [reservations]);
 
   useEffect(() => {
