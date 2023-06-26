@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/Calendar.module.scss";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { generateColorCode } from "../utils";
+import { generateColorCode, getTimeString } from "../utils";
 import Modal from "./Modal";
 import AddEvent from "./AddEvent";
 import ReservationInfo from "./ReservationInfo";
@@ -85,10 +85,11 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coords, setCoords] = useState({
     left: 500,
-    top: 500,
+    top: 200,
   });
   const modalRef = useRef();
-  const [clickedHour, setClickedHour] = useState(0);
+  const [addEventStartTime, setAddEventStartTime] = useState(0);
+  const [addEventEndTime, setAddEventEndTime] = useState(0);
   const [clickedDate, setClickedDate] = useState(null);
   const [isAddEventOrRes, setIsAddEventOrRes] = useState(true); //true if clicked on an slot, false is clicked on a reservation
   const [clickedReservation, setClickedReservation] = useState(null);
@@ -114,7 +115,8 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
 
     setIsModalOpen(true);
     setCoords(e.currentTarget.getBoundingClientRect());
-    setClickedHour(hour);
+    setAddEventStartTime(hour * 100);
+    setAddEventEndTime(hour * 100 + 40);
     setIsAddEventOrRes(true);
     setClickedDate(date);
   };
@@ -124,6 +126,12 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
     setIsAddEventOrRes(false);
     setClickedReservation(reservation);
     setCoords(e.currentTarget.getBoundingClientRect());
+  };
+
+  const handleAddWaitingClick = (e) => {
+    setIsAddEventOrRes(true);
+    setAddEventStartTime(clickedReservation.startTime);
+    setAddEventEndTime(clickedReservation.endTime);
   };
 
   return (
@@ -164,12 +172,16 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
       >
         {isAddEventOrRes ? (
           <AddEvent
-            hour={clickedHour}
+            startTimeProp={addEventStartTime}
+            endTimeProp={addEventEndTime}
             spaceId={selectSpace}
             date={clickedDate}
           />
         ) : (
-          <ReservationInfo reservation={clickedReservation} />
+          <ReservationInfo
+            reservation={clickedReservation}
+            onClick={handleAddWaitingClick}
+          />
         )}
       </Modal>
     </div>

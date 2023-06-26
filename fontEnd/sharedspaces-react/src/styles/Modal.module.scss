@@ -1,22 +1,26 @@
 .container {
   position: absolute;
 
-  max-height: max-content;
-  width: 20em;
+  width: 0px;
+  height: 0px;
   background-color: #fafafa;
-  border: 0.3em solid white;
+
   z-index: 100;
   opacity: 0;
-  visibility: hidden;
+  overflow-x: hidden;
   top: 100;
   left: 50;
   transition: left ease-in-out 200ms, top ease-in-out 200ms,
     opacity ease-in 300ms;
-  border-radius: 2em;
+
   box-shadow: 0px 8px 14px -3px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+
   &.visible {
-    visibility: visible;
+    width: 20em;
+    height: max-content;
     opacity: 1;
+    border: 0.3em solid white;
+    border-radius: 2em;
+    overflow: visible;
   }
 }

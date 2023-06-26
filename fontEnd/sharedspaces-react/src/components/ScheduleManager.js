@@ -1,6 +1,7 @@
 import styles from "../styles/ScheduleManager.module.scss";
 import Calendar from "./Calendar";
 import AvailableSpaces from "./AvailableSpaces";
+
 import React, { useEffect, useState } from "react";
 import { getAllSpaces } from "../services/spaceService";
 import { getAllResponsible } from "../services/responsibleService";
