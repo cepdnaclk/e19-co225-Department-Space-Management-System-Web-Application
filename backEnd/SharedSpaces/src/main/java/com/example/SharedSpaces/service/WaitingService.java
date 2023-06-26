@@ -158,8 +158,8 @@ public class WaitingService {
         reservation.setSpaceID(reservationRequest.getSpaceID());
 
         try {
-            reservation.setStartDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
-            reservation.setEndDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(reservationRequest.getDate()));
+            reservation.setStartDateTime(new SimpleDateFormat("yyyy-MM-dd").parse(reservationRequest.getDate()));
+            reservation.setEndDateTime(new SimpleDateFormat("yyyy-MM-dd").parse(reservationRequest.getDate()));
         } catch (Exception e) {
             System.out.println(e);
         }

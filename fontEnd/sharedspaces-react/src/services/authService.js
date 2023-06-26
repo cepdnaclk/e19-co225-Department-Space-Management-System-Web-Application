@@ -3,10 +3,11 @@ import jwt_decode from "jwt-decode";
 
 const endPointAuth = "http://localhost:8080/auth/authenticate";
 
+// await getAuthentincate(getAllReservation, setReservations);
+
 async function getAuthentincate(result, ...args) {
   const token = localStorage.getItem("token");
-  console.log(token);
-  axios
+  await axios
     .post(
       endPointAuth,
       {},
@@ -26,7 +27,6 @@ async function getAuthentincate(result, ...args) {
 
 async function getRefreshToken(setRefreshToken) {
   const token = localStorage.getItem("token");
-  console.log(token);
   axios
     .post(
       endPointAuth,
