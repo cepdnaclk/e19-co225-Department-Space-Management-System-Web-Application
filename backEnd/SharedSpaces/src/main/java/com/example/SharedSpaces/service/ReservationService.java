@@ -43,18 +43,39 @@ public class ReservationService {
 
     public List<ReservationResponse> getAllResevations() {
         List<ReservationResponse> reservationResponses = new ArrayList<>();
+        List<Reservation> reservations = reservationDB.getAllResevation();
 
-        for (Reservation reservation : reservationDB.getAllResevation()) {
+        try {
+            reservations.sort(Comparator.comparing(Reservation::getStartDateTime));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        for (Reservation reservation : reservations) {
             reservationResponses.add(reservationToRequest(reservation));
         }
+
 
         return reservationResponses;
     }
 
     public ReservationResponse hadleReservation(ReservationRequest reservationRequest)
-            throws AllReadyReservedException, EmailException {
+            throws AllReadyReservedException, EmailException, InvalidDataException {
 
         Reservation reservation = requestToReservation(reservationRequest);
+
+        if (reservationRequest.getWaitingId() > 0){
+            try{
+                waitingDB.deleteWaiting((long)reservationRequest.getWaitingId());
+            } catch (Exception e){
+                throw new InvalidDataException("invalid user");
+            }
+        }
+
+        User user = userDB.getUserById(reservation.getReservedById()).get();
+        if (user == null) {
+            throw new InvalidDataException("invalid user");
+        }
 
         ResponsiblePerson responsiblePerson = responsiblePersonDB
                 .getResponsiblePersonById(reservation.getResponsiblePersonId()).get();
@@ -70,13 +91,14 @@ public class ReservationService {
         String spaceName = spaceDB.getSpaceById((long) reservation.getSpaceID()).get().getName();
         if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()) {
 
-            ResponsiblePerson user = responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get();
-            reservationResponse = reservationToRequest(reservation, user.fullName(), responsiblePerson.fullName());
+            ResponsiblePerson Reuser = responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById())
+                    .get();
+            reservationResponse = reservationToRequest(reservation, Reuser.fullName(), responsiblePerson.fullName());
 
             try {
                 emailService.sendReservationNotificationResponsible(responsiblePerson, spaceName,
                         reservation.getStartDateTime(), reservation.getEndDateTime());
-                emailService.sendReservationNotificationUSer(user, responsiblePerson, spaceName,
+                emailService.sendReservationNotificationUSer(Reuser, responsiblePerson, spaceName,
                         reservation.getStartDateTime(), reservation.getEndDateTime());
             } catch (Exception e) {
                 throw new EmailException("emailError");
@@ -84,7 +106,6 @@ public class ReservationService {
 
         } else {
 
-            User user = userDB.getUserById(reservation.getReservedById()).get();
             reservationResponse = reservationToRequest(reservation, user.getFullName(), responsiblePerson.fullName());
 
             try {
@@ -192,8 +213,8 @@ public class ReservationService {
 
         List<ReservationResponse> respons = new ArrayList<>();
 
-        for (Reservation waiting : reservationDB.getAllResponsibleWaiting(email)) {
-            respons.add(reservationToRequest(waiting));
+        for (Reservation reservation : reservationDB.getAllResponsibleReservation(email)) {
+            respons.add(reservationToRequest(reservation));
         }
 
         return respons;
@@ -202,10 +223,11 @@ public class ReservationService {
     public ReservationResponse reservationToRequest(Reservation reservation, String user, String responsible) {
         ReservationResponse reservationResponse = new ReservationResponse();
 
+        reservationResponse.setId(reservation.getId());
         reservationResponse.setSpaceId(reservation.getSpaceID());
         reservationResponse.setTitle(reservation.getTitle());
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         reservationResponse.setDate(simpleDateFormat.format(reservation.getStartDateTime()));
 
         reservationResponse.setStartTime(
@@ -213,14 +235,9 @@ public class ReservationService {
         reservationResponse
                 .setEndTime(reservation.getEndDateTime().getHours() * 100 + reservation.getEndDateTime().getMinutes());
 
-        if (responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).isPresent()) {
-            reservationResponse.setReservedBy(
-                    responsiblePersonDB.getResponsiblePersonById(reservation.getReservedById()).get().fullName());
-        } else
-            reservationResponse.setReservedBy(userDB.getUserById(reservation.getReservedById()).get().getFullName());
+        reservationResponse.setReservedBy(user);
 
-        reservationResponse.setResponsiblePerson(
-                responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
+        reservationResponse.setResponsiblePerson(responsible);
 
         return reservationResponse;
     }
@@ -228,10 +245,11 @@ public class ReservationService {
     public ReservationResponse reservationToRequest(Reservation reservation) {
         ReservationResponse reservationResponse = new ReservationResponse();
 
+        reservationResponse.setId(reservation.getId());
         reservationResponse.setSpaceId(reservation.getSpaceID());
         reservationResponse.setTitle(reservation.getTitle());
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         reservationResponse.setDate(simpleDateFormat.format(reservation.getStartDateTime()));
 
         reservationResponse.setStartTime(

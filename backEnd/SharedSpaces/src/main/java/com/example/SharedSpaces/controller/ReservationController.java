@@ -43,6 +43,8 @@ public class ReservationController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrongInput\n");
         } catch (EmailException e) {
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "emailError\n");
+        } catch (InvalidDataException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalidUser\n");
         }
 
     }

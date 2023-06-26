@@ -2,6 +2,7 @@ package com.example.SharedSpaces.controller;
 
 import com.example.SharedSpaces.controller.RequestResponse.LogRequest;
 import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
+import com.example.SharedSpaces.exception.InvalidDataException;
 import com.example.SharedSpaces.exception.InvalidEmailException;
 import com.example.SharedSpaces.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,8 @@ public class LogController {
             return log.log(logRequest.getCredential());
         } catch (InvalidEmailException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "invalidEmail\n");
+        } catch (InvalidDataException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
         }
 
     }

@@ -4,6 +4,7 @@ import com.example.SharedSpaces.controller.RequestResponse.LogResponse;
 import com.example.SharedSpaces.db.AdminDB;
 import com.example.SharedSpaces.db.ResponsiblePersonDB;
 import com.example.SharedSpaces.db.UserDB;
+import com.example.SharedSpaces.exception.InvalidDataException;
 import com.example.SharedSpaces.exception.InvalidEmailException;
 import com.example.SharedSpaces.models.Admin;
 import com.example.SharedSpaces.models.ResponsiblePerson;
@@ -30,7 +31,7 @@ public class LogService {
         this.adminDB = adminDB;
     }
 
-    public LogResponse log(String credential) throws InvalidEmailException {
+    public LogResponse log(String credential) throws InvalidEmailException, InvalidDataException {
 
         try {
             User user = jwtService.extractClaimsGoogle(credential);
@@ -78,9 +79,10 @@ public class LogService {
             throw new InvalidEmailException("invalid");
 
         } catch (Exception e) {
-            LogResponse response = new LogResponse();
-            response.setValid(false);
-            return response;
+//            LogResponse response = new LogResponse();
+//            response.setValid(false);
+//            return response;
+            throw new InvalidDataException("invalid");
         }
     }
 
