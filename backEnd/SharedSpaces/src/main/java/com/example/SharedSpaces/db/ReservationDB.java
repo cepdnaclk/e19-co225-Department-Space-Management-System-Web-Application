@@ -29,12 +29,25 @@ public class ReservationDB {
     }
 
     public List<Reservation> getAllResevation(String email) {
-        return (List<Reservation>) reservationRepository.findByReservedById(userDB.getUserByEmail(email).get().getId());
+        List<Reservation> reservations = (List<Reservation>) reservationRepository
+                .findByReservedById(userDB.getUserByEmail(email).get().getId());
+
+        if (reservations == null) {
+            return new ArrayList<>();
+        }
+
+        return reservations;
     }
 
     public List<Reservation> getAllResponsibleReservation(String email) {
-        return (List<Reservation>) reservationRepository
+        List<Reservation> reservations = (List<Reservation>) reservationRepository
                 .findByResponsiblePersonId(userDB.getUserByEmail(email).get().getId());
+
+        if (reservations == null) {
+            return new ArrayList<>();
+        }
+
+        return reservations;
     }
 
     public Optional<Reservation> getReservationById(Long id) {

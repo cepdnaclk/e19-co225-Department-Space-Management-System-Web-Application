@@ -34,23 +34,32 @@ public class WaitingController {
     }
 
     @GetMapping("/user")
-    public List<ReservationResponse> getUserWaitingList(@RequestParam String email) {
+    public List<ReservationResponse> getUserWaitingList(@RequestParam String email) throws ResponseStatusException {
 
         // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
         // return new ArrayList<>();
         // }
 
-        return waitingService.getUserWaitingList(email);
+        try {
+            return waitingService.getUserWaitingList(email);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
+        }
     }
 
     @GetMapping("/responsible")
-    public List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email) {
+    public List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email)
+            throws ResponseStatusException {
 
         // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
         // return new ArrayList<>();
         // }
 
-        return waitingService.getResponsibleWaitingList(email);
+        try {
+            return waitingService.getResponsibleWaitingList(email);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
+        }
     }
 
     @PostMapping

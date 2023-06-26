@@ -50,23 +50,32 @@ public class ReservationController {
     }
 
     @GetMapping("/user")
-    public List<ReservationResponse> getUserReservationList(@RequestParam String email) {
+    public List<ReservationResponse> getUserReservationList(@RequestParam String email) throws ResponseStatusException {
 
         // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
         // return new ArrayList<>();
         // }
-
-        return reservationService.getUserReservationList(email);
+        try {
+            return reservationService.getUserReservationList(email);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
+        }
     }
 
     @GetMapping("/responsible")
-    public List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email) {
+    public List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email)
+            throws ResponseStatusException {
 
         // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
         // return new ArrayList<>();
         // }
 
-        return reservationService.getResponsibleReservationList(email);
+        try {
+            return reservationService.getResponsibleReservationList(email);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
+        }
+
     }
 
     @DeleteMapping()
@@ -79,9 +88,7 @@ public class ReservationController {
 
         try {
             Slot slot = new Slot(spaceID, date, startTime, endTime);
-
             return reservationService.reservationDeleteBySlot(slot, email);
-
         } catch (InvalidDataException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
         } catch (EmailException e) {
