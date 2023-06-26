@@ -205,7 +205,7 @@ public class ReservationService {
         reservationResponse.setSpaceId(reservation.getSpaceID());
         reservationResponse.setTitle(reservation.getTitle());
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         reservationResponse.setDate(simpleDateFormat.format(reservation.getStartDateTime()));
 
         reservationResponse.setStartTime(
@@ -231,7 +231,7 @@ public class ReservationService {
         reservationResponse.setSpaceId(reservation.getSpaceID());
         reservationResponse.setTitle(reservation.getTitle());
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         reservationResponse.setDate(simpleDateFormat.format(reservation.getStartDateTime()));
 
         reservationResponse.setStartTime(
