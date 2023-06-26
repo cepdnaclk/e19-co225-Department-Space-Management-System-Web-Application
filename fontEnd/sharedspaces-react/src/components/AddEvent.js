@@ -7,29 +7,52 @@ import { getDateInFormat, getTimeString } from "../utils";
 import Select from "react-select";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
+import { getAllResponsible } from "../services/responsibleService";
 
 const groupedOptions = [
   {
     label: "Lecturers",
-    options: [
-      { value: "john", label: "John" },
-      { value: "sarah", label: "Sarah" },
-      { value: "peter", label: "Peter" },
-    ],
   },
   {
     label: "Instructors",
-    options: [
-      { value: "bob", label: "Bob" },
-      { value: "alice", label: "Alice" },
-      { value: "jane", label: "Jane" },
-    ],
   },
 ];
 
 const AddEvent = ({ startTimeProp, endTimeProp, spaceId, date }) => {
   const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
   const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
+  const [responsible, setResponsible] = useState([]);
+
+  function mapResponsible() {
+    groupedOptions[0].options = responsible
+      .filter((res) => res.type != "instructor")
+      .map((res) => {
+        const val = {};
+        val.value = res.id;
+        val.label = res.type + " " + res.fullName;
+        return val;
+      });
+    groupedOptions[1].options = responsible
+      .filter((res) => res.type == "instructor")
+      .map((res) => {
+        const val = {};
+        val.value = res.id;
+        val.label = res.type + " " + res.fullName;
+        return val;
+      });
+  }
+
+  useEffect(() => {
+    if (responsible != []) mapResponsible();
+  }, [responsible]);
+
+  async function getResponsible() {
+    await getAllResponsible(setResponsible);
+  }
+
+  useEffect(() => {
+    getResponsible();
+  }, []);
 
   useEffect(() => {
     setStartTime(getTimeString(startTimeProp));
