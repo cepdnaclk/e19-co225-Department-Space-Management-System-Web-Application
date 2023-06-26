@@ -7,6 +7,8 @@ import Login from "./Login";
 import Profile from "./Profile";
 import LoginBar from "./LoginBar";
 import { GoogleLogin } from "@react-oauth/google";
+import { getLogging } from "../services/loggingService";
+import { getAuthentincate } from "../services/authService";
 
 const Navbar = () => {
   // TODO: Differentiate the current page in the NavBar
@@ -23,7 +25,6 @@ const Navbar = () => {
 
   const handleLogin = (response) => {
     setGoogleToken(response);
-    console.log("Logged in", response);
     setLoggedIn(true);
   };
 
@@ -36,7 +37,6 @@ const Navbar = () => {
     setToken("");
   };
 
-
   const handleLogout = () => {
     setLoggedIn(false);
     setValid(false);
@@ -48,26 +48,9 @@ const Navbar = () => {
 
   React.useEffect(() => {
     if (LoggedIn && googleToken) {
-      axios
-        .post("http://localhost:8080/log", {
-          clientId: googleToken.clientId,
-          credential: googleToken.credential,
-          select_by: googleToken.select_by,
-        })
-        .then((response) => {
-          console.log(response);
-          setValid(response.data.valid);
-          setUser(response.data.refreshToken);
-          localStorage.setItem("token", user);
-          setToken(jwt_decode(response.data.refreshToken));
-          console.log(token);
-        })
-        .catch((error) => {
-          // Handle error
-          console.error("Error fetching data:", error);
-        });
+      getLogging(setValid, setUser, user, setToken, googleToken);
     }
-  }, [LoggedIn, googleToken, valid,token,user]);
+  }, [LoggedIn, googleToken]);
 
   return (
     <>

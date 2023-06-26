@@ -1,6 +1,5 @@
 package com.example.SharedSpaces.controller.RequestResponse;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class ReservationRequest {
@@ -13,8 +12,10 @@ public class ReservationRequest {
     private String date;
     private int reservedBy;
     private int responsiblePerson;
+    private int waitingId;
 
-    public ReservationRequest(int spaceID, String title, String reservationDateTime, int startTime, String date, int endTime, int reservedBy, int responsiblePerson) {
+    public ReservationRequest(int spaceID, String title, String reservationDateTime, int startTime, String date,
+            int endTime, int reservedBy, int responsiblePerson, int waitingId) {
         this.spaceID = spaceID;
         this.title = title;
         this.reservationDateTime = reservationDateTime;
@@ -23,33 +24,7 @@ public class ReservationRequest {
         this.endTime = endTime;
         this.reservedBy = reservedBy;
         this.responsiblePerson = responsiblePerson;
-    }
-
-    @Override
-    public String toString() {
-        return "ReservationRequest{" +
-                "spaceID=" + spaceID +
-                ", title='" + title + '\'' +
-                ", reservationDateTime='" + reservationDateTime + '\'' +
-                ", startTime=" + startTime +
-                ", date='" + date + '\'' +
-                ", endTime=" + endTime +
-                ", reservedBy='" + reservedBy + '\'' +
-                ", responsiblePerson='" + responsiblePerson + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ReservationRequest that = (ReservationRequest) o;
-        return spaceID == that.spaceID && startTime == that.startTime && endTime == that.endTime && Objects.equals(title, that.title) && Objects.equals(reservationDateTime, that.reservationDateTime) && Objects.equals(date, that.date) && Objects.equals(reservedBy, that.reservedBy) && Objects.equals(responsiblePerson, that.responsiblePerson);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(spaceID, title, reservationDateTime, startTime, date, endTime, reservedBy, responsiblePerson);
+        this.waitingId = waitingId;
     }
 
     public int getSpaceID() {
@@ -114,5 +89,41 @@ public class ReservationRequest {
 
     public void setResponsiblePerson(int responsiblePerson) {
         this.responsiblePerson = responsiblePerson;
+    }
+
+    public int getWaitingId() {
+        return waitingId;
+    }
+
+    public void setWaitingId(int waitingId) {
+        this.waitingId = waitingId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReservationRequest that = (ReservationRequest) o;
+        return spaceID == that.spaceID && startTime == that.startTime && endTime == that.endTime && reservedBy == that.reservedBy && responsiblePerson == that.responsiblePerson && waitingId == that.waitingId && Objects.equals(title, that.title) && Objects.equals(reservationDateTime, that.reservationDateTime) && Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(spaceID, title, reservationDateTime, startTime, endTime, date, reservedBy, responsiblePerson, waitingId);
+    }
+
+    @Override
+    public String toString() {
+        return "ReservationRequest{" +
+                "spaceID=" + spaceID +
+                ", title='" + title + '\'' +
+                ", reservationDateTime='" + reservationDateTime + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", date='" + date + '\'' +
+                ", reservedBy=" + reservedBy +
+                ", responsiblePerson=" + responsiblePerson +
+                ", waitingId=" + waitingId +
+                '}';
     }
 }

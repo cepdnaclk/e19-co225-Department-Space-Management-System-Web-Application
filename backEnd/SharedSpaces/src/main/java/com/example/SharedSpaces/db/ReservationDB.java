@@ -1,12 +1,13 @@
 package com.example.SharedSpaces.db;
 
 import com.example.SharedSpaces.models.Reservation;
-import com.example.SharedSpaces.models.User;
-import com.example.SharedSpaces.models.Waiting;
 import com.example.SharedSpaces.repos.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ public class ReservationDB {
     private UserDB userDB;
 
     @Autowired
-    public ReservationDB(ReservationRepository reservationRepository, UserDB userDB){
+    public ReservationDB(ReservationRepository reservationRepository, UserDB userDB) {
         this.reservationRepository = reservationRepository;
         this.userDB = userDB;
     }
@@ -28,11 +29,25 @@ public class ReservationDB {
     }
 
     public List<Reservation> getAllResevation(String email) {
-        return (List<Reservation>) reservationRepository.findByReservedById(userDB.getUserByEmail(email).get().getId());
+        List<Reservation> reservations = (List<Reservation>) reservationRepository
+                .findByReservedById(userDB.getUserByEmail(email).get().getId());
+
+        if (reservations == null) {
+            return new ArrayList<>();
+        }
+
+        return reservations;
     }
 
-    public List<Reservation> getAllResponsibleWaiting(String email) {
-        return (List<Reservation>) reservationRepository.findByResponsiblePersonId(userDB.getUserByEmail(email).get().getId());
+    public List<Reservation> getAllResponsibleReservation(String email) {
+        List<Reservation> reservations = (List<Reservation>) reservationRepository
+                .findByResponsiblePersonId(userDB.getUserByEmail(email).get().getId());
+
+        if (reservations == null) {
+            return new ArrayList<>();
+        }
+
+        return reservations;
     }
 
     public Optional<Reservation> getReservationById(Long id) {
@@ -43,7 +58,9 @@ public class ReservationDB {
         if (startDateTime == null || endDateTime == null) {
             return Optional.empty();
         }
-        Optional<Reservation> optionalReservation = reservationRepository.findBySpaceIDAndStartDateTimeAndEndDateTime(spaceID, startDateTime, endDateTime);
+
+        Optional<Reservation> optionalReservation = reservationRepository
+                .findBySpaceIDAndStartDateTimeAndEndDateTime(spaceID, startDateTime, endDateTime);
 
         if (!optionalReservation.isPresent()) {
 
@@ -52,6 +69,32 @@ public class ReservationDB {
         return optionalReservation;
     }
 
+    public List<Reservation> getReservationsByDetails(int spaceID, Date startDateTime, Date endDateTime) {
+        if (startDateTime == null || endDateTime == null) {
+            return null;
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        List<Reservation> waitingList = reservationRepository.findBySpaceIDAndDate(spaceID,
+                dateFormat.format(startDateTime));
+
+        List<Reservation> waitings = new ArrayList<>();
+
+        for (Reservation waiting : waitingList) {
+            if ((waiting.getStartDateTime().compareTo(startDateTime) >= 0
+                    && waiting.getStartDateTime().compareTo(endDateTime) < 0)
+                    || (waiting.getEndDateTime().compareTo(startDateTime) > 0
+                            && waiting.getEndDateTime().compareTo(endDateTime) <= 0)) {
+                waitings.add(waiting);
+            }
+        }
+
+        if (waitings.isEmpty()) {
+            return null;
+        }
+
+        return waitings;
+    }
 
     public Reservation createReservation(Reservation reservation) {
         return reservationRepository.save(reservation);
@@ -66,5 +109,12 @@ public class ReservationDB {
         reservationRepository.deleteById(id);
     }
 
+    @Scheduled(cron = "0 0 0 * * ?") // Run every day at midnight
+    public void deleteExpiredReservations() {
+        Date to = new Date();
+        Date from = new Date(to.getTime() - 1000 * 60 * 60 * 24 * 30);
+        List<Reservation> expiredReservations = reservationRepository.findByReservationDateTimeBefore(from);
+        reservationRepository.deleteAll(expiredReservations);
+    }
 
 }

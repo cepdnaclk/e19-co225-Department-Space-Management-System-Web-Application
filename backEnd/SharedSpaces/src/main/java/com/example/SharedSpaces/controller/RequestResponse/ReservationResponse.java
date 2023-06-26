@@ -1,12 +1,9 @@
 package com.example.SharedSpaces.controller.RequestResponse;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
-
 public class ReservationResponse {
 
-    private int spaceID;
+    private long id;
+    private int spaceId;
     private String title;
     private String date;
     private int startTime;
@@ -15,12 +12,13 @@ public class ReservationResponse {
     private String responsiblePerson;
     private String status;
 
-    public ReservationResponse(){
+    public ReservationResponse() {
 
     }
 
-    public ReservationResponse(int spaceID, String title, String date, int startTime, int endTime, String reservedBy, String responsiblePerson) {
-        this.spaceID = spaceID;
+    public ReservationResponse(int spaceId, String title, String date, int startTime, int endTime, String reservedBy,
+                               String responsiblePerson) {
+        this.spaceId = spaceId;
         this.title = title;
         this.date = date;
         this.startTime = startTime;
@@ -29,25 +27,12 @@ public class ReservationResponse {
         this.responsiblePerson = responsiblePerson;
     }
 
-    @Override
-    public String toString() {
-        return "ReservationResponse{" +
-                "spaceID=" + spaceID +
-                ", title='" + title + '\'' +
-                ", date='" + date + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", reservedBy='" + reservedBy + '\'' +
-                ", responsiblePerson='" + responsiblePerson + '\'' +
-                '}';
+    public int getSpaceId() {
+        return spaceId;
     }
 
-    public int getSpaceID() {
-        return spaceID;
-    }
-
-    public void setSpaceID(int spaceID) {
-        this.spaceID = spaceID;
+    public void setSpaceId(int spaceId) {
+        this.spaceId = spaceId;
     }
 
     public String getTitle() {
@@ -104,5 +89,28 @@ public class ReservationResponse {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "ReservationResponse{" +
+                "id=" + id +
+                ", spaceId=" + spaceId +
+                ", title='" + title + '\'' +
+                ", date='" + date + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", reservedBy='" + reservedBy + '\'' +
+                ", responsiblePerson='" + responsiblePerson + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
