@@ -126,6 +126,7 @@ public class WaitingService {
     public ReservationResponse WaitingToRequest(Waiting reservation) {
         ReservationResponse reservationResponse = new ReservationResponse();
 
+        reservationResponse.setId(reservation.getId());
         reservationResponse.setSpaceId(reservation.getSpaceID());
         reservationResponse.setTitle(reservation.getTitle());
 

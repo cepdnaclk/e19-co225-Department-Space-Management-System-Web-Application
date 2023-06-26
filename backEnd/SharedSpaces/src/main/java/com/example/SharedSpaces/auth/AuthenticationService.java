@@ -42,6 +42,7 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse refreshToken() {
+
         User user = userDB.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).get();
 
         Map<String, Object> map = new HashMap<>();

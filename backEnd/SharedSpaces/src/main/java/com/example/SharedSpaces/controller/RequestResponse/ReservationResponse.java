@@ -2,6 +2,7 @@ package com.example.SharedSpaces.controller.RequestResponse;
 
 public class ReservationResponse {
 
+    private long id;
     private int spaceId;
     private String title;
     private String date;
@@ -90,16 +91,26 @@ public class ReservationResponse {
         this.status = status;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "ReservationResponse{" +
-                "spaceID=" + spaceId +
+                "id=" + id +
+                ", spaceId=" + spaceId +
                 ", title='" + title + '\'' +
                 ", date='" + date + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", reservedBy='" + reservedBy + '\'' +
                 ", responsiblePerson='" + responsiblePerson + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }
