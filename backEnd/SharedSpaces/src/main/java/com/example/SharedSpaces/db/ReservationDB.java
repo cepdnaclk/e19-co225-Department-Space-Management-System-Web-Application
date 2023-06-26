@@ -32,7 +32,7 @@ public class ReservationDB {
         return (List<Reservation>) reservationRepository.findByReservedById(userDB.getUserByEmail(email).get().getId());
     }
 
-    public List<Reservation> getAllResponsibleWaiting(String email) {
+    public List<Reservation> getAllResponsibleReservation(String email) {
         return (List<Reservation>) reservationRepository
                 .findByResponsiblePersonId(userDB.getUserByEmail(email).get().getId());
     }

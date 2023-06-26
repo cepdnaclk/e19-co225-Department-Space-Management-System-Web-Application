@@ -192,8 +192,8 @@ public class ReservationService {
 
         List<ReservationResponse> respons = new ArrayList<>();
 
-        for (Reservation waiting : reservationDB.getAllResponsibleWaiting(email)) {
-            respons.add(reservationToRequest(waiting));
+        for (Reservation reservation : reservationDB.getAllResponsibleReservation(email)) {
+            respons.add(reservationToRequest(reservation));
         }
 
         return respons;
