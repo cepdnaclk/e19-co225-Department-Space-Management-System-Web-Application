@@ -10,13 +10,16 @@ import java.util.List;
 @Service
 public class SpaceService {
 
+    // Declare dependency
     private final SpaceDB spacedata;
 
+    // Constructor injection
     @Autowired
     public SpaceService(SpaceDB spacedata) {
         this.spacedata = spacedata;
     }
 
+    // Get all spaces
     public List<Space> getAllSpaces() {
         return spacedata.getAllSpacess();
     }

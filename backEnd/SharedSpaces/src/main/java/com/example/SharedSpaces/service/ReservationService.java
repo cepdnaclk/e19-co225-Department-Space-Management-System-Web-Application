@@ -20,6 +20,7 @@ import java.util.*;
 @Service
 public class ReservationService {
 
+    // Declare dependencies
     private final ReservationDB reservationDB;
     private final WaitingDB waitingDB;
     private final UserDB userDB;
@@ -28,6 +29,8 @@ public class ReservationService {
     private final SpaceDB spaceDB;
     private final AdminDB adminDB;
 
+
+    // Constructor injection
     @Autowired
     public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB,
             ResponsiblePersonDB responsiblePersonDB, EmailService emailService,
@@ -41,6 +44,7 @@ public class ReservationService {
         this.adminDB = adminDB;
     }
 
+    // Get all reservations
     public List<ReservationResponse> getAllResevations() {
         List<ReservationResponse> reservationResponses = new ArrayList<>();
         List<Reservation> reservations = reservationDB.getAllResevation();
@@ -57,7 +61,7 @@ public class ReservationService {
 
         return reservationResponses;
     }
-
+    // Handle reservation request
     public ReservationResponse hadleReservation(ReservationRequest reservationRequest)
             throws AllReadyReservedException, EmailException, InvalidDataException {
 
