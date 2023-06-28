@@ -19,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Configuration
+// This filter intercepts incoming requests and checks the JWT token for authentication.
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
@@ -39,36 +40,43 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
             @NotNull FilterChain filterChain) throws ServletException, IOException {
 
+        // Allow requests to the /log endpoint.
         if (request.getServletPath().contains("/log")) {
             filterChain.doFilter(request, response);
             return;
         }
-
+        // Check the JWT token for all other requests.
         if (!request.getServletPath().contains("/auth/authenticate")
                 && !request.getServletPath().contains("/auth/refresh-token")) {
             final String authHeader = request.getHeader("Authorization");
             final String jwt;
             final String userEmail;
 
+            // If there is no Authorization header or it does not start with "Bearer ", allow the request.
+
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
             }
+            // Extract the JWT token from the Authorization header.
 
             jwt = authHeader.substring(7);
 
+            // If the JWT token is expired, allow the request.
             if (jwtService.isTokenExpired(jwt)) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
+            // Extract the email from the JWT token.
             userEmail = jwtService.extractUsername(jwt);
 
+            // If the user with the email does not exist, allow the request.
             if(!userDB.getUserByEmail(userEmail).isPresent()){
                 filterChain.doFilter(request, response);
                 return;
             }
-
+            // Authenticate the user.
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
@@ -92,25 +100,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String jwt;
             final String userEmail;
 
+            // If there is no Authorization header or it does not start with "Bearer ", allow the request
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
             }
-
+            // Extract the JWT token from the Authorization header.
             jwt = authHeader.substring(7);
 
+            // If the JWT token is expired, allow the request
             if (jwtService.isTokenExpired(jwt, secretKeyR)) {
                 filterChain.doFilter(request, response);
                 return;
             }
-
+            // Extract the email from the JWT token.
             userEmail = jwtService.extractUsername(jwt, secretKeyR);
 
+            // If the user with the email does not exist, allow the request.
             if(!userDB.getUserByEmail(userEmail).isPresent()){
                 filterChain.doFilter(request, response);
                 return;
             }
 
+            // Authenticate the user.
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
