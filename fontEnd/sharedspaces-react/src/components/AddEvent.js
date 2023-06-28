@@ -3,11 +3,12 @@ import { FiMapPin, FiCheck } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
 import { spaces } from "../data";
-import { getDateInFormat, getTimeString } from "../utils";
+import { getDateInFormat, getTimeString, setTimeFormat } from "../utils";
 import Select from "react-select";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { getAllResponsible } from "../services/responsibleService";
+import { getAllReservation } from "../services/reservationService";
 
 const groupedOptions = [
   {
@@ -67,8 +68,24 @@ const AddEvent = ({ startTimeProp, endTimeProp, spaceId, date }) => {
     setEndTime(event.target.value);
   };
 
-  const isClash = true;
+  const validateReservation = ()=>{
+    const currentTime = new Date.getTime();
+    const startTimeFormatted = setTimeFormat(startTime);
+    const endTimeFormatted = setTimeFormat(endTime);
+
+    if(startTimeFormatted>endTimeFormatted){
+      console.log("Please enter a valid End Time");
+      
+    }
+  }
+
+  const [isClash, setClash] = useState(true);
   const spaceName = spaces.find((s) => s.id === spaceId).name;
+
+  const checkAvailablity = (startTime,endTime) =>{
+    const reservationList = getAllReservation();
+
+  }
   return (
     <div className={styles.addEvent}>
       <form>

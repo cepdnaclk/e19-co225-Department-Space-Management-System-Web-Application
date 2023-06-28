@@ -1,10 +1,6 @@
 import * as React from "react";
 import styles from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import jwt_decode from "jwt-decode";
-import Login from "./Login";
-import Profile from "./Profile";
 import LoginBar from "./LoginBar";
 import { GoogleLogin } from "@react-oauth/google";
 import { getLogging } from "../services/loggingService";
