@@ -10,47 +10,60 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+// The @Service annotation indicates that this class is a Spring service
 @Service
 public class WaitingDB {
 
+    // The WaitingRepository used by this class
     private WaitingRepository waitingRepository;
+
+    // The UserDB used by this class
     private UserDB userDB;
 
+    // Constructor for creating a new WaitingDB object
     @Autowired
     public WaitingDB(WaitingRepository waitingRepository, UserDB userDB) {
         this.waitingRepository = waitingRepository;
         this.userDB = userDB;
     }
 
+    // Returns a List of all Waiting objects in the database
     public List<Waiting> getAllWaiting() {
         return (List<Waiting>) waitingRepository.findAll();
     }
 
+    // Returns a List of all Waiting objects in the database reserved by the user with the provided email
     public List<Waiting> getAllWaiting(String email) {
         return (List<Waiting>) waitingRepository.findByReservedById(userDB.getUserByEmail(email).get().getId());
     }
 
+    // Returns a List of all Waiting objects in the database where the user with the provided email is the responsible person
     public List<Waiting> getAllResponsibleWaiting(String email) {
         return (List<Waiting>) waitingRepository.findByResponsiblePersonId(userDB.getUserByEmail(email).get().getId());
     }
 
+    // Returns an Optional of a Waiting object with the provided id
     public Optional<Waiting> getWaiitingById(Long id) {
         return waitingRepository.findById(id);
     }
 
+    // Creates a new Waiting object in the database and returns the created object
     public Waiting createWaiting(Waiting reservation) {
         return waitingRepository.save(reservation);
     }
 
+    // Updates an existing Waiting object in the database with the provided id and returns the updated object
     public Waiting updateWaiting(Long id, Waiting reservation) {
         reservation.setId(id);
         return waitingRepository.save(reservation);
     }
 
+    // Deletes a Waiting object from the database with the provided id
     public void deleteWaiting(Long id) {
         waitingRepository.deleteById(id);
     }
 
+    // Returns a List of all Waiting objects in the database that match the provided details
     public List<Waiting> getWaitingByDetails(int spaceID, Date startDateTime, Date endDateTime) {
         if (startDateTime == null || endDateTime == null) {
             return null;
@@ -65,20 +78,21 @@ public class WaitingDB {
             if ((waiting.getStartDateTime().compareTo(startDateTime) >= 0
                     && waiting.getStartDateTime().compareTo(endDateTime) < 0)
                     || (waiting.getEndDateTime().compareTo(startDateTime) > 0
-                            && waiting.getEndDateTime().compareTo(endDateTime) <= 0)) {
+                    && waiting.getEndDateTime().compareTo(endDateTime) <= 0)) {
                 waitings.add(waiting);
             }
         }
 
         if (waitings.isEmpty()) {
 
-            // In here, we are returning an empty optional
+            // In here, we are returning null
             return null;
         }
 
         return waitings;
     }
 
+    // Returns a Waiting object in the database that match the provided details and reserved by the user with the provided email
     public Waiting getWaitingByDetails(int spaceID, Date startDateTime, Date endDateTime, String email) {
         if (startDateTime == null || endDateTime == null) {
             return null;
@@ -95,13 +109,14 @@ public class WaitingDB {
 
         if (waitingList == null) {
 
-            // In here, we are returning an empty optional
+            // In here, we are returning null
             return null;
         }
 
         return waitingList;
     }
 
+    // Returns a Waiting object in the database that match the provided details and reserved by the user with the provided id
     public Waiting getWaitingByDetails(int spaceID, Date startDateTime, Date endDateTime, long reserdById) {
         if (startDateTime == null || endDateTime == null) {
             return null;
@@ -113,13 +128,14 @@ public class WaitingDB {
 
         if (waitingList == null) {
 
-            // In here, we are returning an empty optional
+            // In here, we are returning null
             return null;
         }
 
         return waitingList;
     }
 
+    // Deletes all expired reservations from the database
     @Scheduled(cron = "0 0 0 * * ?") // Run every day at midnight
     public void deleteExpiredReservations() {
         Date to = new Date();
@@ -129,3 +145,4 @@ public class WaitingDB {
     }
 
 }
+
