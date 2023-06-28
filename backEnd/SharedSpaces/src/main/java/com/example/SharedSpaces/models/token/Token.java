@@ -6,6 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "token")
+// This class represents an authentication token for a user.
 public class Token {
 
     @Id
@@ -21,6 +22,7 @@ public class Token {
 
     }
 
+    // Constructor that takes a User object, a token string, a token type, and the revocation and expiration statuses of the token
     public Token(User user, String token, TokenType tokenType, boolean revoked, boolean expired) {
         this.user = user;
         this.token = token;

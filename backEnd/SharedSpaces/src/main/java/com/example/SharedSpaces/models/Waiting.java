@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "waiting")
+// This class represents a waiting list entry for a reservation.
 public class Waiting {
 
     @Id
@@ -26,6 +27,7 @@ public class Waiting {
 
     }
 
+    // Constructor that takes a Reservation object and initializes the waiting list entry.
     public Waiting(Reservation reservation) {
         this.spaceID = reservation.getSpaceID();
         this.title = reservation.getTitle();
@@ -39,7 +41,7 @@ public class Waiting {
     }
 
     public Waiting(long id, int spaceID, String title, Date reservationDateTime, Date startDateTime, Date endDateTime,
-            long reservedById, long responsiblePersonId) {
+                   long reservedById, long responsiblePersonId) {
         this.id = id;
         this.spaceID = spaceID;
         this.title = title;

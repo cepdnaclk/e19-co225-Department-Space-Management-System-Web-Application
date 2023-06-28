@@ -7,6 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "spaces")
+// This class represents a shared space that can be reserved by users.
 public class Space {
 
     @Id
@@ -22,6 +23,7 @@ public class Space {
 
     }
 
+    // Constructor that takes the space ID, name, description, capacity, facilities, and image.
     public Space(Long id, String name, String description, int capacity, String facilities, String image) {
         this.id = id;
         this.name = name;
@@ -31,6 +33,7 @@ public class Space {
         this.image = image;
     }
 
+    // Returns a list of facilities available in this space.
     public List<String> getFacilitiesList() {
         List<String> list = new ArrayList<>();
 

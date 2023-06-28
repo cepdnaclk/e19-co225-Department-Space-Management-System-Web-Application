@@ -9,6 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "reservation")
+// This class represents a reservation made by a user for a shared space.
 public class Reservation {
 
     @Id
@@ -27,8 +28,9 @@ public class Reservation {
 
     }
 
+    // Constructor that takes the space ID, reservation title, reservation date and time, start and end times, and user IDs for the user who reserved the space and the responsible person.
     public Reservation(int spaceID, String title, Date reservationDateTime, Date startDateTime, Date endDateTime,
-            long reservedById, long responsiblePersonId) {
+                       long reservedById, long responsiblePersonId) {
         this.spaceID = spaceID;
         this.title = title;
         this.reservationDateTime = reservationDateTime;
@@ -40,6 +42,7 @@ public class Reservation {
         this.date = dateFormat.format(this.startDateTime);
     }
 
+    // Constructor that takes a Waiting object to create a Reservation object.
     public Reservation(Waiting waiting) {
         this.spaceID = waiting.getSpaceID();
         this.title = waiting.getTitle();

@@ -10,6 +10,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
+// This class represents a user of the system.
 public class User implements UserDetails {
 
     @Id
@@ -23,6 +24,7 @@ public class User implements UserDetails {
 
     }
 
+    // Constructor that takes the user's first name, last name, and email address.
     public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -96,6 +98,7 @@ public class User implements UserDetails {
         this.id = id;
     }
 
+    // Returns the full name of the user.
     public String getFullName() {
         return firstName + " " + lastName;
     }
