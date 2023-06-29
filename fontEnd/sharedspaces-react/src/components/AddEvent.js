@@ -18,10 +18,17 @@ const groupedOptions = [
   },
 ];
 
-const AddEvent = ({ startTimeProp, endTimeProp, spaceId, date,  reservationList }) => {
+const AddEvent = ({
+  startTimeProp,
+  endTimeProp,
+  spaceId,
+  date,
+  reservationList,
+}) => {
   const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
   const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
   const [responsible, setResponsible] = useState([]);
+  const [reservations, setReservations] = useState([]);
 
   function mapResponsible() {
     groupedOptions[0].options = responsible
@@ -50,6 +57,10 @@ const AddEvent = ({ startTimeProp, endTimeProp, spaceId, date,  reservationList 
     await getAllResponsible(setResponsible);
   }
 
+  async function getReservation() {
+    await getAllReservation(setReservations);
+  }
+
   useEffect(() => {
     getResponsible();
   }, []);
@@ -67,41 +78,41 @@ const AddEvent = ({ startTimeProp, endTimeProp, spaceId, date,  reservationList 
     setEndTime(event.target.value);
   };
 
-  const validateReservation = (reservationList)=>{
+  const validateReservation = (reservationList) => {
     const currentTime = new Date.getTime();
     const startTimeFormatted = setTimeFormat(startTime);
     const endTimeFormatted = setTimeFormat(endTime);
 
-    if(startTimeFormatted>endTimeFormatted){
+    if (startTimeFormatted > endTimeFormatted) {
       console.log("Please enter a valid End Time");
+    } else {
+      checkAvailablity(startTimeFormatted, endTimeFormatted);
     }
-
-    else{
-      checkAvailablity(startTimeFormatted,endTimeFormatted, reservationList);
-    }
-  }
+  };
 
   const [isClash, setClash] = useState(true);
   const spaceName = spaces.find((s) => s.id === spaceId).name;
 
-  const checkAvailablity = (startTimeFormatted,endTimeFormatted, reservationList) =>{
-    for (let i=0;i<reservationList.length;i++){
-      if(reservationList[i].date = date)
-      {
-        if(((reservationList[i].startTime>startTimeFormatted) &&(reservationList[i].startTime<endTimeFormatted)) || 
-            ((reservationList[i].endTime>startTimeFormatted) &&(reservationList[i].endTime<endTimeFormatted)))
-        {
+  const checkAvailablity = (startTimeFormatted, endTimeFormatted) => {
+    getReservation();
+
+    for (let i = 0; i < reservations.length; i++) {
+      if ((reservationList[i].date = date)) {
+        if (
+          (reservations[i].startTime > startTimeFormatted &&
+            reservations[i].startTime < endTimeFormatted) ||
+          (reservations[i].endTime > startTimeFormatted &&
+            reservations[i].endTime < endTimeFormatted)
+        ) {
           console.log("Slot is not available");
-          setClash(true)
-        }
-        else{
+          setClash(true);
+        } else {
           console.log("Slot is available");
           setClash(false);
         }
       }
     }
-
-  }
+  };
 
   return (
     <div className={styles.addEvent}>
