@@ -37,14 +37,12 @@ export const getTimeString = (time) => {
 };
 
 export const setTimeFormat = (time) => {
-  const date = new Date("January 1,2022 ${time}");
+  const date = new Date(`January 1,2022 ${time}`);
 
   const hour = date.getHours();
   const minutes = date.getMinutes();
 
-  const formattedTime = hour * 100 + minutes;
-
-  return formattedTime;
+  return hour * 100 + minutes;
 };
 
 export const mapTimeStringToInteger = (timeString) => {
