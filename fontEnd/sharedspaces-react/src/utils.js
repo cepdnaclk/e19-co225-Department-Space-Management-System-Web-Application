@@ -36,13 +36,55 @@ export const getTimeString = (time) => {
   );
 };
 
-export const setTimeFormat = (time) =>{
-  const date = new Date('January 1,2022 ${time}');
-  
+export const setTimeFormat = (time) => {
+  const date = new Date("January 1,2022 ${time}");
+
   const hour = date.getHours();
   const minutes = date.getMinutes();
 
-  const formattedTime = hour*100 + minutes;
+  const formattedTime = hour * 100 + minutes;
 
   return formattedTime;
+};
+
+function mapTimeStringToInteger(timeString) {
+  /*
+    >>> "9:00PM"
+    2100
+
+    >>> "9:30AM"
+    2130
+
+    >>> " 10:20 AM "
+    1020
+
+    >>> "12:30 PM"
+    1230
+ 
+ */
+  const timeRegex = /^\s*(\d{1,2}):(\d{2})\s*(am|pm)\s*$/i;
+
+  const match = timeString.match(timeRegex);
+
+  if (!match) {
+    return false;
+  }
+
+  let hour = parseInt(match[1], 10);
+  const minute = parseInt(match[2], 10);
+  const suffix = match[3].toLowerCase();
+
+  if (hour < 1 || hour > 12) {
+    return false;
+  }
+
+  if (minute < 0 || minute > 59) {
+    return false;
+  }
+
+  if (suffix === "pm") {
+    hour += 12;
+  }
+
+  return hour * 100 + minute;
 }

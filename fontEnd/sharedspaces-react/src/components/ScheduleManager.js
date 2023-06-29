@@ -9,7 +9,7 @@ import { getAllReservation } from "../services/reservationService";
 import { getAuthentincate } from "../services/authService";
 
 const SechduleManager = () => {
-  //filter reservations according to the space selected - default - 0
+  //filter reservations according to the space selected - default - 1
   const [reservations, setReservations] = useState([]);
   const [spaceReservations, setSpaceReservations] = useState([]);
   const [spaces, setSpaces] = useState([]);
