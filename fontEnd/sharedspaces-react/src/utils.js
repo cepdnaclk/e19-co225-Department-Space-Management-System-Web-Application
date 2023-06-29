@@ -37,7 +37,6 @@ export const getTimeString = (time) => {
 };
 
 export const setTimeFormat = (time) => {
-  console.log(time);
   const date = new Date(`January 1,2022 ${time}`);
 
   const hour = date.getHours();
