@@ -18,7 +18,7 @@ const SechduleManager = () => {
     await getAllSpaces(setSpaces);
   }
 
-  async function getReservation() {
+  async function getReservations() {
     await getAllReservation(setReservations);
   }
 
@@ -32,7 +32,7 @@ const SechduleManager = () => {
 
   useEffect(() => {
     getSpaces();
-    getReservation();
+    getReservations();
   }, []);
 
   //Available Spaces Selection

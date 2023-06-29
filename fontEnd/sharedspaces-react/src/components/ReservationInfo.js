@@ -41,7 +41,7 @@ const ReservationInfo = ({ reservation, onClick }) => {
         <p className={styles.infoText + " " + styles.resPerson}>
           Responsible Person
         </p>
-        <p className={styles.person}>{reservation.responsibePerson}</p>
+        <p className={styles.person}>{reservation.responsiblePerson}</p>
         <div className={styles.waitingList}>
           <button className={styles.waitingListBtn} onClick={onClick}>
             <FaPlus className={styles.plusIcon} />

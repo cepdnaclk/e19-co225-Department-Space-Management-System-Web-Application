@@ -132,5 +132,6 @@ $today-color: rgb(0, 102, 255);
     color: #fff;
     z-index: 10;
     cursor: pointer;
+    animation: fadeIn 200ms ease-in;
   }
 }
