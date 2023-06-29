@@ -77,12 +77,15 @@
     cursor: pointer;
   }
 
+  .logoutBtn {
+    padding: 0.6em 1em;
+    border-radius: 2em;
+    transition: background-color 100ms ease-in-out;
+  }
   .logoutBtn:hover {
     background-color: rgb(99, 80, 184);
-    width: 5em;
-    height: 2em;
     color: white;
-    border-radius: 1em;
+    border-radius: 2em;
     display: flex;
     justify-content: center;
     align-items: center;

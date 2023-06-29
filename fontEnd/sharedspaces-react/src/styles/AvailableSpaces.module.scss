@@ -31,6 +31,7 @@
     cursor: pointer;
     user-select: none;
     transition: all ease-in-out 200ms;
+    animation: fadeIn 300ms ease-in;
 
     .name {
       font-weight: 500;

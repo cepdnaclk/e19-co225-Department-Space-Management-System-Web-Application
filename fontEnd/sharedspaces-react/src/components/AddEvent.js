@@ -30,6 +30,8 @@ const AddEvent = ({
   const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
   const [responsible, setResponsible] = useState([]);
   const [reservations, setReservations] = useState([]);
+  const [isClash, setClash] = useState(true);
+  const spaceName = spaces.find((s) => s.id === spaceId).name;
 
   function mapResponsible() {
     groupedOptions[0].options = responsible
@@ -96,9 +98,6 @@ const AddEvent = ({
       checkAvailablity(startTimeFormatted, endTimeFormatted);
     }
   };
-
-  const [isClash, setClash] = useState(true);
-  const spaceName = spaces.find((s) => s.id === spaceId).name;
 
   const checkAvailablity = (startTimeFormatted, endTimeFormatted) => {
     getReservation();
