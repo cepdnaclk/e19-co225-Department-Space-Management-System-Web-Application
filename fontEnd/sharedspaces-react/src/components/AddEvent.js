@@ -2,7 +2,6 @@ import styles from "../styles/AddEvent.module.scss";
 import { FiMapPin, FiCheck } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
-import { reservations, spaces } from "../data";
 import {
   getDateInFormat,
   getTimeString,
@@ -13,7 +12,7 @@ import Select from "react-select";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { getAllResponsible } from "../services/responsibleService";
-import { getAllReservation } from "../services/reservationService";
+import { reservations } from "../data";
 
 const groupedOptions = [
   {
@@ -99,23 +98,19 @@ const AddEvent = ({
   };
 
   const checkAvailablity = (startTimeFormatted, endTimeFormatted) => {
-    for (let i = 0; i < spaceReservations.length; i++) {
-      if (spaceReservations[i].filter) {
-        if (
-          (spaceReservations[i].startTime > startTimeFormatted &&
-            spaceReservations[i].startTime < endTimeFormatted) ||
-          (spaceReservations[i].endTime > startTimeFormatted &&
-            spaceReservations[i].endTime < endTimeFormatted)
-        ) {
+    const dayReservations = spaceReservations.filter((reservation) => reservation.date === date)
+        if ( dayReservations.filter((reservation) => (reservation.startTime > startTimeFormatted &&
+        reservation.startTime < endTimeFormatted) ||
+      (reservation.endTime > startTimeFormatted &&
+        reservation.endTime < endTimeFormatted)))    
+         {
           console.log("Slot is not available");
           setClash(true);
         } else {
           console.log("Slot is available");
           setClash(false);
         }
-      }
-    }
-  };
+      };
 
   return (
     <div className={styles.addEvent}>
