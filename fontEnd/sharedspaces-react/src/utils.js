@@ -42,7 +42,7 @@ export const setTimeFormat = (time) => {
   const hour = date.getHours();
   const minutes = date.getMinutes();
 
-  return formattedTime = hour * 100 + minutes;
+  return hour * 100 + minutes;
 };
 
 export const mapTimeStringToInteger = (timeString) => {
