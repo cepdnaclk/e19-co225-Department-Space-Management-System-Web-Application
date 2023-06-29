@@ -115,7 +115,7 @@ const HomePage = () => {
             capacity={capacity}
             setCapacity={setCapacity}
             selectedFacilities={selectedFacilities}
-            setSelectedFacilities={selectedFacilities}
+            setSelectedFacilities={setSelectedFacilities}
           />
         )}
         {isDaySelector && (

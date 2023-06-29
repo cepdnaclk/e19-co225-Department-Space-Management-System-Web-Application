@@ -36,6 +36,7 @@ const SechduleManager = ({
     }
   }, [reservations]);
 
+  //whenever the capacity change, change the displayed spaces using the filteredSpaces state
   useEffect(() => {
     if (allSpaces.length !== 0) {
       setFilteredSpaces(
@@ -47,13 +48,23 @@ const SechduleManager = ({
     }
   }, [allSpaces, capacity]);
 
+  //This is for special cases, if the already selected space if filtered out
+  //or if there are no matching spaces available
   useEffect(() => {
     if (filteredSpaces.length !== 0) {
       setSelectSpace(filteredSpaces[0].id);
       setSelectSpaceName(filteredSpaces[0].name);
+      setSpaceReservations(
+        reservations.filter(
+          (reservation) => reservation.spaceId === selectSpace
+        )
+      );
+    } else if (filteredSpaces.length === 0) {
+      setSpaceReservations([]);
     }
   }, [filteredSpaces]);
 
+  //initially fetching the data
   useEffect(() => {
     getSpaces();
     getReservations();
