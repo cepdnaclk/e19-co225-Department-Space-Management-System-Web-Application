@@ -58,8 +58,8 @@ const SechduleManager = () => {
       />
       <Calendar
         selectSpace={selectSpace}
+        selectSpaceName={spaces.find((s) => s.id === selectSpace).name || " "}
         spaceReservations={spaceReservations}
-        reservationList={reservations}
       />
     </div>
   );

@@ -3,7 +3,12 @@ import { FiMapPin, FiCheck } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
 import { spaces } from "../data";
-import { getDateInFormat, getTimeString, setTimeFormat, mapTimeStringToInteger} from "../utils";
+import {
+  getDateInFormat,
+  getTimeString,
+  setTimeFormat,
+  mapTimeStringToInteger,
+} from "../utils";
 import Select from "react-select";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
@@ -25,13 +30,13 @@ const AddEvent = ({
   spaceId,
   date,
   reservationList,
+  spaceName,
 }) => {
   const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
   const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
   const [responsible, setResponsible] = useState([]);
   const [reservations, setReservations] = useState([]);
   const [isClash, setClash] = useState(true);
-  const spaceName = spaces.find((s) => s.id === spaceId).name;
 
   function mapResponsible() {
     groupedOptions[0].options = responsible
@@ -76,14 +81,15 @@ const AddEvent = ({
 
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
-    if(mapTimeStringToInteger(event.target.value))
-    {validateReservation(reservations);}
+    if (mapTimeStringToInteger(event.target.value)) {
+      validateReservation(reservations);
+    }
   };
 
   const handleEndTimeChange = (event) => {
     setEndTime(event.target.value);
-    if(mapTimeStringToInteger(event.target.value))
-    {validateReservation(reservations);
+    if (mapTimeStringToInteger(event.target.value)) {
+      validateReservation(reservations);
     }
   };
 
