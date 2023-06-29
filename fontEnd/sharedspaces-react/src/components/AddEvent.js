@@ -68,7 +68,7 @@ const AddEvent = ({ startTimeProp, endTimeProp, spaceId, date }) => {
     setEndTime(event.target.value);
   };
 
-  const validateReservation = ()=>{
+  const validateReservation = (reservationList)=>{
     const currentTime = new Date.getTime();
     const startTimeFormatted = setTimeFormat(startTime);
     const endTimeFormatted = setTimeFormat(endTime);
@@ -78,15 +78,14 @@ const AddEvent = ({ startTimeProp, endTimeProp, spaceId, date }) => {
     }
 
     else{
-      checkAvailablity(startTimeFormatted,endTimeFormatted);
+      checkAvailablity(startTimeFormatted,endTimeFormatted, reservationList);
     }
   }
 
   const [isClash, setClash] = useState(true);
   const spaceName = spaces.find((s) => s.id === spaceId).name;
 
-  const checkAvailablity = (startTimeFormatted,endTimeFormatted) =>{
-    const reservationList = getAllReservation();
+  const checkAvailablity = (startTimeFormatted,endTimeFormatted, reservationList) =>{
     for (let i=0;i<reservationList.length;i++){
       if(reservationList[i].date = date)
       {
