@@ -86,20 +86,20 @@ const AddEvent = ({
     }
   };
 
-  const validateReservation = (reservationList) => {
+  const validateReservation = (spaceReservations) => {
     const startTimeFormatted = setTimeFormat(startTime);
     const endTimeFormatted = setTimeFormat(endTime);
 
     if (startTimeFormatted > endTimeFormatted) {
       console.log("Please enter a valid End Time");
     } else {
-      checkAvailablity(startTimeFormatted, endTimeFormatted);
+      checkAvailablity(startTimeFormatted, endTimeFormatted, spaceReservations);
     }
   };
 
-  const checkAvailablity = (startTimeFormatted, endTimeFormatted) => {
+  const checkAvailablity = (startTimeFormatted, endTimeFormatted, spaceReservations) => {
     const dayReservations = spaceReservations.filter((reservation) => reservation.date === date)
-        if ( dayReservations.filter((reservation) => (reservation.startTime > startTimeFormatted &&
+        if( dayReservations.filter((reservation) => (reservation.startTime > startTimeFormatted &&
         reservation.startTime < endTimeFormatted) ||
       (reservation.endTime > startTimeFormatted &&
         reservation.endTime < endTimeFormatted)))    
