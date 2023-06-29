@@ -3,7 +3,7 @@ import { FiMapPin, FiCheck } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
 import { spaces } from "../data";
-import { getDateInFormat, getTimeString, setTimeFormat } from "../utils";
+import { getDateInFormat, getTimeString, setTimeFormat, mapTimeStringToInteger} from "../utils";
 import Select from "react-select";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
@@ -73,13 +73,15 @@ const AddEvent = ({
 
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
-    if(event.target.value)
-    validateReservation(reservations);
+    if(mapTimeStringToInteger(event.target.value))
+    {validateReservation(reservations);}
   };
 
   const handleEndTimeChange = (event) => {
     setEndTime(event.target.value);
-    validateReservation(reservations);
+    if(mapTimeStringToInteger(event.target.value))
+    {validateReservation(reservations);
+    }
   };
 
   const validateReservation = (reservationList) => {
