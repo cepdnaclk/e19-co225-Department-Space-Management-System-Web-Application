@@ -39,7 +39,7 @@ function ReservationTable({ reservations, isActionable, isAcceptable }) {
                         onClick={() => console.log("Cancel clicked")}
                       >
                         <MdCheck />
-                        Accept
+                        Confirm
                       </button>
                     )}
 

@@ -76,7 +76,7 @@ const HomePage = () => {
             id="actionBtn"
           >
             <FiMapPin />
-            Any Space
+            Select Space
           </button>
           <button
             className={styles.actionBtn}
@@ -90,7 +90,7 @@ const HomePage = () => {
             id="actionBtn"
           >
             <LuCalendarDays />
-            Any Day
+            Select Days
           </button>
           <button
             className={styles.actionBtn}
@@ -103,7 +103,7 @@ const HomePage = () => {
             id="actionBtn"
           >
             <FaRegClock />
-            Any Time
+            Select Time
           </button>
         </div>
       </Hero>

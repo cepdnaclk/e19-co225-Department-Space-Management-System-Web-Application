@@ -28,6 +28,13 @@
     padding: 1em 2em;
     transition: all 200ms ease-in-out;
 
+    &:first-child {
+      border-right: 1px solid hsl(0, 0%, 90%);
+    }
+
+    &:last-child {
+      border-left: 1px solid hsl(0, 0%, 90%);
+    }
     &:hover,
     &:focus {
       background-color: $accentColor;
