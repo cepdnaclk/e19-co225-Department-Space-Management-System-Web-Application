@@ -29,14 +29,15 @@ const AddEvent = ({
   endTimeProp,
   spaceId,
   date,
-  reservationList,
+  spaceReservations,
   spaceName,
 }) => {
   const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
   const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
   const [responsible, setResponsible] = useState([]);
   const [reservations, setReservations] = useState([]);
-  const [isClash, setClash] = useState(true);
+  const [isClash, setClash] = useState(false);
+  const spaceName = spaces.find((s) => s.id === spaceId).name;
 
   function mapResponsible() {
     groupedOptions[0].options = responsible
@@ -94,7 +95,6 @@ const AddEvent = ({
   };
 
   const validateReservation = (reservationList) => {
-    const currentTime = new Date.getTime();
     const startTimeFormatted = setTimeFormat(startTime);
     const endTimeFormatted = setTimeFormat(endTime);
 
@@ -109,7 +109,7 @@ const AddEvent = ({
     getReservation();
 
     for (let i = 0; i < reservations.length; i++) {
-      if ((reservationList[i].date = date)) {
+      if (reservations[i].filter) {
         if (
           (reservations[i].startTime > startTimeFormatted &&
             reservations[i].startTime < endTimeFormatted) ||
@@ -149,14 +149,14 @@ const AddEvent = ({
             <input
               type="text"
               value={startTime}
-              onChange={[handleStartTimeChange]}
+              onChange={handleStartTimeChange}
               className={styles.time}
             />{" "}
             -
             <input
               type="text"
               value={endTime}
-              onChange={[handleEndTimeChange]}
+              onChange={handleEndTimeChange}
               className={styles.time}
             />
           </p>
