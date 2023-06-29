@@ -73,10 +73,13 @@ const AddEvent = ({
 
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
+    if(event.target.value)
+    validateReservation(reservations);
   };
 
   const handleEndTimeChange = (event) => {
     setEndTime(event.target.value);
+    validateReservation(reservations);
   };
 
   const validateReservation = (reservationList) => {
@@ -138,14 +141,14 @@ const AddEvent = ({
             <input
               type="text"
               value={startTime}
-              onChange={handleStartTimeChange}
+              onChange={[handleStartTimeChange]}
               className={styles.time}
             />{" "}
             -
             <input
               type="text"
               value={endTime}
-              onChange={handleEndTimeChange}
+              onChange={[handleEndTimeChange]}
               className={styles.time}
             />
           </p>
