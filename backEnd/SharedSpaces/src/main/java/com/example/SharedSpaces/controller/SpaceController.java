@@ -3,7 +3,6 @@ package com.example.SharedSpaces.controller;
 import com.example.SharedSpaces.models.Space;
 import com.example.SharedSpaces.service.SpaceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,24 +20,8 @@ public class SpaceController {
     }
 
     @GetMapping
-    public List<Space> getAllSpaces(){
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
+    public List<Space> getAllSpaces() {
         return spaceservices.getAllSpaces();
     }
-
-//    @PostMapping
-//    public void addSpace(){
-//
-//    }
-//
-//    @PutMapping(path = "{spaceId}")
-//    public void updateSopace(){
-//
-//    }
-//
-//    @DeleteMapping(path = "{spaceId}")
-//    public  void deleteSpace(){
-//
-//    }
 
 }

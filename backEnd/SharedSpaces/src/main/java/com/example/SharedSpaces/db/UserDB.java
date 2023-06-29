@@ -11,11 +11,10 @@ import java.util.Optional;
 @Service
 public class UserDB {
 
-
     private UserRepository userRepository;
 
     @Autowired
-    public UserDB(UserRepository userRepository){
+    public UserDB(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -27,27 +26,26 @@ public class UserDB {
         return userRepository.findById(id);
     }
 
-    public String getUserFullName(long id){
+    public String getUserFullName(long id) {
         User user = getUserById(id).get();
         return user.getFirstName() + user.getLastName();
     }
 
     public Optional<User> getUserByEmail(String email) {
-    if (email == null) {
-        return Optional.empty();
+        if (email == null) {
+            return Optional.empty();
+        }
+
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+
+        if (!optionalUser.isPresent()) {
+
+            // In here, we are returning an empty optional
+            return Optional.empty();
+        }
+
+        return optionalUser;
     }
-
-    Optional<User> optionalUser = userRepository.findByEmail(email);
-
-    if (!optionalUser.isPresent()) {
-
-        // In here, we are returning an empty optional
-        return Optional.empty();
-    }
-
-    return optionalUser;
-}
-
 
     public User createUser(User user) {
         return userRepository.save(user);
@@ -62,6 +60,4 @@ public class UserDB {
         userRepository.deleteById(id);
     }
 
-
 }
-

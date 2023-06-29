@@ -13,11 +13,11 @@ public class ResponsiblePersonService {
     private final ResponsiblePersonDB responsiblePersonDB;
 
     @Autowired
-    public ResponsiblePersonService( ResponsiblePersonDB responsiblePersonDB){
+    public ResponsiblePersonService(ResponsiblePersonDB responsiblePersonDB) {
         this.responsiblePersonDB = responsiblePersonDB;
     }
 
-    public List<ResponsiblePerson> getAllResponsiblePersons(){
+    public List<ResponsiblePerson> getAllResponsiblePersons() {
         return responsiblePersonDB.getAllResponsiblePersons();
     }
 

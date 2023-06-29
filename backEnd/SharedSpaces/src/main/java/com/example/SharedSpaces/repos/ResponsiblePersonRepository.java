@@ -5,10 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-
 public interface ResponsiblePersonRepository extends CrudRepository<ResponsiblePerson, Long> {
     Optional<ResponsiblePerson> findByEmail(String email);
 
-
 }
-

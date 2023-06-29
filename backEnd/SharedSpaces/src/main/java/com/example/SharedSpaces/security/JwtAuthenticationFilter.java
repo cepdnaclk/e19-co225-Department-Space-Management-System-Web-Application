@@ -1,12 +1,13 @@
 package com.example.SharedSpaces.security;
 
+import com.example.SharedSpaces.db.UserDB;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,12 +23,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private String secretKeyR = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9ansjv";
+    private  final UserDB userDB;
+
+    @Value("${secret.key.r}")
+    private String secretKeyR;
 
     @Autowired
-    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService, UserDB userDB) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.userDB = userDB;
     }
 
     @Override
@@ -39,7 +44,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        if(!request.getServletPath().contains("/auth/authenticate") && !request.getServletPath().contains("/auth/refresh-token")) {
+        if (!request.getServletPath().contains("/auth/authenticate")
+                && !request.getServletPath().contains("/auth/refresh-token")) {
             final String authHeader = request.getHeader("Authorization");
             final String jwt;
             final String userEmail;
@@ -51,16 +57,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             jwt = authHeader.substring(7);
 
-            System.out.println(jwt);
-
             if (jwtService.isTokenExpired(jwt)) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
-            System.out.println(jwt);
-
             userEmail = jwtService.extractUsername(jwt);
+
+            if(!userDB.getUserByEmail(userEmail).isPresent()){
+                filterChain.doFilter(request, response);
+                return;
+            }
 
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
@@ -80,7 +87,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
-        } else{
+        } else {
             final String authHeader = request.getHeader("Authorization");
             final String jwt;
             final String userEmail;
@@ -92,14 +99,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             jwt = authHeader.substring(7);
 
-
-
             if (jwtService.isTokenExpired(jwt, secretKeyR)) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
             userEmail = jwtService.extractUsername(jwt, secretKeyR);
+
+            if(!userDB.getUserByEmail(userEmail).isPresent()){
+                filterChain.doFilter(request, response);
+                return;
+            }
 
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 

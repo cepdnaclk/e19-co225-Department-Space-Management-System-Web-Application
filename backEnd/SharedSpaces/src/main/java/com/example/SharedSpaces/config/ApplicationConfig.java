@@ -12,7 +12,7 @@ public class ApplicationConfig {
     private final UserDB userDB;
 
     @Autowired
-    public ApplicationConfig(UserDB userDB){
+    public ApplicationConfig(UserDB userDB) {
         this.userDB = userDB;
     }
 

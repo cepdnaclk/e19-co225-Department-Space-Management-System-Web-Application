@@ -4,28 +4,26 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String firstName;
     private String lastName;
     private String email;
 
-    public User(){
+    public User() {
 
     }
 
-    public User(String firstName, String lastName, String email){
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -98,6 +96,10 @@ public class User implements UserDetails {
         this.id = id;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -110,10 +112,13 @@ public class User implements UserDetails {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName)
+                && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email);
     }
 
     @Override
@@ -121,9 +126,4 @@ public class User implements UserDetails {
         return Objects.hash(id, firstName, lastName, email);
     }
 
-    public String getFullName(){
-        return firstName + lastName;
-    }
 }
-
-

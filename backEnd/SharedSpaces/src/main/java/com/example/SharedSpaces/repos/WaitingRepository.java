@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface WaitingRepository extends CrudRepository<Waiting, Long> {
@@ -15,9 +14,12 @@ public interface WaitingRepository extends CrudRepository<Waiting, Long> {
     List<Waiting> findBySpaceIDAndDate(int spaceID, String date);
 
     Waiting findBySpaceIDAndDateAndReservedById(int spaceID, String date, long reservedById);
+
     Waiting findBySpaceIDAndDateAndResponsiblePersonId(int spaceID, String date, long responsiblePersonId);
 
     List<Waiting> findByReservedById(long id);
+
+    List<Waiting> findByReservationDateTimeBefore(Date reservationDateTime);
 
     List<Waiting> findByResponsiblePersonId(long id);
 }
