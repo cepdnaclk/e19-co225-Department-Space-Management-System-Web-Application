@@ -49,6 +49,18 @@ const SechduleManager = () => {
     }
   };
 
+  //pass down the space name to the addEvent prop
+  const [selectSpaceName, setSelectSpaceName] = useState(" ");
+  useEffect(() => {
+    try {
+      setSelectSpaceName(spaces.find((s) => s.id === selectSpace).name);
+    } catch (error) {
+      //pass
+      //When it first renders, there won't be any spaces.
+      //so spaces.find will return nothing.
+    }
+  }, [spaces, selectSpace]);
+
   return (
     <div className={styles.container}>
       <AvailableSpaces
@@ -58,7 +70,7 @@ const SechduleManager = () => {
       />
       <Calendar
         selectSpace={selectSpace}
-        selectSpaceName={"DUMMY"}
+        selectSpaceName={selectSpaceName}
         spaceReservations={spaceReservations}
       />
     </div>
