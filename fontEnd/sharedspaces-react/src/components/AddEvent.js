@@ -2,7 +2,7 @@ import styles from "../styles/AddEvent.module.scss";
 import { FiMapPin, FiCheck } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
-import { spaces } from "../data";
+import { reservations, spaces } from "../data";
 import {
   getDateInFormat,
   getTimeString,
@@ -34,7 +34,6 @@ const AddEvent = ({
   const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
   const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
   const [responsible, setResponsible] = useState([]);
-  const [reservations, setReservations] = useState([]);
   const [isClash, setClash] = useState(false);
   const spaceName = spaces.find((s) => s.id === spaceId).name;
 
@@ -65,10 +64,6 @@ const AddEvent = ({
     await getAllResponsible(setResponsible);
   }
 
-  async function getReservation() {
-    await getAllReservation(setReservations);
-  }
-
   useEffect(() => {
     getResponsible();
     getReservation();
@@ -82,14 +77,14 @@ const AddEvent = ({
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
     if (mapTimeStringToInteger(event.target.value)) {
-      validateReservation(reservations);
+      validateReservation(spaceReservations);
     }
   };
 
   const handleEndTimeChange = (event) => {
     setEndTime(event.target.value);
     if (mapTimeStringToInteger(event.target.value)) {
-      validateReservation(reservations);
+      validateReservation(spaceReservations);
     }
   };
 
@@ -105,15 +100,14 @@ const AddEvent = ({
   };
 
   const checkAvailablity = (startTimeFormatted, endTimeFormatted) => {
-    getReservation();
 
-    for (let i = 0; i < reservations.length; i++) {
-      if (reservations[i].filter) {
+    for (let i = 0; i < spaceReservations.length; i++) {
+      if (spaceReservations[i].filter) {
         if (
-          (reservations[i].startTime > startTimeFormatted &&
-            reservations[i].startTime < endTimeFormatted) ||
-          (reservations[i].endTime > startTimeFormatted &&
-            reservations[i].endTime < endTimeFormatted)
+          (spaceReservations[i].startTime > startTimeFormatted &&
+            spaceReservations[i].startTime < endTimeFormatted) ||
+          (spaceReservations[i].endTime > startTimeFormatted &&
+            spaceReservations[i].endTime < endTimeFormatted)
         ) {
           console.log("Slot is not available");
           setClash(true);
