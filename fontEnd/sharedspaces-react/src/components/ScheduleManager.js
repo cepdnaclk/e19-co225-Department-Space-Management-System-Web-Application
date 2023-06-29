@@ -8,14 +8,20 @@ import { getAllResponsible } from "../services/responsibleService";
 import { getAllReservation } from "../services/reservationService";
 import { getAuthentincate } from "../services/authService";
 
-const SechduleManager = ({ selectedDays, startTime, endTime }) => {
+const SechduleManager = ({
+  selectedDays,
+  startTime,
+  endTime,
+  capacity,
+  selectedFacilities,
+}) => {
   //filter reservations according to the space selected - default - 1
   const [reservations, setReservations] = useState([]);
   const [spaceReservations, setSpaceReservations] = useState([]);
-  const [spaces, setSpaces] = useState([]);
-
+  const [allSpaces, setAllSpaces] = useState([]);
+  const [filteredSpaces, setFilteredSpaces] = useState([]);
   async function getSpaces() {
-    await getAllSpaces(setSpaces);
+    await getAllSpaces(setAllSpaces);
   }
 
   async function getReservations() {
@@ -23,12 +29,30 @@ const SechduleManager = ({ selectedDays, startTime, endTime }) => {
   }
 
   useEffect(() => {
-    if (reservations !== []) {
+    if (reservations.length !== 0) {
       setSpaceReservations(
         reservations.filter((reservation) => reservation.spaceId === 1)
       );
     }
   }, [reservations]);
+
+  useEffect(() => {
+    if (allSpaces.length !== 0) {
+      setFilteredSpaces(
+        allSpaces.filter(
+          (space) =>
+            space.capacity <= capacity[1] && space.capacity >= capacity[0]
+        )
+      );
+    }
+  }, [allSpaces, capacity]);
+
+  useEffect(() => {
+    if (filteredSpaces.length !== 0) {
+      setSelectSpace(filteredSpaces[0].id);
+      setSelectSpaceName(filteredSpaces[0].name);
+    }
+  }, [filteredSpaces]);
 
   useEffect(() => {
     getSpaces();
@@ -53,18 +77,23 @@ const SechduleManager = ({ selectedDays, startTime, endTime }) => {
   const [selectSpaceName, setSelectSpaceName] = useState(" ");
   useEffect(() => {
     try {
-      setSelectSpaceName(spaces.find((s) => s.id === selectSpace).name);
+      setSelectSpaceName(allSpaces.find((s) => s.id === selectSpace).name);
+      setSpaceReservations(
+        reservations.filter(
+          (reservation) => reservation.spaceId === selectSpace
+        )
+      );
     } catch (error) {
       //pass
       //When it first renders, there won't be any spaces.
       //so spaces.find will return nothing.
     }
-  }, [spaces, selectSpace]);
+  }, [selectSpace]);
 
   return (
     <div className={styles.container}>
       <AvailableSpaces
-        availableSpaces={spaces}
+        availableSpaces={filteredSpaces}
         handleClick={handleSpaceClick}
         select={selectSpace}
       />

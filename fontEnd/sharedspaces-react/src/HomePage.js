@@ -8,6 +8,16 @@ import { useRef, useState, useEffect } from "react";
 import classNames from "classnames";
 import Slider from "@mui/material/Slider";
 import TimeSelector from "./components/TimeSelector";
+
+const facilitiesOptions = [
+  "AC",
+  "Smart Board",
+  "Computers",
+  "Projector",
+  "Electronic Equipment",
+  "Robotics",
+];
+
 const HomePage = () => {
   //states to open and close the menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,11 +45,18 @@ const HomePage = () => {
 
   //action parameters
 
-  // Initialize selectedDays state with array of indices
+  // Initialize selectedDays state with array of indices //DaySelector
   const [selectedDays, setSelectedDays] = useState([1, 2, 3, 4, 5]);
 
+  //TimeSelector
   const [startTime, setStartTime] = useState(8); // State for startTime
-  const [endTime, setEndTime] = useState(9); // State for endTime
+  const [endTime, setEndTime] = useState(17); // State for endTime
+
+  //SpaceSelector
+  const [capacity, setCapacity] = useState([0, 120]);
+  const [selectedFacilities, setSelectedFacilities] =
+    useState(facilitiesOptions);
+
   return (
     <div>
       <Hero
@@ -93,7 +110,14 @@ const HomePage = () => {
         className={classNames(styles.menu, isMenuOpen && styles.active)}
         ref={menuRef}
       >
-        {isSpaceSelector && <SpaceSelector />}
+        {isSpaceSelector && (
+          <SpaceSelector
+            capacity={capacity}
+            setCapacity={setCapacity}
+            selectedFacilities={selectedFacilities}
+            setSelectedFacilities={selectedFacilities}
+          />
+        )}
         {isDaySelector && (
           <DaySelector
             selectedDays={selectedDays}
@@ -113,6 +137,8 @@ const HomePage = () => {
         selectedDays={selectedDays}
         startTime={startTime}
         endTime={endTime}
+        capacity={capacity}
+        selectedFacilities={selectedFacilities}
       />
     </div>
   );
@@ -163,19 +189,12 @@ const DaySelector = ({ selectedDays, setSelectedDays }) => {
   );
 };
 
-const SpaceSelector = ({}) => {
-  const facilitiesOptions = [
-    "AC",
-    "Smart Board",
-    "Computers",
-    "Projector",
-    "Electronic Equipment",
-    "Robotics",
-  ];
-  const [capacity, setCapacity] = useState([15, 40]);
-  const [selectedFacilities, setSelectedFacilities] =
-    useState(facilitiesOptions);
-
+const SpaceSelector = ({
+  capacity,
+  setCapacity,
+  selectedFacilities,
+  setSelectedFacilities,
+}) => {
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     if (selectedFacilities.includes(value)) {
@@ -192,8 +211,8 @@ const SpaceSelector = ({}) => {
       label: 0,
     },
     {
-      value: 100,
-      label: 100,
+      value: 120,
+      label: 120,
     },
   ];
 
@@ -207,6 +226,8 @@ const SpaceSelector = ({}) => {
             onChange={(e, newValue) => setCapacity(newValue)}
             valueLabelDisplay="auto"
             marks={marks}
+            min={0}
+            max={120}
           />
         </div>
       </div>
