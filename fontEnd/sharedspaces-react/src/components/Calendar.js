@@ -6,7 +6,7 @@ import Modal from "./Modal";
 import AddEvent from "./AddEvent";
 import ReservationInfo from "./ReservationInfo";
 import { reservations } from "../data";
-const Calendar = ({ selectSpace, spaceReservations, reservationList }) => {
+const Calendar = ({ selectSpace, spaceReservations }) => {
   /*
     The Main Calendar Component
     Includes the dates, slots, reservations and the left and right controllers
@@ -176,7 +176,6 @@ const Calendar = ({ selectSpace, spaceReservations, reservationList }) => {
             endTimeProp={addEventEndTime}
             spaceId={selectSpace}
             date={clickedDate}
-            reservationList={reservationList}
           />
         ) : (
           <ReservationInfo
