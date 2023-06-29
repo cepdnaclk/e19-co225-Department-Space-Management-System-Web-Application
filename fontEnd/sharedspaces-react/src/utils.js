@@ -47,7 +47,7 @@ export const setTimeFormat = (time) => {
   return formattedTime;
 };
 
-function mapTimeStringToInteger(timeString) {
+export const mapTimeStringToInteger = (timeString) => {
   /*
     >>> "9:00PM"
     2100

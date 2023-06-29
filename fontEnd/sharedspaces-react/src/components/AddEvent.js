@@ -64,6 +64,7 @@ const AddEvent = ({
 
   useEffect(() => {
     getResponsible();
+    getReservation();
   }, []);
 
   useEffect(() => {
