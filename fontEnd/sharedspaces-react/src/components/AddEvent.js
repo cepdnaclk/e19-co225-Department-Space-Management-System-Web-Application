@@ -30,7 +30,6 @@ const AddEvent = ({
   spaceId,
   date,
   spaceReservations,
-  spaceName,
 }) => {
   const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
   const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
