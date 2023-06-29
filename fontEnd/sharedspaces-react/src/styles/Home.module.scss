@@ -1,0 +1,52 @@
+.actionBar {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 2em;
+  background-color: white;
+  border: 0.1em white solid;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 5em;
+  overflow: hidden;
+  user-select: none;
+  box-shadow: 0px 13px 20px -9px rgba(13, 20, 97, 0.215);
+  position: relative;
+
+  .actionBtn {
+    color: hsl(0, 0%, 20%);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.6em;
+    padding: 1em 2em;
+    transition: all 200ms ease-in-out;
+
+    &:hover,
+    &:focus {
+      background-color: rgb(42, 42, 42);
+      color: white;
+      box-shadow: 0px 200px 20px -9px rgba(13, 20, 97, 0.215);
+    }
+  }
+}
+
+.menu {
+  position: absolute;
+  top: 85%;
+  height: 10em;
+  width: 50dvw;
+  outline: 1px solid black;
+  border-radius: 1em;
+  z-index: 100;
+  border: 0.1em white solid;
+  background-color: hsl(0, 0%, 98%);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 100ms ease-in-out;
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
