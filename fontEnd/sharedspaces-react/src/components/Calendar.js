@@ -54,7 +54,7 @@ const Calendar = ({
       The maximum possible dates span in a range of 60 days. +30 from current date
     */
     const newDate = new Date(firstDate);
-
+    console.log(newDate);
     //if SelectedDays are not weekdays then add 5 to current first date dateList[0]
     if (selectedDays.length > 5) newDate.setDate(newDate.getDate() + 5);
     //if selectedDats are the weekdats then, increment by a week.
@@ -69,14 +69,14 @@ const Calendar = ({
     /*
       handles the click event of the Left Controller
     */
-    const newDate = new Date(firstDate);
-
+    const newDate = new Date(firstMonday);
+    console.log(newDate, Math.round((new Date() - newDate) / 86400000));
     //Similar to right controller
     if (selectedDays.length > 5) newDate.setDate(newDate.getDate() - 5);
     else newDate.setDate(newDate.getDate() - 7);
 
     //only allow navigating upto -30 days from today
-    if (Math.round((new Date() - newDate) / 86400000) < 30)
+    if (Math.round((new Date() - newDate) / 86400000) < 35)
       setFirstDate(newDate);
   };
 

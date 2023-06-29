@@ -4,7 +4,7 @@
   grid-template-columns: 1fr 4fr;
   gap: 2em;
   background-color: $bgcolor;
-  padding: 2em 6dvw; // or margin?
+  padding: 0em 6dvw 2em 6dvw; // or margin?
   height: auto;
   animation: fadeIn 600ms;
 }
