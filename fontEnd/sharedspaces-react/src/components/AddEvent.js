@@ -1,7 +1,8 @@
 import styles from "../styles/AddEvent.module.scss";
-import { FiMapPin, FiCheck } from "react-icons/fi";
+import { FiMapPin, FiCheck, FiCheckCircle } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
+import { MdPlaylistAddCheckCircle } from "react-icons/md";
 import {
   getDateInFormat,
   getTimeString,
@@ -34,7 +35,7 @@ const AddEvent = ({
   const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
   const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
   const [responsible, setResponsible] = useState([]);
-  const [isClash, setClash] = useState(false);
+  const [isClash, setClash] = useState(true);
 
   function mapResponsible() {
     groupedOptions[0].options = responsible
@@ -122,6 +123,25 @@ const AddEvent = ({
     }
   };
 
+  //hadnling submit click, on submit click show feedback
+  const [showFeedbackSuccess, setShowFeedbackSuccess] = useState(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setShowFeedbackSuccess(true);
+  };
+
+  useEffect(() => {
+    setShowFeedbackSuccess(false);
+    setShowFeedbackWaiting(false);
+  }, [startTimeProp, endTimeProp, spaceId, date]);
+
+  //handling submit waiting list click, on submit show feedback
+  const [showFeedbackWaiting, setShowFeedbackWaiting] = useState(false);
+  const handleWaiting = (e) => {
+    e.preventDefault();
+    setShowFeedbackWaiting(true);
+  };
+
   return (
     <div className={styles.addEvent}>
       <form>
@@ -164,6 +184,7 @@ const AddEvent = ({
           <button
             type="submit"
             className={classNames(styles.submitBtn, styles.addWaitingListBtn)}
+            onClick={handleWaiting}
           >
             <FaPlus />
             Add to Waiting List
@@ -172,12 +193,34 @@ const AddEvent = ({
           <button
             type="submit"
             className={classNames(styles.submitBtn, styles.confirmBtn)}
+            onClick={handleSubmit}
           >
             <FiCheck className={styles.checkIcon} />
             Confirm Reservation
           </button>
         )}
       </form>
+
+      <div
+        className={classNames(
+          styles.feedbackContainer,
+          showFeedbackSuccess && styles.show
+        )}
+      >
+        <FiCheckCircle className={styles.feedbackIcon} />
+        <p>Reservation Added Successfully!</p>
+      </div>
+
+      <div
+        className={classNames(
+          styles.feedbackContainer,
+          styles.feedbackWaiting,
+          showFeedbackWaiting && styles.show
+        )}
+      >
+        <MdPlaylistAddCheckCircle className={styles.feedbackIcon} />
+        <p>Added to Waiting List!</p>
+      </div>
     </div>
   );
 };
