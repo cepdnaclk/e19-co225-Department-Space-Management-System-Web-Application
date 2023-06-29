@@ -99,16 +99,17 @@ const AddEvent = ({
 
   const checkAvailablity = (startTimeFormatted, endTimeFormatted, spaceReservations) => {
     const dayReservations = spaceReservations.filter((reservation) => reservation.date === date)
+    console.log(startTimeFormatted, endTimeFormatted);
         if( dayReservations.filter((reservation) => (reservation.startTime > startTimeFormatted &&
         reservation.startTime < endTimeFormatted) ||
       (reservation.endTime > startTimeFormatted &&
-        reservation.endTime < endTimeFormatted)))    
+        reservation.endTime < endTimeFormatted)).length ===0)    
          {
-          console.log("Slot is not available");
-          setClash(true);
-        } else {
           console.log("Slot is available");
           setClash(false);
+        } else {
+          console.log("Slot is not available");
+          setClash(true);
         }
       };
 
