@@ -9,8 +9,10 @@ import { reservations } from "../data";
 const Calendar = ({
   selectSpace,
   spaceReservations,
-
+  selectedDays,
   selectSpaceName,
+  startTime,
+  endTime,
 }) => {
   /*
     The Main Calendar Component
@@ -25,7 +27,7 @@ const Calendar = ({
   //calculate the upcoming dates and pass it into the Day component
   const [firstDate, setFirstDate] = useState(new Date());
   let dateList = []; //list containing date objects
-  const selectedDays = [1, 2, 3, 4, 5]; //The user will select days, initially it'll be of weekdays. (0 - Sunday, 1 - Monday...etc)
+  //const selectedDays = [1, 2, 3, 4, 5]; //The user will select days, initially it'll be of weekdays. (0 - Sunday, 1 - Monday...etc)
   const today = new Date().setHours(0, 0, 0, 0); //Date object representing current Date
 
   //get the date object of the monday of this week.
@@ -77,9 +79,8 @@ const Calendar = ({
     if (Math.round((new Date() - newDate) / 86400000) < 30)
       setFirstDate(newDate);
   };
+
   //get the start time and end time and populate an array for each hour interval
-  const startTime = 8;
-  const endTime = 18;
   const hourIntervals = Array.from(
     { length: endTime - startTime },
     (_, index) => index + startTime

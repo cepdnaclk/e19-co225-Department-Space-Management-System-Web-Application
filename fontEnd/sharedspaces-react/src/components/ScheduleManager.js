@@ -8,7 +8,7 @@ import { getAllResponsible } from "../services/responsibleService";
 import { getAllReservation } from "../services/reservationService";
 import { getAuthentincate } from "../services/authService";
 
-const SechduleManager = () => {
+const SechduleManager = ({ selectedDays, startTime, endTime }) => {
   //filter reservations according to the space selected - default - 1
   const [reservations, setReservations] = useState([]);
   const [spaceReservations, setSpaceReservations] = useState([]);
@@ -72,6 +72,9 @@ const SechduleManager = () => {
         selectSpace={selectSpace}
         selectSpaceName={selectSpaceName}
         spaceReservations={spaceReservations}
+        selectedDays={selectedDays}
+        startTime={startTime}
+        endTime={endTime}
       />
     </div>
   );
