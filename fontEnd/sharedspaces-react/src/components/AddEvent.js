@@ -2,10 +2,7 @@ import styles from "../styles/AddEvent.module.scss";
 import { FiMapPin, FiCheck } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
-<<<<<<< HEAD
 import { reservations, spaces } from "../data";
-=======
->>>>>>> 2f4c0ce4071574dc8f41d7d83a630e8752cc4a4d
 import {
   getDateInFormat,
   getTimeString,
@@ -69,7 +66,6 @@ const AddEvent = ({
 
   useEffect(() => {
     getResponsible();
-    getReservation();
   }, []);
 
   useEffect(() => {
@@ -103,7 +99,6 @@ const AddEvent = ({
   };
 
   const checkAvailablity = (startTimeFormatted, endTimeFormatted) => {
-
     for (let i = 0; i < spaceReservations.length; i++) {
       if (spaceReservations[i].filter) {
         if (
