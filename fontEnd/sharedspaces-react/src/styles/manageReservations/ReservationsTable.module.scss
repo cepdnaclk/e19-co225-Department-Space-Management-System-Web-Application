@@ -16,7 +16,7 @@
 
     thead tr {
       color: hsl(0, 0%, 95%);
-      background-color: rgb(55, 55, 55);
+      background-color: darken($color: $accentColor, $amount: 2);
       text-align: left;
     }
 

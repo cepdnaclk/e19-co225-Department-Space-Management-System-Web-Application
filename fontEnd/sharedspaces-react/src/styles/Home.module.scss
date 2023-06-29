@@ -1,8 +1,11 @@
+@use "variables" as *;
 .actionBar {
   display: flex;
   flex-wrap: nowrap;
   margin-top: 2em;
   background-color: white;
+  //background-image: linear-gradient(180deg, #ffffff 0%, #ebebee 100%);
+
   border: 0.1em white solid;
   flex-direction: row;
   align-items: center;
@@ -10,7 +13,7 @@
   border-radius: 5em;
   overflow: hidden;
   user-select: none;
-  box-shadow: 0px 13px 20px -9px rgba(13, 20, 97, 0.215);
+  box-shadow: 0px 12px 24px -9px rgba(13, 20, 97, 0.215);
   //box-shadow: inset 0px 6px 16px 0px rgba(0, 0, 0, 0.1),
   // 0px 10px 15px 0px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -27,7 +30,8 @@
 
     &:hover,
     &:focus {
-      background-color: rgba(0, 0, 0, 1);
+      background-color: $accentColor;
+
       color: rgb(255, 255, 255);
       box-shadow: 0px 200px 20px -9px rgba(13, 20, 97, 0.215);
     }

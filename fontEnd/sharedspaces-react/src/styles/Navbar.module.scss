@@ -83,7 +83,7 @@
     transition: background-color 100ms ease-in-out;
   }
   .logoutBtn:hover {
-    background-color: rgb(99, 80, 184);
+    background-color: $accentColor;
     color: white;
     border-radius: 2em;
     display: flex;

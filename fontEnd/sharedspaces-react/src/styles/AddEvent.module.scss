@@ -70,7 +70,7 @@ $confirmBtnColor: hsl(166, 25%, 50%);
   }
 
   .confirmBtn {
-    background-color: $confirmedColor;
+    background-color: $confirmBtnColor;
     .checkIcon {
       transform: scale(1.2);
     }

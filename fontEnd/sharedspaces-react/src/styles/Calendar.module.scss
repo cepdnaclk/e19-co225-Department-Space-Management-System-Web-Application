@@ -3,7 +3,7 @@ $border-color: rgb(215, 215, 215);
 $reservationDefaultColor: hsl(0, 77%, 76%);
 $numeric-font: "Quicksand", sans-serif;
 $border-hover-color: rgb(141, 141, 141);
-$today-color: rgb(0, 102, 255);
+$today-color: $accentColor;
 .container {
   position: relative;
 }
@@ -25,7 +25,7 @@ $today-color: rgb(0, 102, 255);
     transition: transform ease-in-out 50ms;
 
     &:hover {
-      color: black;
+      color: $accentColor;
       transform: scale(1.3);
     }
   }

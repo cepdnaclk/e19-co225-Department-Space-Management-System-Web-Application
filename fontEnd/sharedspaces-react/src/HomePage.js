@@ -60,7 +60,8 @@ const HomePage = () => {
   return (
     <div>
       <Hero
-        title="SharedSpaces"
+        spanText="Shared"
+        title="Spaces"
         description="Check Availability and Reserve Spaces"
       >
         <div className={styles.actionBar}>

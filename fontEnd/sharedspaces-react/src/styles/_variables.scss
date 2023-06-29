@@ -1,10 +1,11 @@
 $font-stack: "Raleway", sans-serif;
 $primary-yellow: rgb(235, 168, 1);
-$bgcolor: #f3f4f6;
+$bgcolor: #ebedee;
 $disabledTextColor: rgb(175, 175, 175);
 $waitingColor: rgb(230, 174, 68);
 $confirmedColor: rgb(106, 187, 160);
-
+$accentColor: #28808e;
+$bodyTextColor: hsl(0, 0, 20%);
 @keyframes fadeIn {
   0% {
     opacity: 0;
