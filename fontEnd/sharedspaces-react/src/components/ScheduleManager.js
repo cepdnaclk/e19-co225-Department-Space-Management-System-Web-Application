@@ -143,6 +143,7 @@ const SechduleManager = () => {
       <Calendar
         selectSpace={selectSpace}
         spaceReservations={spaceReservations}
+        reservationList={reservations}
       />
     </div>
   );
