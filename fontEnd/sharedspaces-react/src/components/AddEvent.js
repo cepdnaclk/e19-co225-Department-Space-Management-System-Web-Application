@@ -2,7 +2,10 @@ import styles from "../styles/AddEvent.module.scss";
 import { FiMapPin, FiCheck } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
+<<<<<<< HEAD
 import { reservations, spaces } from "../data";
+=======
+>>>>>>> 2f4c0ce4071574dc8f41d7d83a630e8752cc4a4d
 import {
   getDateInFormat,
   getTimeString,
@@ -30,12 +33,12 @@ const AddEvent = ({
   spaceId,
   date,
   spaceReservations,
+  spaceName,
 }) => {
   const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
   const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
   const [responsible, setResponsible] = useState([]);
   const [isClash, setClash] = useState(false);
-  const spaceName = spaces.find((s) => s.id === spaceId).name;
 
   function mapResponsible() {
     groupedOptions[0].options = responsible
