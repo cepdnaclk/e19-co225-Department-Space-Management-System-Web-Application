@@ -4,9 +4,9 @@ import AvailableSpaces from "./AvailableSpaces";
 import React, { useState } from "react";
 import { spaces, reservations } from "../data";
 const SechduleManager = () => {
-  //filter reservations according to the space selected - default - 0
+  //filter reservations according to the space selected - default - 1
   const [spaceReservations, setSpaceReservations] = useState(
-    reservations.filter((reservation) => reservation.spaceId === 0)
+    reservations.filter((reservation) => reservation.spaceId === 1)
   );
 
   //Available Spaces Selection

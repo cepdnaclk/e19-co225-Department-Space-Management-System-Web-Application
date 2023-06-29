@@ -85,4 +85,29 @@ export const spaces = [
     name: "Escal MakerSpace",
     description: "Second Floor Lab",
   },
+  {
+    id: 5,
+    name: "Demo",
+    description: "Second Floor Lab",
+  },
+  {
+    id: 6,
+    name: "Escal MakerSpace",
+    description: "Second Floor Lab",
+  },
+  {
+    id: 7,
+    name: "Escal MakerSpace",
+    description: "Second Floor Lab",
+  },
+  {
+    id: 8,
+    name: "Escal MakerSpace",
+    description: "Second Floor Lab",
+  },
+  {
+    id: 9,
+    name: "Escal MakerSpace",
+    description: "Second Floor Lab",
+  },
 ];
