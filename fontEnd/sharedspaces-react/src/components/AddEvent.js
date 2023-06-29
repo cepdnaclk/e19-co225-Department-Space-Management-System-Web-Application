@@ -75,17 +75,36 @@ const AddEvent = ({ startTimeProp, endTimeProp, spaceId, date }) => {
 
     if(startTimeFormatted>endTimeFormatted){
       console.log("Please enter a valid End Time");
-      
+    }
+
+    else{
+      checkAvailablity(startTimeFormatted,endTimeFormatted);
     }
   }
 
   const [isClash, setClash] = useState(true);
   const spaceName = spaces.find((s) => s.id === spaceId).name;
 
-  const checkAvailablity = (startTime,endTime) =>{
+  const checkAvailablity = (startTimeFormatted,endTimeFormatted) =>{
     const reservationList = getAllReservation();
+    for (let i=0;i<reservationList.length;i++){
+      if(reservationList[i].date = date)
+      {
+        if(((reservationList[i].startTime>startTimeFormatted) &&(reservationList[i].startTime<endTimeFormatted)) || 
+            ((reservationList[i].endTime>startTimeFormatted) &&(reservationList[i].endTime<endTimeFormatted)))
+        {
+          console.log("Slot is not available");
+          setClash(true)
+        }
+        else{
+          console.log("Slot is available");
+          setClash(false);
+        }
+      }
+    }
 
   }
+
   return (
     <div className={styles.addEvent}>
       <form>
