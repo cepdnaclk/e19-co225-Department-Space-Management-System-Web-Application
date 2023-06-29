@@ -2,7 +2,7 @@
 .container {
   display: grid;
   grid-template-columns: 1fr 4fr;
-  gap: 4em;
+  gap: 2em;
   background-color: $bgcolor;
   padding: 2em 6dvw; // or margin?
   height: auto;
