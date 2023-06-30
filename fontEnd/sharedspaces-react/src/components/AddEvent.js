@@ -163,7 +163,6 @@ const AddEvent = ({
         setShowFeedbackSuccess(true);
       })
       .catch((error) => {
-        console.log(error);
         // if reserved
         if (error.message === "reserved") {
           console.log("reserved");
@@ -176,8 +175,8 @@ const AddEvent = ({
   const handleWaiting = (e) => {
     e.preventDefault();
 
-    createWaiting(
-      "",
+    getAuthentincate(
+      createWaiting,
       title,
       setTimeFormat(startTime),
       setTimeFormat(endTime),

@@ -27,8 +27,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final UserDB userDB;
 
-    // @Value("${secret.key.r}")
-    @Value("${secret.key}")
+    // @Value("${secret.key}")
+    @Value("${secret.key.r}")
     private String secretKeyR;
 
     @Autowired
@@ -47,6 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
         // Check the JWT token for all other requests.
         if (!request.getServletPath().contains("/auth/authenticate")
                 && !request.getServletPath().contains("/auth/refresh-token")) {

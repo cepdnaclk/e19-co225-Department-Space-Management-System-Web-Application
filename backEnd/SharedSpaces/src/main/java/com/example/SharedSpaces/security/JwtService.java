@@ -20,8 +20,8 @@ public class JwtService {
 
     @Value("${secret.key}")
     private String secretKey;
-    // @Value("${secret.key.r}")
-    @Value("${secret.key}")
+    // @Value("${secret.key}")
+    @Value("${secret.key.r}")
     private String secretKeyR;
 
     private long expiration = 10000000; // Token expiration time in milliseconds.

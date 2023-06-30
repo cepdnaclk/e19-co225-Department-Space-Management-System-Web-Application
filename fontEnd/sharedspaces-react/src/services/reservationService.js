@@ -43,11 +43,11 @@ async function getResponsibleReservations(setReservations, email) {
     });
 }
 
-async function deleteUserReservatin(token, id) {
+async function deleteUserReservatin(token, args) {
   await axios
     .delete(endPointReservation + "/id", {
       params: {
-        id: id,
+        id: args[0],
       },
       headers: {
         Authorization: `Bearer ${token}`,
@@ -90,6 +90,7 @@ async function createReservation(token, arrgs) {
       if (error.response.status === 401) {
         throw new Error("reserved");
       }
+      throw new Error("");
     });
 }
 

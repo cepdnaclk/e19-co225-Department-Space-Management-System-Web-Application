@@ -7,6 +7,7 @@ const endPointAuth = "http://localhost:8080/auth/authenticate";
 
 async function getAuthentincate(result, ...args) {
   const token = localStorage.getItem("token");
+  console.log(token);
   await axios
     .post(
       endPointAuth,
@@ -18,17 +19,16 @@ async function getAuthentincate(result, ...args) {
       }
     )
     .then((response) => {
-      result(response.data.access_token, args).catch((error) => {
-        if (error.message === "reserved") {
-          console.log(1000000000);
-          throw new Error("reserved");
-        }
+      console.log(response.data.access_token);
+      return result(response.data.access_token, args).catch((error) => {
+        throw error;
       });
     })
     .catch((error) => {
-      console.log(99999);
-      console.error("Error fetching data:", error);
-      throw new Error("auth");
+      if (error.message === "reserved") {
+        throw new Error("reserved");
+      }
+      throw new Error("");
     });
 }
 

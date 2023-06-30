@@ -48,7 +48,6 @@ public class ReservationController {
     @PostMapping
     public ReservationResponse addResevation(@RequestBody ReservationRequest reservationRequest)
             throws ResponseStatusException {
-        System.out.println(reservationRequest);
 
         try {
             // Call the hadleReservation() method of the ReservationService and return the
@@ -70,6 +69,8 @@ public class ReservationController {
             // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
             // the user data is invalid
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalidUser\n");
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error\n");
         }
 
     }
