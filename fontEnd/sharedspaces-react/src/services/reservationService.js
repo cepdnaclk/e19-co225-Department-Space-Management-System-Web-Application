@@ -28,6 +28,25 @@ async function getUserReservations(setReservations, email) {
     });
 }
 
+async function deleteUserReservatin(email, spaceID, date, startTime, endTime) {
+  await axios
+    .delete(endPointReservation, {
+      params: {
+        email: email,
+        spaceID: spaceID,
+        date: date,
+        startTime: startTime,
+        endTime: endTime,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+}
+
 async function createReservation(
   token,
   title,
@@ -71,4 +90,9 @@ async function createReservation(
     });
 }
 
-export { getAllReservation, createReservation, getUserReservations };
+export {
+  getAllReservation,
+  createReservation,
+  getUserReservations,
+  deleteUserReservatin,
+};
