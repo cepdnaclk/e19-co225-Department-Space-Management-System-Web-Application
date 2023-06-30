@@ -12,6 +12,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
+  background-color: $bgcolor;
+  color: $bodyTextColor;
 }
 /**
  * 1. Change the font styles in all browsers.
@@ -90,20 +92,19 @@ button {
   scrollbar-color: rgb(76, 76, 76);
 }
 
-// /* Works on Chrome, Edge, and Safari */
-// *::-webkit-scrollbar {
-//   width: 12px;
-// }
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 0.8em;
+}
 
-// *::-webkit-scrollbar-track {
-//   background: rgb(120, 120, 120);
-// }
+*::-webkit-scrollbar-track {
+  background: inherit;
+}
 
-// *::-webkit-scrollbar-thumb {
-//   background-color: rgb(255, 255, 255);
-//   border-radius: 20px;
-//   border: 3px solid rgb(120, 120, 120);
-// }
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(202, 202, 202);
+  border-radius: 20px;
+}
 
 a {
   text-decoration: none;

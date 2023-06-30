@@ -29,7 +29,6 @@ public class ReservationService {
     private final SpaceDB spaceDB;
     private final AdminDB adminDB;
 
-
     // Constructor injection
     @Autowired
     public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB,
@@ -61,6 +60,7 @@ public class ReservationService {
 
         return reservationResponses;
     }
+
     // Handle reservation request
     public ReservationResponse hadleReservation(ReservationRequest reservationRequest)
             throws AllReadyReservedException, EmailException, InvalidDataException {
@@ -144,6 +144,7 @@ public class ReservationService {
         String spaceName = spaceDB.getSpaceById((long) reservation.getSpaceID()).get().getName();
         List<Waiting> waitingList = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(),
                 slot.getEndDateTime());
+
         if (!admin && waitingList != null) {
 
             try {
@@ -158,6 +159,92 @@ public class ReservationService {
 
             if (reservationDB.getReservationsByDetails(waiting.getSpaceID(), waiting.getStartDateTime(),
                     waiting.getEndDateTime()) == null) {
+
+                waiting.setAvailable(true);
+                waitingDB.updateWaiting(waiting.getId(), waiting);
+
+                try {
+                    emailService.sendFreeReservationNotification(waitingUser, spaceName, waiting.getStartDateTime(),
+                            waiting.getEndDateTime());
+                } catch (Exception e) {
+                    throw new EmailException("emailError");
+                }
+            }
+        }
+
+        User reservedUser = userDB.getUserById(reservation.getReservedById()).get();
+
+        if (responsiblePersonDB.getResponsiblePersonByEmail(email).isPresent()) {
+            ResponsiblePerson deletePerson = responsiblePersonDB.getResponsiblePersonByEmail(email).get();
+            try {
+                emailService.sendDelecteeReservationNotification(reservedUser, spaceName,
+                        reservation.getStartDateTime(), reservation.getEndDateTime(), deletePerson.fullName());
+            } catch (Exception e) {
+                throw new EmailException("emailError");
+            }
+
+        } else if (adminDB.getAdminByEmail(email).isPresent()) {
+            try {
+                emailService.sendDelecteeReservationNotification(reservedUser, spaceName,
+                        reservation.getStartDateTime(), reservation.getEndDateTime(), "Admin");
+            } catch (Exception e) {
+                throw new EmailException("emailError");
+            }
+        }
+
+        else {
+            User deletePerson = userDB.getUserByEmail(email).get();
+            try {
+                emailService.sendDelecteeReservationNotification(reservedUser, spaceName,
+                        reservation.getStartDateTime(), reservation.getEndDateTime(), deletePerson.getFullName());
+            } catch (Exception e) {
+                throw new EmailException("emailError");
+            }
+
+        }
+
+        return "Deleted";
+    }
+
+    public String reservationDeleteBySlot(int id, String email) throws InvalidDataException, EmailException {
+        Optional<Reservation> optional = reservationDB.getReservationById((long) id);
+        boolean admin = adminDB.getAdminByEmail(email).isPresent();
+
+        if (optional.isEmpty())
+            throw new InvalidDataException("invalid");
+
+        Reservation reservation = optional.get();
+        Slot slot = new Slot(reservation.getSpaceID(), reservation.getStartDateTime(), reservation.getEndDateTime());
+
+        if (!email.equals(userDB.getUserById(reservation.getReservedById()).get().getEmail())
+                && !email.equals(userDB.getUserById(reservation.getResponsiblePersonId()).get().getEmail()) && !admin)
+            throw new InvalidDataException("invalid");
+
+        reservationDB.deleteReservation(reservation.getId());
+
+        String spaceName = spaceDB.getSpaceById((long) reservation.getSpaceID()).get().getName();
+
+        List<Waiting> waitingList = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(),
+                slot.getEndDateTime());
+
+        if (!admin && waitingList != null) {
+
+            try {
+                waitingList.sort(Comparator.comparing(Waiting::getReservationDateTime));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
+            Waiting waiting = waitingList.get(0);
+
+            User waitingUser = userDB.getUserById(waiting.getReservedById()).get();
+
+            if (reservationDB.getReservationsByDetails(waiting.getSpaceID(), waiting.getStartDateTime(),
+                    waiting.getEndDateTime()) == null) {
+
+                waiting.setAvailable(true);
+                waitingDB.updateWaiting(waiting.getId(), waiting);
+
                 try {
                     emailService.sendFreeReservationNotification(waitingUser, spaceName, waiting.getStartDateTime(),
                             waiting.getEndDateTime());
@@ -241,6 +328,7 @@ public class ReservationService {
         reservationResponse.setReservedBy(user);
 
         reservationResponse.setResponsiblePerson(responsible);
+        reservationResponse.setResponsiblePersonId(reservation.getResponsiblePersonId());
 
         return reservationResponse;
     }
@@ -268,6 +356,8 @@ public class ReservationService {
 
         reservationResponse.setResponsiblePerson(
                 responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
+
+        reservationResponse.setResponsiblePersonId(reservation.getResponsiblePersonId());
 
         return reservationResponse;
     }

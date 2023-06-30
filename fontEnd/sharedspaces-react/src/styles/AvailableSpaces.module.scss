@@ -2,6 +2,7 @@
 .AvailableSpaces {
   position: relative;
   padding: 0 0em;
+
   .heading {
     margin: 2em auto 1em auto;
     text-align: center;
@@ -11,20 +12,26 @@
   .SpaceContainer {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: flex-start;
     gap: 1em;
+    height: 83dvh;
+    overflow-y: scroll;
+
+    position: relative;
+    padding: 0em 0.5em;
   }
 
   .Space {
     padding: 1.2em 1em;
     text-align: center;
-    background-color: #b0b0b0;
-    color: white;
+    background-color: hsl(193, 15%, 75%);
+    color: hsl(200, 20%, 90%);
     border-radius: 1em;
     cursor: pointer;
     user-select: none;
     transition: all ease-in-out 200ms;
+    animation: fadeIn 300ms ease-in;
 
     .name {
       font-weight: 500;
@@ -44,13 +51,15 @@
     }
 
     &:hover {
-      color: black;
+      color: hsl(200, 25%, 40%);
     }
     &Selected {
       @extend .Space;
       padding: 1.2em 1.2em;
       //border-radius: 1.2em;
-      background-color: rgb(54, 53, 65);
+      color: white;
+      background-color: $accentColor;
+      box-shadow: inset 0px 4px 16px -5px rgba(14, 22, 71, 0.5);
       //text-align: left;
       p {
         visibility: visible;

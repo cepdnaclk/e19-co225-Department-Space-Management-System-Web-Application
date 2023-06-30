@@ -1,21 +1,21 @@
 import axios from "axios";
 
-const endPointReservation = "http://localhost:8080/reservation";
+const endPointWaiting = "http://localhost:8080/waiting";
 
-async function getAllReservation(setReservations) {
-  await axios
-    .get(endPointReservation)
-    .then((res) => {
-      setReservations(res.data);
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
-}
+// async function getAllReservation(setReservations) {
+//   await axios
+//     .get(endPointReservation)
+//     .then((res) => {
+//       setReservations(res.data);
+//     })
+//     .catch((error) => {
+//       console.log(error.message);
+//     });
+// }
 
-async function getUserReservations(setReservations, email) {
+async function getUserWaiting(setReservations, email) {
   await axios
-    .get(endPointReservation + "/user", {
+    .get(endPointWaiting + "/user", {
       params: {
         email: email,
       },
@@ -28,24 +28,9 @@ async function getUserReservations(setReservations, email) {
     });
 }
 
-async function getResponsibleReservations(setReservations, email) {
+async function deleteUserWaiting(token, id) {
   await axios
-    .get(endPointReservation + "/responsible", {
-      params: {
-        email: email,
-      },
-    })
-    .then((res) => {
-      setReservations(res.data);
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
-}
-
-async function deleteUserReservatin(token, id) {
-  await axios
-    .delete(endPointReservation + "/id", {
+    .delete(endPointWaiting + "/id", {
       params: {
         id: id,
       },
@@ -61,7 +46,7 @@ async function deleteUserReservatin(token, id) {
     });
 }
 
-async function createReservation(
+async function createWaiting(
   token,
   title,
   startTime,
@@ -75,7 +60,7 @@ async function createReservation(
 ) {
   await axios
     .post(
-      endPointReservation,
+      endPointWaiting,
       {
         spaceID: spaceID,
         title: title,
@@ -101,13 +86,8 @@ async function createReservation(
       if (error.response.status === 401) {
         throw new Error("reserved");
       }
+      throw new Error("");
     });
 }
 
-export {
-  getAllReservation,
-  createReservation,
-  getUserReservations,
-  deleteUserReservatin,
-  getResponsibleReservations,
-};
+export { createWaiting, getUserWaiting, deleteUserWaiting };

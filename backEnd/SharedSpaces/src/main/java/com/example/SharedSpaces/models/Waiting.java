@@ -22,12 +22,14 @@ public class Waiting {
     private String date;
     private long reservedById;
     private long responsiblePersonId;
+    private boolean available = false;
 
     public Waiting() {
 
     }
 
-    // Constructor that takes a Reservation object and initializes the waiting list entry.
+    // Constructor that takes a Reservation object and initializes the waiting list
+    // entry.
     public Waiting(Reservation reservation) {
         this.spaceID = reservation.getSpaceID();
         this.title = reservation.getTitle();
@@ -41,7 +43,7 @@ public class Waiting {
     }
 
     public Waiting(long id, int spaceID, String title, Date reservationDateTime, Date startDateTime, Date endDateTime,
-                   long reservedById, long responsiblePersonId) {
+            long reservedById, long responsiblePersonId) {
         this.id = id;
         this.spaceID = spaceID;
         this.title = title;
@@ -126,6 +128,14 @@ public class Waiting {
         this.date = date;
     }
 
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public boolean getAvailable() {
+        return this.available;
+    }
+
     @Override
     public String toString() {
         return "Waiting{" +
@@ -136,6 +146,7 @@ public class Waiting {
                 ", startDateTime=" + startDateTime +
                 ", endDateTime=" + endDateTime +
                 ", date=" + date +
+                ", available=" + available +
                 ", reservedById=" + reservedById +
                 ", responsiblePersonId=" + responsiblePersonId +
                 '}';

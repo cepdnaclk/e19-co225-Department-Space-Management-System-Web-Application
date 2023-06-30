@@ -23,7 +23,6 @@ const AvailableSpaces = ({ availableSpaces, handleClick, select }) => {
 const Space = ({ space, select, handleClick }) => {
   return (
     <button
-      //key={space.id}
       id={space.id}
       className={select === space.id ? styles.SpaceSelected : styles.Space}
       onClick={() => handleClick(space.id)}

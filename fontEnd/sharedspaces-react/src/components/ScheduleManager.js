@@ -1,125 +1,77 @@
 import styles from "../styles/ScheduleManager.module.scss";
 import Calendar from "./Calendar";
 import AvailableSpaces from "./AvailableSpaces";
+
 import React, { useEffect, useState } from "react";
 import { getAllSpaces } from "../services/spaceService";
 import { getAllResponsible } from "../services/responsibleService";
 import { getAllReservation } from "../services/reservationService";
 import { getAuthentincate } from "../services/authService";
 
-// const reservations = [
-//   {
-//     spaceId: 0,
-//     title: "CO224 Labs",
-//     date: "2023-06-16",
-//     startTime: 830,
-//     endTime: 1000,
-//     reservedBy: "Silva A.K.M. - E/19/372",
-//     responsibePerson: "Dr. Isuru Nawinne",
-//     waitingList: [],
-//   },
-
-//   {
-//     spaceId: 0,
-//     title: "CO221 Labs",
-//     date: "2023-06-15",
-//     startTime: 1400,
-//     endTime: 1430,
-//     reservedBy: "Ubayasiri S.J. - E/19/408",
-//     responsibePerson: "Dr. Isuru Nawinne",
-//     waitingList: [],
-//   },
-
-//   {
-//     spaceId: 0,
-//     title: "CO224 Labs",
-//     date: "2023-06-13",
-//     startTime: 830,
-//     endTime: 1000,
-//     reservedBy: "Gunawardana K.H. - E/19/129A",
-//     responsibePerson: "Dr. Isuru Nawinne",
-//     waitingList: [],
-//   },
-
-//   {
-//     spaceId: 3,
-//     title: "CO225 Labs",
-//     date: "2023-06-15",
-//     startTime: 1640,
-//     endTime: 1820,
-//     reservedBy: "Silva A.K.M. - E/19/372",
-//     responsibePerson: "Dr. Isuru Nawinne",
-//     waitingList: [],
-//   },
-//   {
-//     spaceId: 1,
-//     title: "CO225 Labs",
-//     date: "2023-06-14",
-//     startTime: 900,
-//     endTime: 1000,
-//     reservedBy: "Silva A.K.M. - E/19/372",
-//     responsibePerson: "Dr. Isuru Nawinne",
-//     waitingList: [],
-//   },
-// ];
-
-// const spaces = [
-//   {
-//     id: 0,
-//     name: "Computer Lab 02",
-//     description: "First Floor Computer Lab",
-//   },
-//   {
-//     id: 1,
-//     name: "Computer Lab 01",
-//     description: "Fourth Floor Computer Lab",
-//   },
-//   {
-//     id: 2,
-//     name: "Discussion Room",
-//     description: "Second Floor",
-//   },
-//   {
-//     id: 3,
-//     name: "Network Engineering Lab",
-//     description: "First Floor Lab",
-//   },
-//   {
-//     id: 4,
-//     name: "Escal MakerSpace",
-//     description: "Second Floor Lab",
-//   },
-// ];
-
-const SechduleManager = () => {
-  //filter reservations according to the space selected - default - 0
+const SechduleManager = ({
+  selectedDays,
+  startTime,
+  endTime,
+  capacity,
+  selectedFacilities,
+}) => {
+  //filter reservations according to the space selected - default - 1
   const [reservations, setReservations] = useState([]);
   const [spaceReservations, setSpaceReservations] = useState([]);
-  const [spaces, setSpaces] = useState([]);
-
+  const [allSpaces, setAllSpaces] = useState([]);
+  const [filteredSpaces, setFilteredSpaces] = useState([]);
   async function getSpaces() {
-    await getAllSpaces(setSpaces);
+    await getAllSpaces(setAllSpaces);
   }
 
-  async function getReservation() {
+  async function getReservations() {
     await getAllReservation(setReservations);
   }
 
   useEffect(() => {
-    if (reservations !== []) {
+    if (reservations.length !== 0) {
       setSpaceReservations(
         reservations.filter((reservation) => reservation.spaceId === 1)
       );
     }
   }, [reservations]);
 
+  //whenever the capacity change, change the displayed spaces using the filteredSpaces state
+  useEffect(() => {
+    if (allSpaces.length !== 0) {
+      setFilteredSpaces(
+        allSpaces.filter(
+          (space) =>
+            space.capacity <= capacity[1] && space.capacity >= capacity[0]
+        )
+      );
+    }
+  }, [allSpaces, capacity]);
+
+  //This is for special cases, if the already selected space if filtered out
+  //or if there are no matching spaces available
+  useEffect(() => {
+    if (filteredSpaces.length !== 0) {
+      setSelectSpace(filteredSpaces[0].id);
+      setSelectSpaceName(filteredSpaces[0].name);
+      setSpaceReservations(
+        reservations.filter(
+          (reservation) => reservation.spaceId === selectSpace
+        )
+      );
+    } else if (filteredSpaces.length === 0) {
+      setSpaceReservations([]);
+    }
+  }, [filteredSpaces]);
+
+  //initially fetching the data
   useEffect(() => {
     getSpaces();
-    getReservation();
+    getReservations();
   }, []);
 
   //Available Spaces Selection
-  const [selectSpace, setSelectSpace] = useState(0);
+  const [selectSpace, setSelectSpace] = useState(1);
   const handleSpaceClick = (id) => {
     //if already selected, then show more details on the space
     if (selectSpace === id) {
@@ -132,16 +84,37 @@ const SechduleManager = () => {
     }
   };
 
+  //pass down the space name to the addEvent prop
+  const [selectSpaceName, setSelectSpaceName] = useState(" ");
+  useEffect(() => {
+    try {
+      setSelectSpaceName(allSpaces.find((s) => s.id === selectSpace).name);
+      setSpaceReservations(
+        reservations.filter(
+          (reservation) => reservation.spaceId === selectSpace
+        )
+      );
+    } catch (error) {
+      //pass
+      //When it first renders, there won't be any spaces.
+      //so spaces.find will return nothing.
+    }
+  }, [selectSpace]);
+
   return (
     <div className={styles.container}>
       <AvailableSpaces
-        availableSpaces={spaces}
+        availableSpaces={filteredSpaces}
         handleClick={handleSpaceClick}
         select={selectSpace}
       />
       <Calendar
         selectSpace={selectSpace}
+        selectSpaceName={selectSpaceName}
         spaceReservations={spaceReservations}
+        selectedDays={selectedDays}
+        startTime={startTime}
+        endTime={endTime}
       />
     </div>
   );

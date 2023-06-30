@@ -1,31 +1,22 @@
 import * as React from "react";
 import styles from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import jwt_decode from "jwt-decode";
-import Login from "./Login";
-import Profile from "./Profile";
 import LoginBar from "./LoginBar";
-import { GoogleLogin } from "@react-oauth/google";
 import { getLogging } from "../services/loggingService";
-import { getAuthentincate } from "../services/authService";
+import { checkUser } from "../utils";
 
-const Navbar = () => {
+const Navbar = ({ user, setUser, valid, setValid }) => {
   // TODO: Differentiate the current page in the NavBar
 
   // Initial State will be fetched from the backend
   const [LoggedIn, setLoggedIn] = React.useState(false);
   const [googleToken, setGoogleToken] = React.useState("");
-  const [user, setUser] = React.useState("");
-  const [token, setToken] = React.useState("");
-  const [valid, setValid] = React.useState(false);
 
-  const secretKey =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
   const handleLogin = (response) => {
     setGoogleToken(response);
     setLoggedIn(true);
+    localStorage.setItem('isloggedin','1');
   };
 
   const handleFailure = (error) => {
@@ -34,7 +25,6 @@ const Navbar = () => {
     setValid(false);
     setUser("");
     setGoogleToken("");
-    setToken("");
   };
 
   const handleLogout = () => {
@@ -42,15 +32,30 @@ const Navbar = () => {
     setValid(false);
     setUser("");
     setGoogleToken("");
-    setToken("");
     localStorage.removeItem("token");
+    localStorage.setItem('isloggedin','0');
   };
 
   React.useEffect(() => {
     if (LoggedIn && googleToken) {
-      getLogging(setValid, setUser, user, setToken, googleToken);
+      getLogging(googleToken)
+        .then((res) => {
+          checkUser(setUser, setValid);
+        })
+        .catch((error) => {
+          // if logged with wrong email
+          console.log(error);
+        });
     }
-  }, [LoggedIn, googleToken]);
+  }, [googleToken]);
+
+  React.useEffect(() =>{
+    const loggedinStatus = localStorage.getItem('isloggedin');
+    if(loggedinStatus==='1'){
+      setLoggedIn(true);
+      checkUser(setUser, setValid, handleLogout);
+    }
+  }, [])
 
   return (
     <>
@@ -71,7 +76,7 @@ const Navbar = () => {
         <div className={styles.User}>
           <LoginBar
             valid={valid}
-            token={token}
+            token={user}
             handleLogout={handleLogout}
             handleLogin={handleLogin}
             handleFailure={handleFailure}

@@ -1,12 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/Calendar.module.scss";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { generateColorCode } from "../utils";
+import { generateColorCode, getTimeString } from "../utils";
 import Modal from "./Modal";
 import AddEvent from "./AddEvent";
 import ReservationInfo from "./ReservationInfo";
 import { reservations } from "../data";
-const Calendar = ({ selectSpace, spaceReservations }) => {
+const Calendar = ({
+  selectSpace,
+  spaceReservations,
+  selectedDays,
+  selectSpaceName,
+  startTime,
+  endTime,
+}) => {
   /*
     The Main Calendar Component
     Includes the dates, slots, reservations and the left and right controllers
@@ -20,7 +27,7 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
   //calculate the upcoming dates and pass it into the Day component
   const [firstDate, setFirstDate] = useState(new Date());
   let dateList = []; //list containing date objects
-  const selectedDays = [1, 2, 3, 4, 5]; //The user will select days, initially it'll be of weekdays. (0 - Sunday, 1 - Monday...etc)
+  //const selectedDays = [1, 2, 3, 4, 5]; //The user will select days, initially it'll be of weekdays. (0 - Sunday, 1 - Monday...etc)
   const today = new Date().setHours(0, 0, 0, 0); //Date object representing current Date
 
   //get the date object of the monday of this week.
@@ -47,7 +54,7 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
       The maximum possible dates span in a range of 60 days. +30 from current date
     */
     const newDate = new Date(firstDate);
-
+    console.log(newDate);
     //if SelectedDays are not weekdays then add 5 to current first date dateList[0]
     if (selectedDays.length > 5) newDate.setDate(newDate.getDate() + 5);
     //if selectedDats are the weekdats then, increment by a week.
@@ -62,19 +69,18 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
     /*
       handles the click event of the Left Controller
     */
-    const newDate = new Date(firstDate);
-
+    const newDate = new Date(firstMonday);
+    console.log(newDate, Math.round((new Date() - newDate) / 86400000));
     //Similar to right controller
     if (selectedDays.length > 5) newDate.setDate(newDate.getDate() - 5);
     else newDate.setDate(newDate.getDate() - 7);
 
     //only allow navigating upto -30 days from today
-    if (Math.round((new Date() - newDate) / 86400000) < 30)
+    if (Math.round((new Date() - newDate) / 86400000) < 35)
       setFirstDate(newDate);
   };
+
   //get the start time and end time and populate an array for each hour interval
-  const startTime = 8;
-  const endTime = 18;
   const hourIntervals = Array.from(
     { length: endTime - startTime },
     (_, index) => index + startTime
@@ -85,10 +91,11 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coords, setCoords] = useState({
     left: 500,
-    top: 500,
+    top: 200,
   });
   const modalRef = useRef();
-  const [clickedHour, setClickedHour] = useState(0);
+  const [addEventStartTime, setAddEventStartTime] = useState(0);
+  const [addEventEndTime, setAddEventEndTime] = useState(0);
   const [clickedDate, setClickedDate] = useState(null);
   const [isAddEventOrRes, setIsAddEventOrRes] = useState(true); //true if clicked on an slot, false is clicked on a reservation
   const [clickedReservation, setClickedReservation] = useState(null);
@@ -114,7 +121,8 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
 
     setIsModalOpen(true);
     setCoords(e.currentTarget.getBoundingClientRect());
-    setClickedHour(hour);
+    setAddEventStartTime(hour * 100);
+    setAddEventEndTime(hour * 100 + 40);
     setIsAddEventOrRes(true);
     setClickedDate(date);
   };
@@ -124,6 +132,13 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
     setIsAddEventOrRes(false);
     setClickedReservation(reservation);
     setCoords(e.currentTarget.getBoundingClientRect());
+  };
+
+  const handleAddWaitingClick = (e) => {
+    setIsAddEventOrRes(true);
+    setAddEventStartTime(clickedReservation.startTime);
+    setAddEventEndTime(clickedReservation.endTime);
+    setClickedDate(new Date(clickedReservation.date));
   };
 
   return (
@@ -164,12 +179,18 @@ const Calendar = ({ selectSpace, spaceReservations }) => {
       >
         {isAddEventOrRes ? (
           <AddEvent
-            hour={clickedHour}
+            startTimeProp={addEventStartTime}
+            endTimeProp={addEventEndTime}
             spaceId={selectSpace}
+            spaceName={selectSpaceName}
             date={clickedDate}
+            spaceReservations={spaceReservations}
           />
         ) : (
-          <ReservationInfo reservation={clickedReservation} />
+          <ReservationInfo
+            reservation={clickedReservation}
+            onClick={handleAddWaitingClick}
+          />
         )}
       </Modal>
     </div>

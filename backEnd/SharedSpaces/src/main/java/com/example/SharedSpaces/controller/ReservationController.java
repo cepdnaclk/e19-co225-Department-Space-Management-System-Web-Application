@@ -13,13 +13,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 
 // The @CrossOrigin annotation enables Cross-Origin Resource Sharing (CORS) for this controller
 @CrossOrigin
 // The @RestController annotation indicates that this class is a REST controller
 @RestController
-// The @RequestMapping annotation maps HTTP requests to a specific URL or URL pattern
+// The @RequestMapping annotation maps HTTP requests to a specific URL or URL
+// pattern
 @RequestMapping("reservation")
 public class ReservationController {
 
@@ -32,37 +36,48 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    // The @GetMapping annotation maps HTTP GET requests to the /reservation endpoint
+    // The @GetMapping annotation maps HTTP GET requests to the /reservation
+    // endpoint
     @GetMapping
     public List<ReservationResponse> getAllReservations() {
-        // Call the getAllReservations() method of the ReservationService and return the result as a List of ReservationResponse objects
+        // Call the getAllReservations() method of the ReservationService and return the
+        // result as a List of ReservationResponse objects
         return reservationService.getAllResevations();
     }
 
-    // The @PostMapping annotation maps HTTP POST requests to the /reservation endpoint
+    // The @PostMapping annotation maps HTTP POST requests to the /reservation
+    // endpoint
     @PostMapping
-    public ReservationResponse addResevation(ReservationRequest reservationRequest) throws ResponseStatusException {
+    public ReservationResponse addResevation(@RequestBody ReservationRequest reservationRequest)
+            throws ResponseStatusException {
+        System.out.println(reservationRequest);
 
         try {
-            // Call the hadleReservation() method of the ReservationService and return the result as a ReservationResponse object
+            // Call the hadleReservation() method of the ReservationService and return the
+            // result as a ReservationResponse object
             return reservationService.hadleReservation(reservationRequest);
         } catch (AllReadyReservedException e) {
-            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if the reservation is already reserved
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "reserved\n");
+            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
+            // the reservation is already reserved
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "reserved\n");
         } catch (NoSuchElementException e) {
-            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if the input is wrong
+            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
+            // the input is wrong
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrongInput\n");
         } catch (EmailException e) {
-            // Throw a ResponseStatusException with HTTP status code 503 (Service Unavailable) if there is an email error
+            // Throw a ResponseStatusException with HTTP status code 503 (Service
+            // Unavailable) if there is an email error
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "emailError\n");
         } catch (InvalidDataException e) {
-            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if the user data is invalid
+            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
+            // the user data is invalid
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalidUser\n");
         }
 
     }
 
-    // The @GetMapping annotation maps HTTP GET requests to the /reservation/user endpoint
+    // The @GetMapping annotation maps HTTP GET requests to the /reservation/user
+    // endpoint
     @GetMapping("/user")
     public List<ReservationResponse> getUserReservationList(@RequestParam String email) throws ResponseStatusException {
 
@@ -72,15 +87,18 @@ public class ReservationController {
         // }
 
         try {
-            // Call the getUserReservationList() method of the ReservationService and return the result as a List of ReservationResponse objects
+            // Call the getUserReservationList() method of the ReservationService and return
+            // the result as a List of ReservationResponse objects
             return reservationService.getUserReservationList(email);
         } catch (Exception e) {
-            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if the input is invalid
+            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
+            // the input is invalid
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
         }
     }
 
-    // The @GetMapping annotation maps HTTP GET requests to the /reservation/responsible endpoint
+    // The @GetMapping annotation maps HTTP GET requests to the
+    // /reservation/responsible endpoint
     @GetMapping("/responsible")
     public List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email)
             throws ResponseStatusException {
@@ -91,19 +109,22 @@ public class ReservationController {
         // }
 
         try {
-            // Call the getResponsibleReservationList() method of the ReservationService and return the result as a List of ReservationResponse objects
+            // Call the getResponsibleReservationList() method of the ReservationService and
+            // return the result as a List of ReservationResponse objects
             return reservationService.getResponsibleReservationList(email);
         } catch (Exception e) {
-            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if the input is invalid
+            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
+            // the input is invalid
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
         }
 
     }
 
-    // The @DeleteMapping annotation maps HTTP DELETE requests to the /reservation endpoint
+    // The @DeleteMapping annotation maps HTTP DELETE requests to the /reservation
+    // endpoint
     @DeleteMapping()
     public String deleteResevation(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime,
-                                   @RequestParam int endTime, @RequestParam String email) throws ResponseStatusException {
+            @RequestParam int endTime, @RequestParam String email) throws ResponseStatusException {
 
         // The following code can be used for user authentication
         // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
@@ -111,19 +132,53 @@ public class ReservationController {
         // }
 
         try {
-            // Create a new Slot object with the specified space ID, date, start time, and end time
+            // Create a new Slot object with the specified space ID, date, start time, and
+            // end time
             Slot slot = new Slot(spaceID, date, startTime, endTime);
-            // Call the reservationDeleteBySlot() method of the ReservationService and return the result as a String
+            // Call the reservationDeleteBySlot() method of the ReservationService and
+            // return the result as a String
             return reservationService.reservationDeleteBySlot(slot, email);
         } catch (InvalidDataException e) {
-            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if the input is invalid
+            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
+            // the input is invalid
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
         } catch (EmailException e) {
-            // Throw a ResponseStatusException with HTTP status code 503 (Service Unavailable) if there is an email error
+            // Throw a ResponseStatusException with HTTP status code 503 (Service
+            // Unavailable) if there is an email error
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "emailError\n");
+        }
+
+    }
+
+    // The @DeleteMapping annotation maps HTTP DELETE requests to the /reservation
+    // endpoint
+    @DeleteMapping("/id")
+    public String deleteResevation(@RequestParam int id) throws ResponseStatusException {
+
+        // The following code can be used for user authentication
+        // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
+        // return "Error";
+        // }
+
+        try {
+            // Create a new Slot object with the specified space ID, date, start time, and
+            // end time
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            System.out.println(email);
+            // String email = "e19129@eng.pdn.ac.lk";
+            // Call the reservationDeleteBySlot() method of the ReservationService and
+            // return the result as a String
+            return reservationService.reservationDeleteBySlot(id, email);
+        } catch (InvalidDataException e) {
+            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
+            // the input is invalid
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
+        } catch (EmailException e) {
+            // Throw a ResponseStatusException with HTTP status code 503 (Service
+            // Unavailable) if there is an email error
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "emailError\n");
         }
 
     }
 
 }
-
