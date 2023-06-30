@@ -25,7 +25,7 @@ const MyReservations = () => {
         reservations.filter((res) => {
           const date = new Date(res.date);
           const currentDate = new Date();
-          if (date > currentDate) return true;
+          if (date <= currentDate) return true;
           return false;
         })
       );
@@ -33,7 +33,7 @@ const MyReservations = () => {
         reservations.filter((res) => {
           const date = new Date(res.date);
           const currentDate = new Date();
-          if (date <= currentDate) return true;
+          if (date > currentDate) return true;
           return false;
         })
       );
