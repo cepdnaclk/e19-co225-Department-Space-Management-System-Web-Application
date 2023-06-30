@@ -18,7 +18,6 @@ function ReservationTable({
   waitingList,
 }) {
   function handleDelete(reservation) {
-    console.log(user.email);
     if (waitingList === false) {
       getAuthentincate(deleteUserReservatin, reservation.id);
     } else {
