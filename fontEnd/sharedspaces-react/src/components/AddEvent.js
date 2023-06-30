@@ -247,6 +247,7 @@ const AddEvent = ({
             type="submit"
             className={classNames(styles.submitBtn, styles.addWaitingListBtn)}
             onClick={handleWaiting}
+            disabled = {!responsibleId && !title===""}
           >
             <FaPlus />
             Add to Waiting List
@@ -256,6 +257,7 @@ const AddEvent = ({
             type="submit"
             className={classNames(styles.submitBtn, styles.confirmBtn)}
             onClick={handleSubmit}
+            disabled = {!responsibleId && !title ===""}
           >
             <FiCheck className={styles.checkIcon} />
             Confirm Reservation
