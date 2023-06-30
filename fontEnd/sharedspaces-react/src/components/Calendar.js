@@ -138,6 +138,7 @@ const Calendar = ({
     setIsAddEventOrRes(true);
     setAddEventStartTime(clickedReservation.startTime);
     setAddEventEndTime(clickedReservation.endTime);
+    setClickedDate(new Date(clickedReservation.date));
   };
 
   return (
