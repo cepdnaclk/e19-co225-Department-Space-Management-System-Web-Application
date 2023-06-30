@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { getAllResponsible } from "../services/responsibleService";
 import { createReservation } from "../services/reservationService";
 import { createWaiting } from "../services/waitingService";
+import { getAuthentincate } from "../services/authService";
 
 const groupedOptions = [
   {
@@ -95,8 +96,10 @@ const AddEvent = ({
 
   const handleEndTimeChange = (event) => {
     setEndTime(event.target.value);
+
     const endTimeFormatted = mapTimeStringToInteger(endTime);
     if (endTimeFormatted !== false) {
+
       validateReservation(spaceReservations);
       console.log(endTimeFormatted);
     }
@@ -150,8 +153,8 @@ const AddEvent = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    createReservation(
-      "",
+    getAuthentincate(
+      createReservation,
       title,
       setTimeFormat(startTime),
       setTimeFormat(endTime),
@@ -179,8 +182,8 @@ const AddEvent = ({
   const handleWaiting = (e) => {
     e.preventDefault();
 
-    createWaiting(
-      "",
+    getAuthentincate(
+      createWaiting,
       title,
       setTimeFormat(startTime),
       setTimeFormat(endTime),

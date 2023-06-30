@@ -2,17 +2,6 @@ import axios from "axios";
 
 const endPointWaiting = "http://localhost:8080/waiting";
 
-// async function getAllReservation(setReservations) {
-//   await axios
-//     .get(endPointReservation)
-//     .then((res) => {
-//       setReservations(res.data);
-//     })
-//     .catch((error) => {
-//       console.log(error.message);
-//     });
-// }
-
 async function getUserWaiting(setReservations, email) {
   await axios
     .get(endPointWaiting + "/user", {
@@ -28,11 +17,11 @@ async function getUserWaiting(setReservations, email) {
     });
 }
 
-async function deleteUserWaiting(token, id) {
+async function deleteUserWaiting(token, args) {
   await axios
     .delete(endPointWaiting + "/id", {
       params: {
-        id: id,
+        id: args[0],
       },
       headers: {
         Authorization: `Bearer ${token}`,
@@ -46,31 +35,20 @@ async function deleteUserWaiting(token, id) {
     });
 }
 
-async function createWaiting(
-  token,
-  title,
-  startTime,
-  endTime,
-  spaceID,
-  reservationDateTime,
-  date,
-  reservedBy,
-  responsiblePerson,
-  waitingId
-) {
+async function createWaiting(token, arrgs) {
   await axios
     .post(
       endPointWaiting,
       {
-        spaceID: spaceID,
-        title: title,
-        reservationDateTime: reservationDateTime,
-        startTime: startTime,
-        endTime: endTime,
-        date: date,
-        reservedBy: reservedBy,
-        responsiblePerson: responsiblePerson,
-        waitingId: waitingId,
+        spaceID: arrgs[3],
+        title: arrgs[0],
+        reservationDateTime: arrgs[4],
+        startTime: arrgs[1],
+        endTime: arrgs[2],
+        date: arrgs[5],
+        reservedBy: arrgs[6],
+        responsiblePerson: arrgs[7],
+        waitingId: arrgs[8],
       },
       {
         headers: {
@@ -83,9 +61,6 @@ async function createWaiting(
     })
     .catch((error) => {
       console.log(error.message);
-      if (error.response.status === 401) {
-        throw new Error("reserved");
-      }
       throw new Error("");
     });
 }

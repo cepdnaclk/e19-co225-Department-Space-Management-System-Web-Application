@@ -9,6 +9,7 @@ import {
   deleteUserReservatin,
 } from "../../services/reservationService";
 import { deleteUserWaiting } from "../../services/waitingService";
+import { getAuthentincate } from "../../services/authService";
 function ReservationTable({
   reservations,
   isActionable,
@@ -17,17 +18,16 @@ function ReservationTable({
   waitingList,
 }) {
   function handleDelete(reservation) {
-    console.log(user.email);
     if (waitingList === false) {
-      deleteUserReservatin(localStorage.getItem("token"), reservation.id);
+      getAuthentincate(deleteUserReservatin, reservation.id);
     } else {
-      deleteUserWaiting(localStorage.getItem("token"), reservation.id);
+      getAuthentincate(deleteUserWaiting, reservation.id);
     }
   }
 
   function handleReservation(reservation) {
-    createReservation(
-      localStorage.getItem("token"),
+    getAuthentincate(
+      createReservation,
       reservation.title,
       reservation.startTime,
       reservation.endTime,
