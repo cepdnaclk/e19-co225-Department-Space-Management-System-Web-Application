@@ -177,7 +177,9 @@ const AddEvent = ({
   const handleWaiting = (e) => {
     e.preventDefault();
 
-    var reservationDate = date;
+    console.log(date);
+    var reservationDate = new Date(date);
+    console.log(reservationDate);
     reservationDate.setDate(reservationDate.getDate() + 1);
 
     createWaiting(
