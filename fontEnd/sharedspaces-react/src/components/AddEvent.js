@@ -150,9 +150,6 @@ const AddEvent = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // var reservationDate = new Date(date);
-    // reservationDate.setDate(reservationDate.getDate() + 1);
-
     createReservation(
       "",
       title,
@@ -181,11 +178,6 @@ const AddEvent = ({
   const [showFeedbackWaiting, setShowFeedbackWaiting] = useState(false);
   const handleWaiting = (e) => {
     e.preventDefault();
-
-    // console.log(date);
-    // var reservationDate = new Date(date);
-    // console.log(reservationDate);
-    // reservationDate.setDate(reservationDate.getDate() + 1);
 
     createWaiting(
       "",
