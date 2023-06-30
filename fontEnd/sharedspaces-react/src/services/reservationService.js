@@ -28,6 +28,21 @@ async function getUserReservations(setReservations, email) {
     });
 }
 
+async function getResponsibleReservations(setReservations, email) {
+  await axios
+    .get(endPointReservation + "/responsible", {
+      params: {
+        email: email,
+      },
+    })
+    .then((res) => {
+      setReservations(res.data);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+}
+
 async function deleteUserReservatin(token, id) {
   await axios
     .delete(endPointReservation + "/id", {
@@ -94,4 +109,5 @@ export {
   createReservation,
   getUserReservations,
   deleteUserReservatin,
+  getResponsibleReservations,
 };

@@ -3,20 +3,29 @@ import styles from "../../styles/manageReservations/MyReservations.module.scss";
 import ReservationTable from "./ReservationsTable";
 import { useEffect, useState } from "react";
 import { checkUser } from "../../utils";
-import { getUserReservations } from "../../services/reservationService";
+import {
+  getResponsibleReservations,
+  getUserReservations,
+} from "../../services/reservationService";
+import { Role } from "../../data";
 const MyReservations = () => {
   const [user, setUser] = useState("");
   const [valid, setValid] = useState(false);
   const [reservations, setReservations] = useState([]);
   const [pastReservations, setPastReservations] = useState([]);
   const [currentReservations, setCurrentReservations] = useState([]);
+  const [responsibleReservations, setResponsibleReservations] = useState([]);
 
   useEffect(() => {
     checkUser(setUser, setValid);
   }, []);
 
   useEffect(() => {
-    if (user !== "") getUserReservations(setReservations, user.email);
+    if (user !== "") {
+      getUserReservations(setReservations, user.email);
+      if ((user.role = Role.RESPONSIBLE))
+        getResponsibleReservations(setResponsibleReservations, user.email);
+    }
   }, [user]);
 
   useEffect(() => {
@@ -55,6 +64,17 @@ const MyReservations = () => {
         user={user}
         waitingList={false}
       />
+      {user.role === Role.RESPONSIBLE && (
+        <>
+          <h2 className={styles.pastReservations}>Responsible</h2>
+          <ReservationTable
+            reservations={responsibleReservations}
+            user={user}
+            waitingList={false}
+            isActionable={true}
+          />
+        </>
+      )}
     </div>
   );
 };
