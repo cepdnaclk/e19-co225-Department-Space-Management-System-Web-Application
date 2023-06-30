@@ -18,10 +18,17 @@ async function getAuthentincate(result, ...args) {
       }
     )
     .then((response) => {
-      result(response.data.access_token, args);
+      result(response.data.access_token, args).catch((error) => {
+        if (error.message === "reserved") {
+          console.log(1000000000);
+          throw new Error("reserved");
+        }
+      });
     })
     .catch((error) => {
+      console.log(99999);
       console.error("Error fetching data:", error);
+      throw new Error("auth");
     });
 }
 

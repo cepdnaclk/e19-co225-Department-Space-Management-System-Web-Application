@@ -61,31 +61,20 @@ async function deleteUserReservatin(token, id) {
     });
 }
 
-async function createReservation(
-  token,
-  title,
-  startTime,
-  endTime,
-  spaceID,
-  reservationDateTime,
-  date,
-  reservedBy,
-  responsiblePerson,
-  waitingId
-) {
+async function createReservation(token, arrgs) {
   await axios
     .post(
       endPointReservation,
       {
-        spaceID: spaceID,
-        title: title,
-        reservationDateTime: reservationDateTime,
-        startTime: startTime,
-        endTime: endTime,
-        date: date,
-        reservedBy: reservedBy,
-        responsiblePerson: responsiblePerson,
-        waitingId: waitingId,
+        spaceID: arrgs[3],
+        title: arrgs[0],
+        reservationDateTime: arrgs[4],
+        startTime: arrgs[1],
+        endTime: arrgs[2],
+        date: arrgs[5],
+        reservedBy: arrgs[6],
+        responsiblePerson: arrgs[7],
+        waitingId: arrgs[8],
       },
       {
         headers: {
