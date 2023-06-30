@@ -88,15 +88,15 @@ const AddEvent = ({
 
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
-    if (mapTimeStringToInteger(event.target.value)!== false) {
+    if (mapTimeStringToInteger(event.target.value) !== false) {
       validateReservation(spaceReservations);
     }
   };
 
   const handleEndTimeChange = (event) => {
     setEndTime(event.target.value);
-    const endTimeFormatted = mapTimeStringToInteger (endTime);
-    if (endTimeFormatted!== false) {
+    const endTimeFormatted = mapTimeStringToInteger(endTime);
+    if (endTimeFormatted !== false) {
       validateReservation(spaceReservations);
       console.log(endTimeFormatted);
     }
@@ -109,7 +109,7 @@ const AddEvent = ({
   const validateReservation = (spaceReservations) => {
     const startTimeFormatted = mapTimeStringToInteger(startTime);
     const endTimeFormatted = mapTimeStringToInteger(endTime);
-    console.log(startTimeFormatted, endTimeFormatted)
+    console.log(startTimeFormatted, endTimeFormatted);
 
     if (startTimeFormatted > endTimeFormatted) {
       console.log("Please enter a valid End Time");
@@ -123,7 +123,7 @@ const AddEvent = ({
     endTimeFormatted,
     spaceReservations
   ) => {
-    var reservationDate = getDateInYearFormat(date)
+    var reservationDate = getDateInYearFormat(date);
     const dayReservations = spaceReservations.filter(
       (reservation) => reservation.date === reservationDate
     );
@@ -150,8 +150,8 @@ const AddEvent = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    var reservationDate = new Date(date);
-    reservationDate.setDate(reservationDate.getDate() + 1);
+    // var reservationDate = new Date(date);
+    // reservationDate.setDate(reservationDate.getDate() + 1);
 
     createReservation(
       "",
@@ -160,7 +160,7 @@ const AddEvent = ({
       setTimeFormat(endTime),
       spaceId,
       Date.now(),
-      reservationDate,
+      date,
       user.id,
       responsibleId,
       -1
@@ -182,10 +182,10 @@ const AddEvent = ({
   const handleWaiting = (e) => {
     e.preventDefault();
 
-    console.log(date);
-    var reservationDate = new Date(date);
-    console.log(reservationDate);
-    reservationDate.setDate(reservationDate.getDate() + 1);
+    // console.log(date);
+    // var reservationDate = new Date(date);
+    // console.log(reservationDate);
+    // reservationDate.setDate(reservationDate.getDate() + 1);
 
     createWaiting(
       "",
@@ -194,7 +194,7 @@ const AddEvent = ({
       setTimeFormat(endTime),
       spaceId,
       Date.now(),
-      reservationDate,
+      date,
       user.id,
       responsibleId,
       -1
@@ -252,7 +252,7 @@ const AddEvent = ({
             type="submit"
             className={classNames(styles.submitBtn, styles.addWaitingListBtn)}
             onClick={handleWaiting}
-            disabled = {!responsibleId && title===""}
+            disabled={!responsibleId && title === ""}
           >
             <FaPlus />
             Add to Waiting List
@@ -262,7 +262,7 @@ const AddEvent = ({
             type="submit"
             className={classNames(styles.submitBtn, styles.confirmBtn)}
             onClick={handleSubmit}
-            disabled = {!responsibleId && title ===""}
+            disabled={!responsibleId && title === ""}
           >
             <FiCheck className={styles.checkIcon} />
             Confirm Reservation
