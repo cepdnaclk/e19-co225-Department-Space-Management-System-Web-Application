@@ -14,8 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 
 // The @CrossOrigin annotation enables Cross-Origin Resource Sharing (CORS) for this controller
