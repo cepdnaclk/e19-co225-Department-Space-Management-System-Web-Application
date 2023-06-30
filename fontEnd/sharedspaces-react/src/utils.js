@@ -24,6 +24,11 @@ export const getDateInFormat = (date) => {
   return new Intl.DateTimeFormat("en-US", dateOptions).format(date);
 };
 
+export const getDateInYearFormat = (date) =>{
+  const month = date.getMonth()+1
+  return date.getFullYear() + "-" + (month>10? month : '0' + month) + "-" + date.getDate()
+}
+
 export const getTimeString = (time) => {
   const hour = Math.floor(time / 100);
   const minutes = time % 100;
@@ -87,7 +92,7 @@ export const mapTimeStringToInteger = (timeString) => {
     hour += 12;
   }
 
-  console.log(hour*100 + minute)
+  // console.log(hour*100 + minute)
   return hour * 100 + minute;
 };
 

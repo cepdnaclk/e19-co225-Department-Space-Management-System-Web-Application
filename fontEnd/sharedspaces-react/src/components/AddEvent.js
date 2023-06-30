@@ -9,6 +9,7 @@ import {
   setTimeFormat,
   mapTimeStringToInteger,
   checkUser,
+  getDateInYearFormat,
 } from "../utils";
 import Select from "react-select";
 import classNames from "classnames";
@@ -95,8 +96,12 @@ const AddEvent = ({
 
   const handleEndTimeChange = (event) => {
     setEndTime(event.target.value);
-    if (mapTimeStringToInteger(event.target.value) !== false) {
+
+    const endTimeFormatted = mapTimeStringToInteger(endTime);
+    if (endTimeFormatted !== false) {
+
       validateReservation(spaceReservations);
+      console.log(endTimeFormatted);
     }
   };
 
@@ -121,9 +126,11 @@ const AddEvent = ({
     endTimeFormatted,
     spaceReservations
   ) => {
+    var reservationDate = getDateInYearFormat(date);
     const dayReservations = spaceReservations.filter(
-      (reservation) => reservation.date === date
+      (reservation) => reservation.date === reservationDate
     );
+    // console.log(reservationDate);
     if (
       dayReservations.filter(
         (reservation) =>
