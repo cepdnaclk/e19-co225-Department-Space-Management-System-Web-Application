@@ -75,7 +75,7 @@ public class WaitingController {
 
     // The @PostMapping annotation maps HTTP POST requests to the /waiting endpoint
     @PostMapping
-    public ReservationResponse createWaiting(ReservationRequest waiting) throws ResponseStatusException {
+    public ReservationResponse createWaiting(@RequestBody ReservationRequest waiting) throws ResponseStatusException {
 
         try {
             // Call the handleWaiting() method of the WaitingService with the provided ReservationRequest object and return a ReservationResponse object

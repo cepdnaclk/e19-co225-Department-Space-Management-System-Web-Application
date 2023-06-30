@@ -8,12 +8,14 @@ import {
   getTimeString,
   setTimeFormat,
   mapTimeStringToInteger,
+  checkUser,
 } from "../utils";
 import Select from "react-select";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { getAllResponsible } from "../services/responsibleService";
 import { reservations } from "../data";
+import { createReservation } from "../services/reservationService";
 
 const groupedOptions = [
   {
@@ -36,6 +38,10 @@ const AddEvent = ({
   const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
   const [responsible, setResponsible] = useState([]);
   const [isClash, setClash] = useState(true);
+  const [user, setUser] = useState("");
+  const [valid, setValid] = useState(false);
+  const [title, setTitle] = useState("");
+  const [responsibleId, setResponsibleId] = useState(0);
 
   function mapResponsible() {
     groupedOptions[0].options = responsible
@@ -69,6 +75,10 @@ const AddEvent = ({
   }, []);
 
   useEffect(() => {
+    checkUser(setUser, setValid);
+  }, [startTimeProp, endTimeProp, date, spaceId]);
+
+  useEffect(() => {
     setStartTime(getTimeString(startTimeProp));
     setEndTime(getTimeString(endTimeProp));
   }, [startTimeProp, endTimeProp]);
@@ -85,6 +95,10 @@ const AddEvent = ({
     if (mapTimeStringToInteger(event.target.value)) {
       validateReservation(spaceReservations);
     }
+  };
+
+  const handleChangeTitle = (event) => {
+    setTitle(event.target.value);
   };
 
   const validateReservation = (spaceReservations) => {
@@ -127,7 +141,32 @@ const AddEvent = ({
   const [showFeedbackSuccess, setShowFeedbackSuccess] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
-    setShowFeedbackSuccess(true);
+
+    var reservationDate = date;
+    reservationDate.setDate(reservationDate.getDate() + 1);
+
+    createReservation(
+      "",
+      title,
+      setTimeFormat(startTime),
+      setTimeFormat(endTime),
+      spaceId,
+      Date.now(),
+      reservationDate,
+      user.user.id,
+      responsibleId,
+      -1
+    )
+      .then((res) => {
+        // if reservation sucess
+        setShowFeedbackSuccess(true);
+      })
+      .catch((error) => {
+        // if reserved
+        if (error.message === "reserved") {
+          console.log("reserved");
+        }
+      });
   };
 
   useEffect(() => {
@@ -150,6 +189,7 @@ const AddEvent = ({
           placeholder="Add Title"
           className={styles.inputTitle}
           maxLength={25}
+          onChange={handleChangeTitle}
         />
         <div className={styles.info}>
           <p className={styles.infoItem}>
@@ -179,7 +219,7 @@ const AddEvent = ({
         </div>
         <p className={styles.pResPerson}>Responsible Person</p>
 
-        <ResponsibleSelect />
+        <ResponsibleSelect setResponsibleId={setResponsibleId} />
         {isClash ? (
           <button
             type="submit"
@@ -227,10 +267,11 @@ const AddEvent = ({
 
 export default AddEvent;
 
-const ResponsibleSelect = () => (
+const ResponsibleSelect = ({ setResponsibleId }) => (
   <Select
     placeholder="Select a reponsible person"
     options={groupedOptions}
+    onChange={(choice) => setResponsibleId(choice.value)}
     classNames={{
       container: () => styles.selectContainer,
       control: (state) =>

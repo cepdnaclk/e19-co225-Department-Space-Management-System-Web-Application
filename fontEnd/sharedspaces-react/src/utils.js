@@ -1,3 +1,5 @@
+import jwt_decode from "jwt-decode";
+
 export const generateColorCode = (letter) => {
   const letters = "abcdefghijklmnopqrstuvwxyz";
   const index = letters.indexOf(letter.toLowerCase());
@@ -86,3 +88,15 @@ export const mapTimeStringToInteger = (timeString) => {
 
   return hour * 100 + minute;
 };
+
+export function checkUser(setUser, setValid) {
+  const token = localStorage.getItem("token");
+
+  if (token == null) {
+    setValid(false);
+    setUser("");
+  } else {
+    setValid(true);
+    setUser(jwt_decode(token));
+  }
+}

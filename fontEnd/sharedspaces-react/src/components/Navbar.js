@@ -6,15 +6,12 @@ import { GoogleLogin } from "@react-oauth/google";
 import { getLogging } from "../services/loggingService";
 import { getAuthentincate } from "../services/authService";
 
-const Navbar = () => {
+const Navbar = ({ user, setUser, valid, setValid }) => {
   // TODO: Differentiate the current page in the NavBar
 
   // Initial State will be fetched from the backend
   const [LoggedIn, setLoggedIn] = React.useState(false);
   const [googleToken, setGoogleToken] = React.useState("");
-  const [user, setUser] = React.useState("");
-  const [token, setToken] = React.useState("");
-  const [valid, setValid] = React.useState(false);
 
   const secretKey =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
@@ -30,7 +27,6 @@ const Navbar = () => {
     setValid(false);
     setUser("");
     setGoogleToken("");
-    setToken("");
   };
 
   const handleLogout = () => {
@@ -38,15 +34,17 @@ const Navbar = () => {
     setValid(false);
     setUser("");
     setGoogleToken("");
-    setToken("");
     localStorage.removeItem("token");
   };
 
   React.useEffect(() => {
     if (LoggedIn && googleToken) {
-      getLogging(setValid, setUser, user, setToken, googleToken);
+      getLogging(setValid, setUser, googleToken).catch((error) => {
+        // if logged with wrong email
+        console.log(error);
+      });
     }
-  }, [LoggedIn, googleToken]);
+  }, [googleToken]);
 
   return (
     <>
@@ -67,7 +65,7 @@ const Navbar = () => {
         <div className={styles.User}>
           <LoginBar
             valid={valid}
-            token={token}
+            token={user}
             handleLogout={handleLogout}
             handleLogin={handleLogin}
             handleFailure={handleFailure}
