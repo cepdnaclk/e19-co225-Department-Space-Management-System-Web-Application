@@ -19,14 +19,16 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Configuration
-// This filter intercepts incoming requests and checks the JWT token for authentication.
+// This filter intercepts incoming requests and checks the JWT token for
+// authentication.
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private  final UserDB userDB;
+    private final UserDB userDB;
 
-    @Value("${secret.key.r}")
+    // @Value("${secret.key.r}")
+    @Value("${secret.key}")
     private String secretKeyR;
 
     @Autowired
@@ -52,7 +54,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String jwt;
             final String userEmail;
 
-            // If there is no Authorization header or it does not start with "Bearer ", allow the request.
+            // If there is no Authorization header or it does not start with "Bearer ",
+            // allow the request.
 
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
@@ -72,7 +75,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             userEmail = jwtService.extractUsername(jwt);
 
             // If the user with the email does not exist, allow the request.
-            if(!userDB.getUserByEmail(userEmail).isPresent()){
+            if (!userDB.getUserByEmail(userEmail).isPresent()) {
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -100,7 +103,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String jwt;
             final String userEmail;
 
-            // If there is no Authorization header or it does not start with "Bearer ", allow the request
+            // If there is no Authorization header or it does not start with "Bearer ",
+            // allow the request
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
@@ -117,7 +121,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             userEmail = jwtService.extractUsername(jwt, secretKeyR);
 
             // If the user with the email does not exist, allow the request.
-            if(!userDB.getUserByEmail(userEmail).isPresent()){
+            if (!userDB.getUserByEmail(userEmail).isPresent()) {
                 filterChain.doFilter(request, response);
                 return;
             }

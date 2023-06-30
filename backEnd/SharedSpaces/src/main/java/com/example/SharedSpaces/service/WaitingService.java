@@ -124,6 +124,22 @@ public class WaitingService {
         return "Deleted";
     }
 
+    public String waitingDeleteBySlot(int id, String email) throws InvalidDataException {
+        Waiting waiting = waitingDB.getWaiitingById((long) id).get();
+
+        if (waiting == null)
+            throw new InvalidDataException("invalid");
+
+        if (!email.equals(userDB.getUserById(waiting.getReservedById()).get().getEmail())
+                && !email.equals(userDB.getUserById(waiting.getResponsiblePersonId()).get().getEmail())
+                && !adminDB.getAdminByEmail(email).isPresent())
+            throw new InvalidDataException("invalid");
+
+        waitingDB.deleteWaiting(waiting.getId());
+
+        return "Deleted";
+    }
+
     public ReservationResponse WaitingToRequest(Waiting reservation) {
         ReservationResponse reservationResponse = new ReservationResponse();
 

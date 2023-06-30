@@ -48,7 +48,8 @@ public class ReservationController {
     // The @PostMapping annotation maps HTTP POST requests to the /reservation
     // endpoint
     @PostMapping
-    public ReservationResponse addResevation(@RequestBody ReservationRequest reservationRequest) throws ResponseStatusException {
+    public ReservationResponse addResevation(@RequestBody ReservationRequest reservationRequest)
+            throws ResponseStatusException {
         System.out.println(reservationRequest);
 
         try {
@@ -137,6 +138,37 @@ public class ReservationController {
             // Call the reservationDeleteBySlot() method of the ReservationService and
             // return the result as a String
             return reservationService.reservationDeleteBySlot(slot, email);
+        } catch (InvalidDataException e) {
+            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
+            // the input is invalid
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
+        } catch (EmailException e) {
+            // Throw a ResponseStatusException with HTTP status code 503 (Service
+            // Unavailable) if there is an email error
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "emailError\n");
+        }
+
+    }
+
+    // The @DeleteMapping annotation maps HTTP DELETE requests to the /reservation
+    // endpoint
+    @DeleteMapping("/id")
+    public String deleteResevation(@RequestParam int id) throws ResponseStatusException {
+
+        // The following code can be used for user authentication
+        // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
+        // return "Error";
+        // }
+
+        try {
+            // Create a new Slot object with the specified space ID, date, start time, and
+            // end time
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            System.out.println(email);
+            // String email = "e19129@eng.pdn.ac.lk";
+            // Call the reservationDeleteBySlot() method of the ReservationService and
+            // return the result as a String
+            return reservationService.reservationDeleteBySlot(id, email);
         } catch (InvalidDataException e) {
             // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
             // the input is invalid

@@ -46,9 +46,15 @@ const MyReservations = () => {
       <ReservationTable
         reservations={currentReservations}
         isActionable={true}
+        user={user}
+        waitingList={false}
       />
       <h2 className={styles.pastReservations}>Past Reservations</h2>
-      <ReservationTable reservations={pastReservations} />
+      <ReservationTable
+        reservations={pastReservations}
+        user={user}
+        waitingList={false}
+      />
     </div>
   );
 };

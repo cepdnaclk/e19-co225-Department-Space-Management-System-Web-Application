@@ -4,7 +4,52 @@ import styles from "../../styles/manageReservations/ReservationsTable.module.scs
 import { getTimeString, getDateInFormat } from "../../utils";
 import classNames from "classnames";
 import { MdClose, MdCheck } from "react-icons/md";
-function ReservationTable({ reservations, isActionable, isAcceptable }) {
+import {
+  createReservation,
+  deleteUserReservatin,
+} from "../../services/reservationService";
+import { deleteUserWaiting } from "../../services/waitingService";
+function ReservationTable({
+  reservations,
+  isActionable,
+  isAcceptable,
+  user,
+  waitingList,
+}) {
+  function handleDelete(reservation) {
+    console.log(user.email);
+    if (waitingList === false) {
+      deleteUserReservatin(localStorage.getItem("token"), reservation.id);
+    } else {
+      deleteUserWaiting(localStorage.getItem("token"), reservation.id);
+    }
+  }
+
+  function handleReservation(reservation) {
+    createReservation(
+      "",
+      reservation.title,
+      reservation.startTime,
+      reservation.endTime,
+      reservation.spaceId,
+      Date.now(),
+      reservation.date,
+      user.id,
+      reservation.responsibePersonId,
+      reservation.id
+    )
+      .then((res) => {
+        // if reservation sucess
+        console.log(res);
+      })
+      .catch((error) => {
+        // if reserved
+        if (error.message === "reserved") {
+          console.log("reserved");
+        }
+      });
+  }
+
   return (
     <div className={styles.container}>
       <table className={styles.resTable}>
@@ -36,7 +81,7 @@ function ReservationTable({ reservations, isActionable, isAcceptable }) {
                     {isAcceptable && (
                       <button
                         className={classNames(styles.btn, styles.acceptBtn)}
-                        onClick={() => console.log("Cancel clicked")}
+                        onClick={() => handleReservation(reservation)}
                       >
                         <MdCheck />
                         Confirm
@@ -45,7 +90,7 @@ function ReservationTable({ reservations, isActionable, isAcceptable }) {
 
                     <button
                       className={classNames(styles.btn, styles.cancelBtn)}
-                      onClick={() => console.log("Cancel clicked")}
+                      onClick={() => handleDelete(reservation)}
                     >
                       <MdClose />
                       Cancel

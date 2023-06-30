@@ -31,7 +31,11 @@ public class SecurityConfiguration {
                 .cors(cors -> cors.disable()) // Disable CORS (Cross-Origin Resource Sharing) protection.
                 .csrf(csrf -> csrf.disable()) // Disable CSRF (Cross-Site Request Forgery) protection.
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/reservation", "/waiting/slot").permitAll() // Allow GET requests to these URLs without authentication.
+                        .requestMatchers(HttpMethod.GET, "/reservation", "/waiting/slot").permitAll() // Allow GET
+                                                                                                      // requests to
+                                                                                                      // these URLs
+                                                                                                      // without
+                                                                                                      // authentication.
                         .requestMatchers(
                                 "/**", // Allow all requests to these URLs without authentication.
                                 "/log",
@@ -49,8 +53,13 @@ public class SecurityConfiguration {
                                 "/swagger-ui.html")
                         .permitAll()
                         .anyRequest().authenticated()) // Require authentication for all other requests.
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Use stateless sessions.
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Add the JWT authentication filter before the username/password authentication filter.
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Use stateless
+                                                                                                        // sessions.
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Add the JWT
+                                                                                             // authentication filter
+                                                                                             // before the
+                                                                                             // username/password
+                                                                                             // authentication filter.
 
         return http.build(); // Build and return the security filter chain.
     }
