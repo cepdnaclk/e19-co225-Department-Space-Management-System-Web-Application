@@ -90,7 +90,7 @@ export const mapTimeStringToInteger = (timeString) => {
   return hour * 100 + minute;
 };
 
-export function checkUser(setUser, setValid) {
+export function checkUser(setUser, setValid, handleLogout) {
   const token = localStorage.getItem("token");
 
   if (token == null) {
@@ -98,18 +98,24 @@ export function checkUser(setUser, setValid) {
     setUser("");
   } else {
     const userDetails = jwt_decode(token);
-    const user = userDetails.user;
-
-    if (userDetails.role === "responsible_person") {
-      user.role = Role.RESPONSIBLE;
-    } else if (userDetails.role === "user") {
-      user.role = Role.USER;
-    } else {
-      user.role = Role.ADMIN;
+    
+    if(userDetails.exp * 1000< Date.now()){
+      handleLogout();
     }
+    else {
+      const user = userDetails.user;
 
-    console.log(user);
-    setValid(true);
-    setUser(user);
+      if (userDetails.role === "responsible_person") {
+        user.role = Role.RESPONSIBLE;
+      } else if (userDetails.role === "user") {
+        user.role = Role.USER;
+      } else {
+        user.role = Role.ADMIN;
+      }
+
+      console.log(user);
+      setValid(true);
+      setUser(user);
+  }
   }
 }

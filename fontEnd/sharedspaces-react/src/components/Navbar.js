@@ -2,9 +2,7 @@ import * as React from "react";
 import styles from "../styles/Navbar.module.scss";
 import { Link } from "react-router-dom";
 import LoginBar from "./LoginBar";
-import { GoogleLogin } from "@react-oauth/google";
 import { getLogging } from "../services/loggingService";
-import { getAuthentincate } from "../services/authService";
 import { checkUser } from "../utils";
 
 const Navbar = ({ user, setUser, valid, setValid }) => {
@@ -14,12 +12,11 @@ const Navbar = ({ user, setUser, valid, setValid }) => {
   const [LoggedIn, setLoggedIn] = React.useState(false);
   const [googleToken, setGoogleToken] = React.useState("");
 
-  const secretKey =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
   const handleLogin = (response) => {
     setGoogleToken(response);
     setLoggedIn(true);
+    localStorage.setItem('isloggedin','1');
   };
 
   const handleFailure = (error) => {
@@ -36,6 +33,7 @@ const Navbar = ({ user, setUser, valid, setValid }) => {
     setUser("");
     setGoogleToken("");
     localStorage.removeItem("token");
+    localStorage.setItem('isloggedin','0');
   };
 
   React.useEffect(() => {
@@ -50,6 +48,14 @@ const Navbar = ({ user, setUser, valid, setValid }) => {
         });
     }
   }, [googleToken]);
+
+  React.useEffect(() =>{
+    const loggedinStatus = localStorage.getItem('isloggedin');
+    if(loggedinStatus==='1'){
+      setLoggedIn(true);
+      checkUser(setUser, setValid, handleLogout);
+    }
+  }, [])
 
   return (
     <>
