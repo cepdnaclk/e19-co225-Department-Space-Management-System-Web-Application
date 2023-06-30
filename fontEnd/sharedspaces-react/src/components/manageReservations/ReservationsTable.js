@@ -27,7 +27,7 @@ function ReservationTable({
 
   function handleReservation(reservation) {
     createReservation(
-      "",
+      localStorage.getItem("token"),
       reservation.title,
       reservation.startTime,
       reservation.endTime,
