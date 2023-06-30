@@ -99,7 +99,6 @@ const AddEvent = ({
 
     const endTimeFormatted = mapTimeStringToInteger(endTime);
     if (endTimeFormatted !== false) {
-
       validateReservation(spaceReservations);
       console.log(endTimeFormatted);
     }
@@ -173,6 +172,8 @@ const AddEvent = ({
         // if reserved
         if (error.message === "reserved") {
           console.log("reserved");
+        } else if (error.message === "email") {
+          setShowFeedbackSuccess(true);
         }
       });
   };

@@ -89,6 +89,8 @@ async function createReservation(token, arrgs) {
       console.log(error.message);
       if (error.response.status === 401) {
         throw new Error("reserved");
+      } else if (error.response.status === 503) {
+        throw new Error("email");
       }
       throw new Error("");
     });
