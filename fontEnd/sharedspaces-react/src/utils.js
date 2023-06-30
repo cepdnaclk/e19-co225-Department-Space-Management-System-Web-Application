@@ -24,10 +24,16 @@ export const getDateInFormat = (date) => {
   return new Intl.DateTimeFormat("en-US", dateOptions).format(date);
 };
 
-export const getDateInYearFormat = (date) =>{
-  const month = date.getMonth()+1
-  return date.getFullYear() + "-" + (month>10? month : '0' + month) + "-" + date.getDate()
-}
+export const getDateInYearFormat = (date) => {
+  const month = date.getMonth() + 1;
+  return (
+    date.getFullYear() +
+    "-" +
+    (month > 10 ? month : "0" + month) +
+    "-" +
+    date.getDate()
+  );
+};
 
 export const getTimeString = (time) => {
   const hour = Math.floor(time / 100);
@@ -104,11 +110,10 @@ export function checkUser(setUser, setValid, handleLogout) {
     setUser("");
   } else {
     const userDetails = jwt_decode(token);
-    
-    if(userDetails.exp * 1000< Date.now()){
+
+    if (userDetails.exp * 1000 < Date.now()) {
       handleLogout();
-    }
-    else {
+    } else {
       const user = userDetails.user;
 
       if (userDetails.role === "responsible_person") {
@@ -119,9 +124,8 @@ export function checkUser(setUser, setValid, handleLogout) {
         user.role = Role.ADMIN;
       }
 
-      console.log(user);
       setValid(true);
       setUser(user);
-  }
+    }
   }
 }
