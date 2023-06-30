@@ -1,18 +1,44 @@
 import React from "react";
 import ReservationTable from "./ReservationsTable";
 import styles from "../../styles/manageReservations/MyReservations.module.scss";
-import { reservations } from "../../data";
+import { useEffect, useState } from "react";
+import { checkUser } from "../../utils";
+import { getUserWaiting } from "../../services/waitingService";
+
 const MyWaiting = () => {
+  const [user, setUser] = useState("");
+  const [valid, setValid] = useState(false);
+  const [waiting, setWaiting] = useState([]);
+  const [availableWaiting, setAvailableWaiting] = useState([]);
+  const [unavailableWaiting, setUnAvailableWaiting] = useState([]);
+
+  useEffect(() => {
+    checkUser(setUser, setValid);
+  }, []);
+
+  useEffect(() => {
+    if (user !== "") {
+      getUserWaiting(setWaiting, user.email);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (waiting !== []) {
+      setAvailableWaiting(waiting.filter((wait) => wait.available));
+      setUnAvailableWaiting(waiting.filter((wait) => !wait.available));
+    }
+  }, [waiting]);
+
   return (
     <div className={styles.container}>
       <h2>Available for Reservation</h2>
       <ReservationTable
-        reservations={reservations}
+        reservations={availableWaiting}
         isActionable={true}
         isAcceptable={true}
       />
       <h2 className={styles.pastReservations}>Currently Unavailable</h2>
-      <ReservationTable reservations={reservations} isActionable={true} />
+      <ReservationTable reservations={unavailableWaiting} isActionable={true} />
     </div>
   );
 };

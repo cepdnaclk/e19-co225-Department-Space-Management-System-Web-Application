@@ -1,4 +1,5 @@
 import jwt_decode from "jwt-decode";
+import { Role } from "./data";
 
 export const generateColorCode = (letter) => {
   const letters = "abcdefghijklmnopqrstuvwxyz";
@@ -96,7 +97,19 @@ export function checkUser(setUser, setValid) {
     setValid(false);
     setUser("");
   } else {
+    const userDetails = jwt_decode(token);
+    const user = userDetails.user;
+
+    if (userDetails.role === "responsible_person") {
+      user.role = Role.RESPONSIBLE;
+    } else if (userDetails.role === "user") {
+      user.role = Role.USER;
+    } else {
+      user.role = Role.ADMIN;
+    }
+
+    console.log(user);
     setValid(true);
-    setUser(jwt_decode(token));
+    setUser(user);
   }
 }

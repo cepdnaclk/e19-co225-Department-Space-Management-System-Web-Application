@@ -13,6 +13,21 @@ const endPointWaiting = "http://localhost:8080/waiting";
 //     });
 // }
 
+async function getUserWaiting(setReservations, email) {
+  await axios
+    .get(endPointWaiting + "/user", {
+      params: {
+        email: email,
+      },
+    })
+    .then((res) => {
+      setReservations(res.data);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+}
+
 async function createWaiting(
   token,
   title,
@@ -25,18 +40,6 @@ async function createWaiting(
   responsiblePerson,
   waitingId
 ) {
-  console.log(
-    token,
-    title,
-    startTime,
-    endTime,
-    spaceID,
-    reservationDateTime,
-    date,
-    reservedBy,
-    responsiblePerson,
-    waitingId
-  );
   await axios
     .post(
       endPointWaiting,
@@ -65,7 +68,8 @@ async function createWaiting(
       if (error.response.status === 401) {
         throw new Error("reserved");
       }
+      throw new Error("");
     });
 }
 
-export { createWaiting };
+export { createWaiting, getUserWaiting };

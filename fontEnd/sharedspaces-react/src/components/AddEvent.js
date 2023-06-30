@@ -44,6 +44,25 @@ const AddEvent = ({
   const [title, setTitle] = useState("");
   const [responsibleId, setResponsibleId] = useState(0);
 
+  useEffect(() => {
+    getResponsible();
+  }, []);
+
+  useEffect(() => {
+    if (responsible != []) mapResponsible();
+  }, [responsible]);
+
+  useEffect(() => {
+    setStartTime(getTimeString(startTimeProp));
+    setEndTime(getTimeString(endTimeProp));
+  }, [startTimeProp, endTimeProp]);
+
+  useEffect(() => {
+    checkUser(setUser, setValid);
+    setShowFeedbackSuccess(false);
+    setShowFeedbackWaiting(false);
+  }, [startTimeProp, endTimeProp, spaceId, date]);
+
   function mapResponsible() {
     groupedOptions[0].options = responsible
       .filter((res) => res.type != "instructor")
@@ -63,26 +82,9 @@ const AddEvent = ({
       });
   }
 
-  useEffect(() => {
-    if (responsible != []) mapResponsible();
-  }, [responsible]);
-
   async function getResponsible() {
     await getAllResponsible(setResponsible);
   }
-
-  useEffect(() => {
-    getResponsible();
-  }, []);
-
-  useEffect(() => {
-    checkUser(setUser, setValid);
-  }, [startTimeProp, endTimeProp, date, spaceId]);
-
-  useEffect(() => {
-    setStartTime(getTimeString(startTimeProp));
-    setEndTime(getTimeString(endTimeProp));
-  }, [startTimeProp, endTimeProp]);
 
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
@@ -143,7 +145,7 @@ const AddEvent = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    var reservationDate = date;
+    var reservationDate = new Date(date);
     reservationDate.setDate(reservationDate.getDate() + 1);
 
     createReservation(
@@ -154,7 +156,7 @@ const AddEvent = ({
       spaceId,
       Date.now(),
       reservationDate,
-      user.user.id,
+      user.id,
       responsibleId,
       -1
     )
@@ -170,14 +172,8 @@ const AddEvent = ({
       });
   };
 
-  useEffect(() => {
-    setShowFeedbackSuccess(false);
-    setShowFeedbackWaiting(false);
-  }, [startTimeProp, endTimeProp, spaceId, date]);
-
   //handling submit waiting list click, on submit show feedback
   const [showFeedbackWaiting, setShowFeedbackWaiting] = useState(false);
-
   const handleWaiting = (e) => {
     e.preventDefault();
 
@@ -192,7 +188,7 @@ const AddEvent = ({
       spaceId,
       Date.now(),
       reservationDate,
-      user.user.id,
+      user.id,
       responsibleId,
       -1
     )

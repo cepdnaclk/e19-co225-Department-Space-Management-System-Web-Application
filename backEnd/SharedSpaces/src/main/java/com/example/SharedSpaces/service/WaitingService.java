@@ -27,7 +27,6 @@ public class WaitingService {
     private final ResponsiblePersonDB responsiblePersonDB;
     private final AdminDB adminDB;
 
-
     // Constructor Injection
     @Autowired
     public WaitingService(WaitingDB waitingDB, UserDB userDB, ResponsiblePersonDB responsiblePersonDB,
@@ -104,7 +103,6 @@ public class WaitingService {
             throw new AllReadyWaitingException("invalid");
 
         waitingDB.createWaiting(reservation);
-        reservationResponse.setStatus("Waiting");
 
         return reservationResponse;
     }
@@ -149,6 +147,10 @@ public class WaitingService {
 
         reservationResponse.setResponsiblePerson(
                 responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
+
+        reservationResponse.setAvailable(reservation.getAvailable());
+
+        reservationResponse.setResponsiblePersonId(reservation.getResponsiblePersonId());
 
         return reservationResponse;
     }

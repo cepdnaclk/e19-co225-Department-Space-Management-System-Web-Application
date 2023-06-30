@@ -3,7 +3,7 @@ import styles from "../styles/Navbar.module.scss";
 import { googleLogout } from "@react-oauth/google";
 
 const Profile = ({ token, handleLogout }) => {
-  const firstname = token?.user?.firstName;
+  const firstname = token?.firstName;
   const profileIcon = firstname ? firstname.charAt(0) : "";
 
   const logOut = () => {
@@ -16,7 +16,7 @@ const Profile = ({ token, handleLogout }) => {
   return (
     <>
       <div className={styles.Profile}>
-        <div className={styles.email}>{token.sub}</div>
+        <div className={styles.email}>{token.email}</div>
         <div className={styles.ProfileIcon}>{profileIcon}</div>
         <div>
           <button className={styles.logoutBtn} onClick={logOut}>

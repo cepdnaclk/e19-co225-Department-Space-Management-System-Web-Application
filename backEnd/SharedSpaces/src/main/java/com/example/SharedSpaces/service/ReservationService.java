@@ -29,7 +29,6 @@ public class ReservationService {
     private final SpaceDB spaceDB;
     private final AdminDB adminDB;
 
-
     // Constructor injection
     @Autowired
     public ReservationService(ReservationDB reservationDB, UserDB userDB, WaitingDB waitingDB,
@@ -61,6 +60,7 @@ public class ReservationService {
 
         return reservationResponses;
     }
+
     // Handle reservation request
     public ReservationResponse hadleReservation(ReservationRequest reservationRequest)
             throws AllReadyReservedException, EmailException, InvalidDataException {
@@ -144,6 +144,7 @@ public class ReservationService {
         String spaceName = spaceDB.getSpaceById((long) reservation.getSpaceID()).get().getName();
         List<Waiting> waitingList = waitingDB.getWaitingByDetails(slot.getSpaceID(), slot.getStartDateTime(),
                 slot.getEndDateTime());
+
         if (!admin && waitingList != null) {
 
             try {
@@ -158,6 +159,10 @@ public class ReservationService {
 
             if (reservationDB.getReservationsByDetails(waiting.getSpaceID(), waiting.getStartDateTime(),
                     waiting.getEndDateTime()) == null) {
+
+                waiting.setAvailable(true);
+                waitingDB.updateWaiting(waiting.getId(), waiting);
+
                 try {
                     emailService.sendFreeReservationNotification(waitingUser, spaceName, waiting.getStartDateTime(),
                             waiting.getEndDateTime());
@@ -241,6 +246,7 @@ public class ReservationService {
         reservationResponse.setReservedBy(user);
 
         reservationResponse.setResponsiblePerson(responsible);
+        reservationResponse.setResponsiblePersonId(reservation.getResponsiblePersonId());
 
         return reservationResponse;
     }
@@ -268,6 +274,8 @@ public class ReservationService {
 
         reservationResponse.setResponsiblePerson(
                 responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
+
+        reservationResponse.setResponsiblePersonId(reservation.getResponsiblePersonId());
 
         return reservationResponse;
     }

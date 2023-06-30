@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 
 const endPointlog = "http://localhost:8080/log";
 
-async function getLogging(setValid, setUser, googleToken) {
+async function getLogging(googleToken) {
   await axios
     .post(endPointlog, {
       clientId: googleToken.clientId,
@@ -11,8 +11,6 @@ async function getLogging(setValid, setUser, googleToken) {
       select_by: googleToken.select_by,
     })
     .then((response) => {
-      setValid(response.data.valid);
-      setUser(jwt_decode(response.data.refreshToken));
       localStorage.setItem("token", response.data.refreshToken);
     })
     .catch((error) => {

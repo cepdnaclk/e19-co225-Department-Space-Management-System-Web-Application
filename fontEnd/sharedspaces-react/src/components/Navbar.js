@@ -5,6 +5,7 @@ import LoginBar from "./LoginBar";
 import { GoogleLogin } from "@react-oauth/google";
 import { getLogging } from "../services/loggingService";
 import { getAuthentincate } from "../services/authService";
+import { checkUser } from "../utils";
 
 const Navbar = ({ user, setUser, valid, setValid }) => {
   // TODO: Differentiate the current page in the NavBar
@@ -39,10 +40,14 @@ const Navbar = ({ user, setUser, valid, setValid }) => {
 
   React.useEffect(() => {
     if (LoggedIn && googleToken) {
-      getLogging(setValid, setUser, googleToken).catch((error) => {
-        // if logged with wrong email
-        console.log(error);
-      });
+      getLogging(googleToken)
+        .then((res) => {
+          checkUser(setUser, setValid);
+        })
+        .catch((error) => {
+          // if logged with wrong email
+          console.log(error);
+        });
     }
   }, [googleToken]);
 

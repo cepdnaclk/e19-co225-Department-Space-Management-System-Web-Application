@@ -13,6 +13,21 @@ async function getAllReservation(setReservations) {
     });
 }
 
+async function getUserReservations(setReservations, email) {
+  await axios
+    .get(endPointReservation + "/user", {
+      params: {
+        email: email,
+      },
+    })
+    .then((res) => {
+      setReservations(res.data);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+}
+
 async function createReservation(
   token,
   title,
@@ -25,18 +40,6 @@ async function createReservation(
   responsiblePerson,
   waitingId
 ) {
-  console.log(
-    token,
-    title,
-    startTime,
-    endTime,
-    spaceID,
-    reservationDateTime,
-    date,
-    reservedBy,
-    responsiblePerson,
-    waitingId
-  );
   await axios
     .post(
       endPointReservation,
@@ -68,4 +71,4 @@ async function createReservation(
     });
 }
 
-export { getAllReservation, createReservation };
+export { getAllReservation, createReservation, getUserReservations };

@@ -26,8 +26,10 @@ public class ReservationResponse {
     // The name of the person responsible for the reservation
     private String responsiblePerson;
 
+    private long responsiblePersonId;
+
     // The status of the reservation (e.g. "confirmed", "pending", "cancelled")
-    private String status;
+    private boolean available;
 
     public ReservationResponse() {
 
@@ -35,7 +37,7 @@ public class ReservationResponse {
 
     // Constructor for creating a new reservation response object
     public ReservationResponse(int spaceId, String title, String date, int startTime, int endTime, String reservedBy,
-                               String responsiblePerson) {
+            String responsiblePerson) {
         this.spaceId = spaceId;
         this.title = title;
         this.date = date;
@@ -109,12 +111,12 @@ public class ReservationResponse {
     }
 
     // Getter and setter methods for status
-    public String getStatus() {
-        return status;
+    public boolean getAvailable() {
+        return available;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setAvailable(Boolean status) {
+        this.available = status;
     }
 
     // Getter and setter methods for id
@@ -126,7 +128,16 @@ public class ReservationResponse {
         this.id = id;
     }
 
-    // Override the toString() method to return a string representation of the object
+    public void setResponsiblePersonId(long id) {
+        this.responsiblePersonId = id;
+    }
+
+    public long getResponsiblePersonId() {
+        return this.responsiblePersonId;
+    }
+
+    // Override the toString() method to return a string representation of the
+    // object
     @Override
     public String toString() {
         return "ReservationResponse{" +
@@ -138,8 +149,8 @@ public class ReservationResponse {
                 ", endTime=" + endTime +
                 ", reservedBy='" + reservedBy + '\'' +
                 ", responsiblePerson='" + responsiblePerson + '\'' +
-                ", status='" + status + '\'' +
+                ", responsiblePersonId='" + responsiblePersonId + '\'' +
+                ", available='" + available + '\'' +
                 '}';
     }
 }
-

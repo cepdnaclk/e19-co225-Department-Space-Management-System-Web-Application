@@ -111,3 +111,9 @@ export const spaces = [
     description: "Second Floor Lab",
   },
 ];
+
+export const Role = {
+  USER: "USER",
+  RESPONSIBLE: "RESPONSIBLE",
+  ADMIN: "ADMIN",
+};
