@@ -45,6 +45,7 @@ public class ReservationController {
 
     // The @PostMapping annotation maps HTTP POST requests to the /reservation
     // endpoint
+    @CrossOrigin
     @PostMapping
     public ReservationResponse addResevation(@RequestBody ReservationRequest reservationRequest)
             throws ResponseStatusException {
@@ -77,6 +78,7 @@ public class ReservationController {
 
     // The @GetMapping annotation maps HTTP GET requests to the /reservation/user
     // endpoint
+    @CrossOrigin
     @GetMapping("/user")
     public List<ReservationResponse> getUserReservationList(@RequestParam String email) throws ResponseStatusException {
 
@@ -98,6 +100,7 @@ public class ReservationController {
 
     // The @GetMapping annotation maps HTTP GET requests to the
     // /reservation/responsible endpoint
+    @CrossOrigin
     @GetMapping("/responsible")
     public List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email)
             throws ResponseStatusException {
@@ -121,14 +124,10 @@ public class ReservationController {
 
     // The @DeleteMapping annotation maps HTTP DELETE requests to the /reservation
     // endpoint
+    @CrossOrigin
     @DeleteMapping()
     public String deleteResevation(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime,
             @RequestParam int endTime, @RequestParam String email) throws ResponseStatusException {
-
-        // The following code can be used for user authentication
-        // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
-        // return "Error";
-        // }
 
         try {
             // Create a new Slot object with the specified space ID, date, start time, and
@@ -151,13 +150,9 @@ public class ReservationController {
 
     // The @DeleteMapping annotation maps HTTP DELETE requests to the /reservation
     // endpoint
+    @CrossOrigin
     @DeleteMapping("/id")
     public String deleteResevation(@RequestParam int id) throws ResponseStatusException {
-
-        // The following code can be used for user authentication
-        // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
-        // return "Error";
-        // }
 
         try {
             // Create a new Slot object with the specified space ID, date, start time, and
