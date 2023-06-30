@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { getAllResponsible } from "../services/responsibleService";
 import { reservations } from "../data";
 import { createReservation } from "../services/reservationService";
+import { createWaiting } from "../services/waitingService";
 
 const groupedOptions = [
   {
@@ -176,9 +177,33 @@ const AddEvent = ({
 
   //handling submit waiting list click, on submit show feedback
   const [showFeedbackWaiting, setShowFeedbackWaiting] = useState(false);
+
   const handleWaiting = (e) => {
     e.preventDefault();
-    setShowFeedbackWaiting(true);
+
+    console.log(date);
+    var reservationDate = date;
+    reservationDate.setDate(reservationDate.getDate() + 1);
+
+    createWaiting(
+      "",
+      title,
+      setTimeFormat(startTime),
+      setTimeFormat(endTime),
+      spaceId,
+      Date.now(),
+      reservationDate,
+      user.user.id,
+      responsibleId,
+      -1
+    )
+      .then((res) => {
+        // if waiting success
+        setShowFeedbackWaiting(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
