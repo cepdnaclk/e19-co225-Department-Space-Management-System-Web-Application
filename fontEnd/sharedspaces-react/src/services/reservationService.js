@@ -28,15 +28,14 @@ async function getUserReservations(setReservations, email) {
     });
 }
 
-async function deleteUserReservatin(email, spaceID, date, startTime, endTime) {
+async function deleteUserReservatin(token, id) {
   await axios
-    .delete(endPointReservation, {
+    .delete(endPointReservation + "/id", {
       params: {
-        email: email,
-        spaceID: spaceID,
-        date: date,
-        startTime: startTime,
-        endTime: endTime,
+        id: id,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
     })
     .then((res) => {

@@ -28,6 +28,24 @@ async function getUserWaiting(setReservations, email) {
     });
 }
 
+async function deleteUserWaiting(token, id) {
+  await axios
+    .delete(endPointWaiting + "/id", {
+      params: {
+        id: id,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+}
+
 async function createWaiting(
   token,
   title,
@@ -72,4 +90,4 @@ async function createWaiting(
     });
 }
 
-export { createWaiting, getUserWaiting };
+export { createWaiting, getUserWaiting, deleteUserWaiting };

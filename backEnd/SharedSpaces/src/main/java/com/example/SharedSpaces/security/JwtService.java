@@ -20,7 +20,8 @@ public class JwtService {
 
     @Value("${secret.key}")
     private String secretKey;
-    @Value("${secret.key.r}")
+    // @Value("${secret.key.r}")
+    @Value("${secret.key}")
     private String secretKeyR;
 
     private long expiration = 10000000; // Token expiration time in milliseconds.
@@ -157,6 +158,7 @@ public class JwtService {
         return new User(
                 payLoadValues.get(6).substring(1, payLoadValues.get(6).length() - 1), // User ID
                 payLoadValues.get(2).substring(1, payLoadValues.get(2).length() - 1), // Email
-                payLoadValues.get(7).substring(1, payLoadValues.get(7).length() - 1)  // Full name
+                payLoadValues.get(7).substring(1, payLoadValues.get(7).length() - 1) // Full name
         );
-    }}
+    }
+}
