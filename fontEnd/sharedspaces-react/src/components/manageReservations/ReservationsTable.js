@@ -4,7 +4,10 @@ import styles from "../../styles/manageReservations/ReservationsTable.module.scs
 import { getTimeString, getDateInFormat } from "../../utils";
 import classNames from "classnames";
 import { MdClose, MdCheck } from "react-icons/md";
-import { deleteUserReservatin } from "../../services/reservationService";
+import {
+  createReservation,
+  deleteUserReservatin,
+} from "../../services/reservationService";
 import { deleteUserWaiting } from "../../services/waitingService";
 function ReservationTable({
   reservations,
@@ -22,7 +25,30 @@ function ReservationTable({
     }
   }
 
-  function handleReservation(reservation) {}
+  function handleReservation(reservation) {
+    createReservation(
+      "",
+      reservation.title,
+      reservation.startTime,
+      reservation.endTime,
+      reservation.spaceId,
+      Date.now(),
+      reservation.date,
+      user.id,
+      reservation.responsibePersonId,
+      reservation.id
+    )
+      .then((res) => {
+        // if reservation sucess
+        console.log(res);
+      })
+      .catch((error) => {
+        // if reserved
+        if (error.message === "reserved") {
+          console.log("reserved");
+        }
+      });
+  }
 
   return (
     <div className={styles.container}>

@@ -37,12 +37,14 @@ const MyWaiting = () => {
         isActionable={true}
         isAcceptable={true}
         waitingList={true}
+        user={user}
       />
       <h2 className={styles.pastReservations}>Currently Unavailable</h2>
       <ReservationTable
         reservations={unavailableWaiting}
         isActionable={true}
         waitingList={true}
+        user={user}
       />
     </div>
   );
