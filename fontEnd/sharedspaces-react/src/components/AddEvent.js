@@ -14,7 +14,6 @@ import Select from "react-select";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { getAllResponsible } from "../services/responsibleService";
-import { reservations } from "../data";
 import { createReservation } from "../services/reservationService";
 import { createWaiting } from "../services/waitingService";
 
@@ -88,14 +87,14 @@ const AddEvent = ({
 
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
-    if (mapTimeStringToInteger(event.target.value)) {
+    if (mapTimeStringToInteger(event.target.value)!== false) {
       validateReservation(spaceReservations);
     }
   };
 
   const handleEndTimeChange = (event) => {
     setEndTime(event.target.value);
-    if (mapTimeStringToInteger(event.target.value)) {
+    if (mapTimeStringToInteger(event.target.value)!== false) {
       validateReservation(spaceReservations);
     }
   };
@@ -105,8 +104,9 @@ const AddEvent = ({
   };
 
   const validateReservation = (spaceReservations) => {
-    const startTimeFormatted = setTimeFormat(startTime);
-    const endTimeFormatted = setTimeFormat(endTime);
+    const startTimeFormatted = mapTimeStringToInteger(startTime);
+    const endTimeFormatted = mapTimeStringToInteger(endTime);
+    console.log(startTimeFormatted, endTimeFormatted)
 
     if (startTimeFormatted > endTimeFormatted) {
       console.log("Please enter a valid End Time");
@@ -247,7 +247,7 @@ const AddEvent = ({
             type="submit"
             className={classNames(styles.submitBtn, styles.addWaitingListBtn)}
             onClick={handleWaiting}
-            disabled = {!responsibleId && !title===""}
+            disabled = {!responsibleId && title===""}
           >
             <FaPlus />
             Add to Waiting List
@@ -257,7 +257,7 @@ const AddEvent = ({
             type="submit"
             className={classNames(styles.submitBtn, styles.confirmBtn)}
             onClick={handleSubmit}
-            disabled = {!responsibleId && !title ===""}
+            disabled = {!responsibleId && title ===""}
           >
             <FiCheck className={styles.checkIcon} />
             Confirm Reservation

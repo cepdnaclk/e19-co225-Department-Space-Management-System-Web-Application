@@ -87,6 +87,7 @@ export const mapTimeStringToInteger = (timeString) => {
     hour += 12;
   }
 
+  console.log(hour*100 + minute)
   return hour * 100 + minute;
 };
 
