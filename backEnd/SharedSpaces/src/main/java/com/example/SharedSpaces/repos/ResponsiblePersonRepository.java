@@ -5,7 +5,10 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
+// This interface provides CRUD operations for the ResponsiblePerson entity.
 public interface ResponsiblePersonRepository extends CrudRepository<ResponsiblePerson, Long> {
+
+    // Finds a ResponsiblePerson entity by email.
     Optional<ResponsiblePerson> findByEmail(String email);
 
 }

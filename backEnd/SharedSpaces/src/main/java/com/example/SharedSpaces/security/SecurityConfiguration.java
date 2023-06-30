@@ -24,15 +24,16 @@ public class SecurityConfiguration {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
+    // Configure the security filter chain.
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.disable())
-                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.disable()) // Disable CORS (Cross-Origin Resource Sharing) protection.
+                .csrf(csrf -> csrf.disable()) // Disable CSRF (Cross-Site Request Forgery) protection.
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/reservation", "/waiting/slot").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/reservation", "/waiting/slot").permitAll() // Allow GET requests to these URLs without authentication.
                         .requestMatchers(
-                                "/**",
+                                "/**", // Allow all requests to these URLs without authentication.
                                 "/log",
                                 "/space",
                                 "/responsible",
@@ -47,11 +48,11 @@ public class SecurityConfiguration {
                                 "/webjars/**",
                                 "/swagger-ui.html")
                         .permitAll()
-                        .anyRequest().authenticated())
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                        .anyRequest().authenticated()) // Require authentication for all other requests.
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Use stateless sessions.
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Add the JWT authentication filter before the username/password authentication filter.
 
-        return http.build();
+        return http.build(); // Build and return the security filter chain.
     }
 
 }

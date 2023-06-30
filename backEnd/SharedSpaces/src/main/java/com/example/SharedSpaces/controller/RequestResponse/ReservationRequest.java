@@ -4,18 +4,35 @@ import java.util.Objects;
 
 public class ReservationRequest {
 
+    // The ID of the space being reserved
     private int spaceID;
+
+    // The title or name of the reservation
     private String title;
+
+    // The date and time of the reservation
     private String reservationDateTime;
+
+    // The start time of the reservation (in minutes since midnight)
     private int startTime;
+
+    // The end time of the reservation (in minutes since midnight)
     private int endTime;
+
+    // The date of the reservation (in yyyy-mm-dd format)
     private String date;
+
+    // The user ID of the person making the reservation
     private int reservedBy;
+
+    // The user ID of the person responsible for the reservation
     private int responsiblePerson;
+
+    // The ID of the waiting list entry associated with the reservation (if any)
     private int waitingId;
 
     public ReservationRequest(int spaceID, String title, String reservationDateTime, int startTime, String date,
-            int endTime, int reservedBy, int responsiblePerson, int waitingId) {
+                              int endTime, int reservedBy, int responsiblePerson, int waitingId) {
         this.spaceID = spaceID;
         this.title = title;
         this.reservationDateTime = reservationDateTime;
@@ -27,6 +44,7 @@ public class ReservationRequest {
         this.waitingId = waitingId;
     }
 
+    // Getter and setter methods for spaceID
     public int getSpaceID() {
         return spaceID;
     }
@@ -35,6 +53,7 @@ public class ReservationRequest {
         this.spaceID = spaceID;
     }
 
+    // Getter and setter methods for title
     public String getTitle() {
         return title;
     }
@@ -43,6 +62,7 @@ public class ReservationRequest {
         this.title = title;
     }
 
+    // Getter and setter methods for reservationDateTime
     public String getReservationDateTime() {
         return reservationDateTime;
     }
@@ -51,6 +71,7 @@ public class ReservationRequest {
         this.reservationDateTime = reservationDateTime;
     }
 
+    // Getter and setter methods for startTime
     public int getStartTime() {
         return startTime;
     }
@@ -59,6 +80,7 @@ public class ReservationRequest {
         this.startTime = startTime;
     }
 
+    // Getter and setter methods for date
     public String getDate() {
         return date;
     }
@@ -67,6 +89,7 @@ public class ReservationRequest {
         this.date = date;
     }
 
+    // Getter and setter methods for endTime
     public int getEndTime() {
         return endTime;
     }
@@ -75,6 +98,7 @@ public class ReservationRequest {
         this.endTime = endTime;
     }
 
+    // Getter and setter methods for reservedBy
     public int getReservedBy() {
         return reservedBy;
     }
@@ -83,6 +107,7 @@ public class ReservationRequest {
         this.reservedBy = reservedBy;
     }
 
+    // Getter and setter methods for responsiblePerson
     public int getResponsiblePerson() {
         return responsiblePerson;
     }
@@ -91,6 +116,7 @@ public class ReservationRequest {
         this.responsiblePerson = responsiblePerson;
     }
 
+    // Getter and setter methods for waitingId
     public int getWaitingId() {
         return waitingId;
     }
@@ -99,6 +125,7 @@ public class ReservationRequest {
         this.waitingId = waitingId;
     }
 
+    // Override the equals() method to compare objects based on their fields
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -107,11 +134,13 @@ public class ReservationRequest {
         return spaceID == that.spaceID && startTime == that.startTime && endTime == that.endTime && reservedBy == that.reservedBy && responsiblePerson == that.responsiblePerson && waitingId == that.waitingId && Objects.equals(title, that.title) && Objects.equals(reservationDateTime, that.reservationDateTime) && Objects.equals(date, that.date);
     }
 
+    // Override the hashCode() method to generate a hash code based on the object's fields
     @Override
     public int hashCode() {
         return Objects.hash(spaceID, title, reservationDateTime, startTime, endTime, date, reservedBy, responsiblePerson, waitingId);
     }
 
+    // Override the toString() method to return a string representation of the object
     @Override
     public String toString() {
         return "ReservationRequest{" +
@@ -123,7 +152,8 @@ public class ReservationRequest {
                 ", date='" + date + '\'' +
                 ", reservedBy=" + reservedBy +
                 ", responsiblePerson=" + responsiblePerson +
-                ", waitingId=" + waitingId +
+                ", waitingId=" +waitingId +
                 '}';
     }
 }
+

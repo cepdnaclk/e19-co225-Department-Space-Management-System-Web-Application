@@ -4,7 +4,10 @@ import java.util.Objects;
 
 public class LogResponse {
 
+    // Indicates whether the user is authenticated or not
     private Boolean valid;
+
+    // The refresh token used for authentication
     private String refreshToken;
 
     public LogResponse() {
@@ -20,6 +23,7 @@ public class LogResponse {
         this.refreshToken = refreshToken;
     }
 
+    // Getter and setter methods for valid
     public Boolean getValid() {
         return valid;
     }
@@ -28,6 +32,7 @@ public class LogResponse {
         this.valid = valid;
     }
 
+    // Getter and setter methods for refreshToken
     public String getRefreshToken() {
         return refreshToken;
     }
@@ -36,6 +41,7 @@ public class LogResponse {
         this.refreshToken = refreshToken;
     }
 
+    // Override the toString() method to return a string representation of the object
     @Override
     public String toString() {
         return "LogResponse{" +
@@ -44,6 +50,7 @@ public class LogResponse {
                 '}';
     }
 
+    // Override the equals() method to compare objects based on their fields
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -54,6 +61,7 @@ public class LogResponse {
         return Objects.equals(valid, response.valid) && Objects.equals(refreshToken, response.refreshToken);
     }
 
+    // Override the hashCode() method to generate a hash code based on the object's fields
     @Override
     public int hashCode() {
         return Objects.hash(valid, refreshToken);

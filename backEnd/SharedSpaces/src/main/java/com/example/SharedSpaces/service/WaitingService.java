@@ -21,11 +21,14 @@ import java.util.*;
 @Service
 public class WaitingService {
 
+    // Declare Dependency
     private final WaitingDB waitingDB;
     private final UserDB userDB;
     private final ResponsiblePersonDB responsiblePersonDB;
     private final AdminDB adminDB;
 
+
+    // Constructor Injection
     @Autowired
     public WaitingService(WaitingDB waitingDB, UserDB userDB, ResponsiblePersonDB responsiblePersonDB,
             AdminDB adminDB) {
