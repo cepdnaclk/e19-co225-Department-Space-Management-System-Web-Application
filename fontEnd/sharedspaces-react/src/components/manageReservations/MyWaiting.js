@@ -4,6 +4,7 @@ import styles from "../../styles/manageReservations/MyReservations.module.scss";
 import { useEffect, useState } from "react";
 import { checkUser } from "../../utils";
 import { getUserWaiting } from "../../services/waitingService";
+import classNames from "classnames";
 
 const MyWaiting = () => {
   const [user, setUser] = useState("");
@@ -34,30 +35,33 @@ const MyWaiting = () => {
   return (
     <div className={styles.container}>
       <h2>Available for Reservation</h2>
-      {availableWaiting.length === 0 ? (
-        <p className={styles.NoReservations}>
-          You are not in a waiting list for any reservation
-        </p>
-      ) : (
-        <ReservationTable
-          reservations={availableWaiting}
-          isActionable={true}
-          isAcceptable={true}
-          waitingList={true}
-          user={user}
-        />
-      )}
+      <p
+        className={classNames(
+          styles.NoReservations,
+          availableWaiting.length === 0 && styles.show
+        )}
+      >
+        You are not in a waiting list for any reservation
+      </p>
+
+      <ReservationTable
+        reservations={availableWaiting}
+        isActionable={true}
+        isAcceptable={true}
+        waitingList={true}
+        user={user}
+      />
+
       {unavailableWaiting.length !== 0 && (
-        <>
-          <h2 className={styles.pastReservations}>Currently Unavailable</h2>
-          <ReservationTable
-            reservations={unavailableWaiting}
-            isActionable={true}
-            waitingList={true}
-            user={user}
-          />
-        </>
+        <h2 className={styles.pastReservations}>Currently Unavailable</h2>
       )}
+
+      <ReservationTable
+        reservations={unavailableWaiting}
+        isActionable={true}
+        waitingList={true}
+        user={user}
+      />
     </div>
   );
 };

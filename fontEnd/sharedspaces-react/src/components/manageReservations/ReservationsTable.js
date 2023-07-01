@@ -80,7 +80,12 @@ const ReservationTable = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={classNames(
+        styles.container,
+        reservations.length === 0 && styles.hide
+      )}
+    >
       <table className={styles.resTable}>
         <thead>
           <tr>

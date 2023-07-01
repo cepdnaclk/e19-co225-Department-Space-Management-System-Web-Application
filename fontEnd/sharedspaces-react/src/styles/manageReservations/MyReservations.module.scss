@@ -13,4 +13,12 @@ h2 {
   margin-left: calc(6 * 1.2em);
   margin-top: 0.6em;
   color: hsl(0, 0, 50%);
+  animation: fadeIn 300ms ease-in;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
 }

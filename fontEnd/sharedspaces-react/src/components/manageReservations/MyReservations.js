@@ -8,6 +8,7 @@ import {
   getUserReservations,
 } from "../../services/reservationService";
 import { Role } from "../../data";
+import classNames from "classnames";
 const MyReservations = () => {
   const [user, setUser] = useState("");
   const [valid, setValid] = useState(false);
@@ -56,29 +57,33 @@ const MyReservations = () => {
   return (
     <div className={styles.container}>
       <h2>Upcoming Reservations</h2>
-      {currentReservations.length === 0 ? (
-        <p className={styles.NoReservations}>
-          You have no upcoming reservations
-        </p>
-      ) : (
-        <ReservationTable
-          reservations={currentReservations}
-          isActionable={true}
-          user={user}
-          waitingList={false}
-          updateReservation={getReservation}
-        />
-      )}
+      <p
+        className={classNames(
+          styles.NoReservations,
+          currentReservations.length === 0 && styles.show
+        )}
+      >
+        You have no upcoming reservations.
+      </p>
+
+      <ReservationTable
+        reservations={currentReservations}
+        isActionable={true}
+        user={user}
+        waitingList={false}
+        updateReservation={getReservation}
+      />
+
       {pastReservations.length !== 0 && (
-        <>
-          <h2 className={styles.pastReservations}>Past Reservations</h2>
-          <ReservationTable
-            reservations={pastReservations}
-            user={user}
-            waitingList={false}
-          />
-        </>
+        <h2 className={styles.pastReservations}>Past Reservations</h2>
       )}
+
+      <ReservationTable
+        reservations={pastReservations}
+        user={user}
+        waitingList={false}
+      />
+
       {user.role === Role.RESPONSIBLE &&
         responsibleReservations.length !== 0 && (
           <>
