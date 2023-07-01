@@ -25,14 +25,7 @@ export const getDateInFormat = (date) => {
 };
 
 export const getDateInYearFormat = (date) => {
-  const month = date.getMonth() + 1;
-  return (
-    date.getFullYear() +
-    "-" +
-    (month > 10 ? month : "0" + month) +
-    "-" +
-    date.getDate()
-  );
+  return date.toLocaleDateString("sv-SE", { timeZone: "Asia/Colombo" });
 };
 
 export const getTimeString = (time) => {
