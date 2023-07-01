@@ -10,15 +10,16 @@ import {
 } from "../../services/reservationService";
 import { deleteUserWaiting } from "../../services/waitingService";
 import { getAuthentincate } from "../../services/authService";
-function ReservationTable({
+const ReservationTable = ({
   reservations,
   isActionable,
   isAcceptable,
   user,
   waitingList,
   updateReservation,
-}) {
-  function handleDelete(reservation) {
+}) => {
+  const handleDelete = (reservation) => {
+    console.log(updateReservation);
     if (waitingList === false) {
       getAuthentincate(deleteUserReservatin, reservation.id)
         .then((res) => {
@@ -27,6 +28,7 @@ function ReservationTable({
         .catch((error) => {
           if (error.message === "email") {
             updateReservation();
+            console.log(error);
           } else {
             // other error
             console.log(error);
@@ -46,9 +48,9 @@ function ReservationTable({
           }
         });
     }
-  }
+  };
 
-  function handleReservation(reservation) {
+  const handleReservation = (reservation) => {
     getAuthentincate(
       createReservation,
       reservation.title,
@@ -77,7 +79,7 @@ function ReservationTable({
           console.log(error);
         }
       });
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -104,7 +106,7 @@ function ReservationTable({
                 <td>{space ? space.name : ""}</td>
                 <td>{getTimeString(reservation.startTime)}</td>
                 <td>{getTimeString(reservation.endTime)}</td>
-                <td>{reservation.responsibePerson}</td>
+                <td>{reservation.responsiblePerson}</td>
                 {isActionable && (
                   <td className={styles.actionColCell}>
                     {isAcceptable && (
@@ -133,6 +135,6 @@ function ReservationTable({
       </table>
     </div>
   );
-}
+};
 
 export default ReservationTable;
