@@ -2,7 +2,7 @@ import styles from "../styles/AddEvent.module.scss";
 import { FiMapPin, FiCheck, FiCheckCircle } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
-import { MdPlaylistAddCheckCircle } from "react-icons/md";
+import { MdError, MdPlaylistAddCheckCircle } from "react-icons/md";
 import {
   getDateInFormat,
   getTimeString,
@@ -63,6 +63,7 @@ const AddEvent = ({
     checkUser(setUser, setValid, () => {});
     setShowFeedbackSuccess(false);
     setShowFeedbackWaiting(false);
+    setShowFeedbackError(false);
   }, [startTimeProp, endTimeProp, spaceId, date]);
 
   function mapResponsible() {
@@ -90,54 +91,47 @@ const AddEvent = ({
 
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
-    if (mapTimeStringToInteger(event.target.value) !== false) {
-      validateReservation(spaceReservations);
-    }
   };
-
   const handleEndTimeChange = (event) => {
     setEndTime(event.target.value);
-
-    const endTimeFormatted = mapTimeStringToInteger(endTime);
-    if (endTimeFormatted !== false) {
-      validateReservation(spaceReservations);
-      console.log(endTimeFormatted);
-    }
   };
+  useEffect(() => {
+    const endTimeFormatted = mapTimeStringToInteger(endTime);
+    const startTimeFormatted = mapTimeStringToInteger(startTime);
+    if (startTimeFormatted !== false && endTimeFormatted !== false) {
+      validateReservation(startTimeFormatted, endTimeFormatted);
+    }
+  }, [startTime, endTime]);
 
   const handleChangeTitle = (event) => {
     setTitle(event.target.value);
   };
 
-  const validateReservation = (spaceReservations) => {
-    const startTimeFormatted = mapTimeStringToInteger(startTime);
-    const endTimeFormatted = mapTimeStringToInteger(endTime);
+  const validateReservation = (startTimeFormatted, endTimeFormatted) => {
     console.log(startTimeFormatted, endTimeFormatted);
 
     if (startTimeFormatted > endTimeFormatted) {
       console.log("Please enter a valid End Time");
     } else {
-      checkAvailablity(startTimeFormatted, endTimeFormatted, spaceReservations);
+      checkAvailablity(startTimeFormatted, endTimeFormatted);
     }
   };
 
-  const checkAvailablity = (
-    startTimeFormatted,
-    endTimeFormatted,
-    spaceReservations
-  ) => {
-    var reservationDate = getDateInYearFormat(date);
+  const checkAvailablity = (startTimeFormatted, endTimeFormatted) => {
+    var reservationDate = getDateInYearFormat(date || new Date());
     const dayReservations = spaceReservations.filter(
       (reservation) => reservation.date === reservationDate
     );
-    // console.log(reservationDate);
+    console.log(spaceReservations, dayReservations, reservationDate);
     if (
       dayReservations.filter(
         (reservation) =>
-          (reservation.startTime > startTimeFormatted &&
-            reservation.startTime < endTimeFormatted) ||
-          (reservation.endTime > startTimeFormatted &&
-            reservation.endTime < endTimeFormatted)
+          // reservation.startTime < startTimeFormatted < reservation.endTime ||
+          //reservation.startTime < endTimeFormatted < reservation.endTime
+          (reservation.startTime <= startTimeFormatted &&
+            startTimeFormatted <= reservation.endTime) ||
+          (reservation.startTime <= endTimeFormatted &&
+            endTimeFormatted <= reservation.endTime)
       ).length === 0
     ) {
       console.log("Slot is available");
@@ -150,6 +144,7 @@ const AddEvent = ({
 
   //hadnling submit click, on submit click show feedback
   const [showFeedbackSuccess, setShowFeedbackSuccess] = useState(false);
+  const [showFeedbackError, setShowFeedbackError] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -174,14 +169,22 @@ const AddEvent = ({
         // if reserved
         if (error.message === "reserved") {
           console.log("reserved");
+          setShowFeedbackError(true);
         } else if (error.message === "email") {
           setShowFeedbackSuccess(true);
           updateReservations();
         } else {
           console.log(error);
           // other error
+          setShowFeedbackError(true);
         }
       });
+
+    //reset after timeout
+    setTimeout(() => {
+      setShowFeedbackError(false);
+      setShowFeedbackSuccess(false);
+    }, 4000);
   };
 
   //handling submit waiting list click, on submit show feedback
@@ -213,9 +216,16 @@ const AddEvent = ({
           updateReservations();
         } else {
           console.log(error);
+          setShowFeedbackError(true);
           // other error
         }
       });
+
+    //reset after timeout
+    setTimeout(() => {
+      setShowFeedbackError(false);
+      setShowFeedbackWaiting(false);
+    }, 4000);
   };
 
   return (
@@ -299,6 +309,19 @@ const AddEvent = ({
       >
         <MdPlaylistAddCheckCircle className={styles.feedbackIcon} />
         <p>Added to Waiting List!</p>
+      </div>
+
+      <div
+        className={classNames(
+          styles.feedbackContainer,
+          styles.feedbackError,
+          showFeedbackError && styles.show
+        )}
+      >
+        <MdError className={styles.feedbackIcon} />
+        <p>
+          Error Occured <br /> Please Try Again
+        </p>
       </div>
     </div>
   );
