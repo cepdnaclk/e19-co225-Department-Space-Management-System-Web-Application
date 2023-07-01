@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -28,10 +29,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.disable()) // Disable CORS (Cross-Origin Resource Sharing) protection.
-                .csrf(csrf -> csrf.disable()) // Disable CSRF (Cross-Site Request Forgery) protection.
+                .cors(AbstractHttpConfigurer::disable) // Disable CORS (Cross-Origin Resource Sharing) protection.
+                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF (Cross-Site Request Forgery) protection.
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/reservation", "/waiting/slot").permitAll() // Allow GET
+                        .requestMatchers(HttpMethod.GET, "/reservation", "/waiting/slot", "reservation/user", "reservation/responsible").permitAll() // Allow GET
                                                                                                       // requests to
                                                                                                       // these URLs
                                                                                                       // without
