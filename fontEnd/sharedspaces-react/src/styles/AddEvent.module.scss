@@ -172,5 +172,8 @@ $confirmBtnColor: hsl(166, 25%, 50%);
     &.feedbackWaiting {
       color: $waitingColor;
     }
+    &.feedbackError {
+      color: rgb(169, 45, 64);
+    }
   }
 }
