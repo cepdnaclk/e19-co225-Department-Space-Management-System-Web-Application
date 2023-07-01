@@ -76,7 +76,6 @@ const Calendar = ({
       handles the click event of the Left Controller
     */
     const newDate = new Date(firstMonday);
-    console.log(newDate, Math.round((new Date() - newDate) / 86400000));
     //Similar to right controller
     if (selectedDays.length > 5) newDate.setDate(newDate.getDate() - 5);
     else newDate.setDate(newDate.getDate() - 7);
