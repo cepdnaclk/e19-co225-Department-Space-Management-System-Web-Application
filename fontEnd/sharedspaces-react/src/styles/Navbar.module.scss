@@ -24,11 +24,15 @@
     list-style: none;
     // padding: 1em 1em;
     border-radius: 1em;
-
+    .active {
+      color: $accentColor;
+      font-weight: 600;
+    }
     &:hover,
     &:focus {
       //font-weight: 600;
       transition: all ease-in-out 100ms;
+      color: $accentColor;
     }
 
     &::before {
@@ -37,7 +41,7 @@
       height: 2px;
       content: " ";
       position: absolute;
-      background-color: black;
+      background-color: $accentColor;
       width: 0%;
       top: 1.4em;
     }
