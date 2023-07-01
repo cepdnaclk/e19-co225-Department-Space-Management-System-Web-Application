@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/Calendar.module.scss";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { generateColorCode, getTimeString } from "../utils";
+import {
+  generateColorCode,
+  getDateInYearFormat,
+  getTimeString,
+} from "../utils";
 import Modal from "./Modal";
 import AddEvent from "./AddEvent";
 import ReservationInfo from "./ReservationInfo";
@@ -165,9 +169,7 @@ const Calendar = ({
             isToday={date.setHours(0, 0, 0, 0) === today}
             hourIntervals={hourIntervals}
             dayReservations={spaceReservations.filter(
-              (reservation) =>
-                reservation.date ===
-                date.toLocaleDateString("sv-SE", { timeZone: "Asia/Colombo" })
+              (reservation) => reservation.date === getDateInYearFormat(date)
             )}
             startTime={startTime}
             handleSlotClick={handleSlotClick}
