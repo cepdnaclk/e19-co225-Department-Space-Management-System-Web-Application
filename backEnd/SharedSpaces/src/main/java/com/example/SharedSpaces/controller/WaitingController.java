@@ -34,6 +34,7 @@ public class WaitingController {
 
     // The @GetMapping annotation maps HTTP GET requests to the /waiting/slot
     // endpoint
+    @CrossOrigin
     @GetMapping("/slot")
     public List<WaitingResponse> getWaitingList(@RequestParam int spaceID, @RequestParam String date,
             @RequestParam int startTime, @RequestParam int endTime) {
@@ -46,6 +47,7 @@ public class WaitingController {
 
     // The @GetMapping annotation maps HTTP GET requests to the /waiting/user
     // endpoint
+    @CrossOrigin
     @GetMapping("/user")
     public List<ReservationResponse> getUserWaitingList(@RequestParam String email) throws ResponseStatusException {
 
@@ -66,6 +68,7 @@ public class WaitingController {
 
     // The @GetMapping annotation maps HTTP GET requests to the /waiting/responsible
     // endpoint
+    @CrossOrigin
     @GetMapping("/responsible")
     public List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email)
             throws ResponseStatusException {
@@ -86,6 +89,7 @@ public class WaitingController {
     }
 
     // The @PostMapping annotation maps HTTP POST requests to the /waiting endpoint
+    @CrossOrigin
     @PostMapping
     public ReservationResponse createWaiting(@RequestBody ReservationRequest waiting) throws ResponseStatusException {
 
@@ -103,36 +107,9 @@ public class WaitingController {
 
     // The @DeleteMapping annotation maps HTTP DELETE requests to the /waiting
     // endpoint
-    @DeleteMapping()
-    public String deleteWaiting(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime,
-            @RequestParam int endTime, @RequestParam String email) throws ResponseStatusException {
-
-        // Check if the email in the request parameters matches the email in the
-        // SecurityContext (commented out)
-        // If not, return an error message (commented out)
-
-        try {
-            // Create a new Slot object with the provided parameters and call the
-            // waitingDeleteBySlot() method of the WaitingService with the email and return
-            // a String message
-            Slot slot = new Slot(spaceID, date, startTime, endTime);
-            return waitingService.waitingDeleteBySlot(slot, email);
-        } catch (InvalidDataException e) {
-            // If an InvalidDataException is caught, throw a new ResponseStatusException
-            // with an HTTP status of 400 and an error message
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
-        }
-
-    }
-
-    // The @DeleteMapping annotation maps HTTP DELETE requests to the /waiting
-    // endpoint
+    @CrossOrigin
     @DeleteMapping("/id")
     public String deleteWaiting(@RequestParam int id) throws ResponseStatusException {
-
-        // Check if the email in the request parameters matches the email in the
-        // SecurityContext (commented out)
-        // If not, return an error message (commented out)
 
         try {
             // Create a new Slot object with the provided parameters and call the
@@ -148,5 +125,29 @@ public class WaitingController {
         }
 
     }
+
+    // The @DeleteMapping annotation maps HTTP DELETE requests to the /waiting
+    // endpoint
+    // @CrossOrigin
+    // @DeleteMapping()
+    // public String deleteWaiting(@RequestParam int spaceID, @RequestParam String
+    // date, @RequestParam int startTime,
+    // @RequestParam int endTime, @RequestParam String email) throws
+    // ResponseStatusException {
+
+    // try {
+    // // Create a new Slot object with the provided parameters and call the
+    // // waitingDeleteBySlot() method of the WaitingService with the email and
+    // return
+    // // a String message
+    // Slot slot = new Slot(spaceID, date, startTime, endTime);
+    // return waitingService.waitingDeleteBySlot(slot, email);
+    // } catch (InvalidDataException e) {
+    // // If an InvalidDataException is caught, throw a new ResponseStatusException
+    // // with an HTTP status of 400 and an error message
+    // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
+    // }
+
+    // }
 
 }

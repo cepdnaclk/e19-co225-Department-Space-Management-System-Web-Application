@@ -5,7 +5,7 @@ import { generateColorCode, getTimeString } from "../utils";
 import Modal from "./Modal";
 import AddEvent from "./AddEvent";
 import ReservationInfo from "./ReservationInfo";
-import { reservations } from "../data";
+
 const Calendar = ({
   selectSpace,
   spaceReservations,
@@ -13,6 +13,7 @@ const Calendar = ({
   selectSpaceName,
   startTime,
   endTime,
+  updateReservations,
 }) => {
   /*
     The Main Calendar Component
@@ -42,7 +43,13 @@ const Calendar = ({
     //if the selectedDays is not weekdays, then don't start with a Monday.
     if (selectedDays.length > 5) date.setDate(firstDate.getDate() + i);
     //else if selectedDays are the weekdays or less, then start with a Monday
-    else date.setDate(firstMonday.getDate() + i);
+    else {
+      const newDate = new Date(firstMonday);
+      newDate.setDate(firstMonday.getDate() + i);
+      date.setFullYear(newDate.getFullYear());
+      date.setMonth(newDate.getMonth());
+      date.setDate(newDate.getDate());
+    }
 
     //if the day is in the selected list --> add to dateList else continue
     if (selectedDays.includes(date.getDay())) dateList.push(date);
@@ -54,7 +61,7 @@ const Calendar = ({
       The maximum possible dates span in a range of 60 days. +30 from current date
     */
     const newDate = new Date(firstDate);
-    console.log(newDate);
+
     //if SelectedDays are not weekdays then add 5 to current first date dateList[0]
     if (selectedDays.length > 5) newDate.setDate(newDate.getDate() + 5);
     //if selectedDats are the weekdats then, increment by a week.
@@ -70,7 +77,6 @@ const Calendar = ({
       handles the click event of the Left Controller
     */
     const newDate = new Date(firstMonday);
-    console.log(newDate, Math.round((new Date() - newDate) / 86400000));
     //Similar to right controller
     if (selectedDays.length > 5) newDate.setDate(newDate.getDate() - 5);
     else newDate.setDate(newDate.getDate() - 7);
@@ -185,6 +191,7 @@ const Calendar = ({
             spaceName={selectSpaceName}
             date={clickedDate}
             spaceReservations={spaceReservations}
+            updateReservations={updateReservations}
           />
         ) : (
           <ReservationInfo

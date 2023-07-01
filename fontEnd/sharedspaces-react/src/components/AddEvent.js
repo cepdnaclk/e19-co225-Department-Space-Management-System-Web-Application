@@ -35,6 +35,7 @@ const AddEvent = ({
   date,
   spaceReservations,
   spaceName,
+  updateReservations,
 }) => {
   const [startTime, setStartTime] = useState(getTimeString(startTimeProp));
   const [endTime, setEndTime] = useState(getTimeString(endTimeProp));
@@ -59,7 +60,7 @@ const AddEvent = ({
   }, [startTimeProp, endTimeProp]);
 
   useEffect(() => {
-    checkUser(setUser, setValid);
+    checkUser(setUser, setValid, () => {});
     setShowFeedbackSuccess(false);
     setShowFeedbackWaiting(false);
   }, [startTimeProp, endTimeProp, spaceId, date]);
@@ -99,7 +100,6 @@ const AddEvent = ({
 
     const endTimeFormatted = mapTimeStringToInteger(endTime);
     if (endTimeFormatted !== false) {
-
       validateReservation(spaceReservations);
       console.log(endTimeFormatted);
     }
@@ -150,17 +150,17 @@ const AddEvent = ({
 
   //hadnling submit click, on submit click show feedback
   const [showFeedbackSuccess, setShowFeedbackSuccess] = useState(false);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    getAuthentincate(
+    await getAuthentincate(
       createReservation,
       title,
       setTimeFormat(startTime),
       setTimeFormat(endTime),
       spaceId,
       Date.now(),
-      date,
+      getDateInYearFormat(date),
       user.id,
       responsibleId,
       -1
@@ -168,28 +168,35 @@ const AddEvent = ({
       .then((res) => {
         // if reservation sucess
         setShowFeedbackSuccess(true);
+        updateReservations();
       })
       .catch((error) => {
         // if reserved
         if (error.message === "reserved") {
           console.log("reserved");
+        } else if (error.message === "email") {
+          setShowFeedbackSuccess(true);
+          updateReservations();
+        } else {
+          console.log(error);
+          // other error
         }
       });
   };
 
   //handling submit waiting list click, on submit show feedback
   const [showFeedbackWaiting, setShowFeedbackWaiting] = useState(false);
-  const handleWaiting = (e) => {
+  const handleWaiting = async (e) => {
     e.preventDefault();
 
-    getAuthentincate(
+    await getAuthentincate(
       createWaiting,
       title,
       setTimeFormat(startTime),
       setTimeFormat(endTime),
       spaceId,
       Date.now(),
-      date,
+      getDateInYearFormat(date),
       user.id,
       responsibleId,
       -1
@@ -197,9 +204,17 @@ const AddEvent = ({
       .then((res) => {
         // if waiting success
         setShowFeedbackWaiting(true);
+        updateReservations();
       })
       .catch((error) => {
-        console.log(error);
+        // email error
+        if (error.message === "email") {
+          setShowFeedbackWaiting(true);
+          updateReservations();
+        } else {
+          console.log(error);
+          // other error
+        }
       });
   };
 

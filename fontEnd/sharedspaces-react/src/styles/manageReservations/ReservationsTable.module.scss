@@ -5,7 +5,10 @@
   align-items: center;
   justify-content: center;
   padding: 2em 1em;
-
+  animation: fadeIn 300ms ease-in;
+  &.hide {
+    display: none;
+  }
   .resTable {
     border-radius: 0.8em;
     border-collapse: collapse;

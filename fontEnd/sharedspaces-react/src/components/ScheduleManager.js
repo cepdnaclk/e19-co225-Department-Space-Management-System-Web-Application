@@ -20,6 +20,7 @@ const SechduleManager = ({
   const [spaceReservations, setSpaceReservations] = useState([]);
   const [allSpaces, setAllSpaces] = useState([]);
   const [filteredSpaces, setFilteredSpaces] = useState([]);
+
   async function getSpaces() {
     await getAllSpaces(setAllSpaces);
   }
@@ -109,12 +110,14 @@ const SechduleManager = ({
         select={selectSpace}
       />
       <Calendar
+        getReservations={getReservations}
         selectSpace={selectSpace}
         selectSpaceName={selectSpaceName}
         spaceReservations={spaceReservations}
         selectedDays={selectedDays}
         startTime={startTime}
         endTime={endTime}
+        updateReservations={getReservations}
       />
     </div>
   );

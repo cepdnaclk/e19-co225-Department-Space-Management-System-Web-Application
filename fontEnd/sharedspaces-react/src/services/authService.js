@@ -21,12 +21,6 @@ async function getAuthentincate(result, ...args) {
       return result(response.data.access_token, args).catch((error) => {
         throw error;
       });
-    })
-    .catch((error) => {
-      if (error.message === "reserved") {
-        throw new Error("reserved");
-      }
-      throw new Error("");
     });
 }
 

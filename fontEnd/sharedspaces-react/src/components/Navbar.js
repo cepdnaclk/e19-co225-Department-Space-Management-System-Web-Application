@@ -1,6 +1,6 @@
 import * as React from "react";
 import styles from "../styles/Navbar.module.scss";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import LoginBar from "./LoginBar";
 import { getLogging } from "../services/loggingService";
 import { checkUser } from "../utils";
@@ -12,11 +12,10 @@ const Navbar = ({ user, setUser, valid, setValid }) => {
   const [LoggedIn, setLoggedIn] = React.useState(false);
   const [googleToken, setGoogleToken] = React.useState("");
 
-
   const handleLogin = (response) => {
     setGoogleToken(response);
     setLoggedIn(true);
-    localStorage.setItem('isloggedin','1');
+    localStorage.setItem("isloggedin", "1");
   };
 
   const handleFailure = (error) => {
@@ -33,7 +32,7 @@ const Navbar = ({ user, setUser, valid, setValid }) => {
     setUser("");
     setGoogleToken("");
     localStorage.removeItem("token");
-    localStorage.setItem('isloggedin','0');
+    localStorage.setItem("isloggedin", "0");
   };
 
   React.useEffect(() => {
@@ -49,26 +48,37 @@ const Navbar = ({ user, setUser, valid, setValid }) => {
     }
   }, [googleToken]);
 
-  React.useEffect(() =>{
-    const loggedinStatus = localStorage.getItem('isloggedin');
-    if(loggedinStatus==='1'){
+  React.useEffect(() => {
+    const loggedinStatus = localStorage.getItem("isloggedin");
+    if (loggedinStatus === "1") {
       setLoggedIn(true);
       checkUser(setUser, setValid, handleLogout);
     }
-  }, [])
+  }, []);
 
   return (
     <>
       <div className={styles.Navbar}>
         <ul className={styles.NavLinks}>
           <li className={styles.NavLink} title="Home">
-            <Link to="/">Home</Link>
+            <NavLink
+              exact={true}
+              to="/"
+              className={({ isActive }) => isActive && styles.active}
+            >
+              Home
+            </NavLink>
           </li>
 
           {/* Manage Reservations Should Only be Visible if the user is logged in */}
           {user && (
             <li className={styles.NavLink} title="Manage Reservations">
-              <Link to="/ManageReservations">Manage Reservations</Link>
+              <NavLink
+                to="/ManageReservations"
+                className={({ isActive }) => isActive && styles.active}
+              >
+                Manage Reservations
+              </NavLink>
             </li>
           )}
         </ul>

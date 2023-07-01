@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 // The @RestController annotation indicates that this class is a REST controller
 @RestController
-// The @RequestMapping annotation maps HTTP requests to a specific URL or URL pattern
+// The @RequestMapping annotation maps HTTP requests to a specific URL or URL
+// pattern
 @RequestMapping("/auth")
 public class AuthenticationController {
 
@@ -23,21 +24,24 @@ public class AuthenticationController {
         this.service = service;
     }
 
-    // The @PostMapping annotation maps HTTP POST requests to the /authenticate endpoint
+    // The @PostMapping annotation maps HTTP POST requests to the /authenticate
+    // endpoint
     @CrossOrigin
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate() {
-        // Call the authenticate() method of the AuthenticationService and return the result as a ResponseEntity
+        // Call the authenticate() method of the AuthenticationService and return the
+        // result as a ResponseEntity
         return ResponseEntity.ok(service.authenticate());
     }
 
-    // The @PostMapping annotation maps HTTP POST requests to the /refresh-token endpoint
+    // The @PostMapping annotation maps HTTP POST requests to the /refresh-token
+    // endpoint
     @CrossOrigin
     @PostMapping("/refresh-token")
     public ResponseEntity<AuthenticationResponse> refreshToken() {
-        // Call the refreshToken() method of the AuthenticationService and return the result as a ResponseEntity
+        // Call the refreshToken() method of the AuthenticationService and return the
+        // result as a ResponseEntity
         return ResponseEntity.ok(service.refreshToken());
     }
 
 }
-

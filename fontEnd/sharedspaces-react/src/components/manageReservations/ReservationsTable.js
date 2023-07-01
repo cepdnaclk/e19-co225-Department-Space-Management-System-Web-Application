@@ -10,23 +10,45 @@ import {
 } from "../../services/reservationService";
 import { deleteUserWaiting } from "../../services/waitingService";
 import { getAuthentincate } from "../../services/authService";
-function ReservationTable({
+const ReservationTable = ({
   reservations,
   isActionable,
   isAcceptable,
   user,
   waitingList,
-}) {
-  function handleDelete(reservation) {
+  updateReservation,
+}) => {
+  const handleDelete = async (reservation) => {
     if (waitingList === false) {
-      getAuthentincate(deleteUserReservatin, reservation.id);
+      await getAuthentincate(deleteUserReservatin, reservation.id)
+        .then((res) => {
+          //no error proceed to rerender tables with updated reservations
+          updateReservation();
+        })
+        .catch((error) => {
+          if (error.message === "email") {
+            //error but an email issue, so proceed to rerender table with updated reservations
+            updateReservation();
+          } else {
+            // other error
+            console.log(error);
+          }
+        });
     } else {
-      getAuthentincate(deleteUserWaiting, reservation.id);
+      getAuthentincate(deleteUserWaiting, reservation.id)
+        .then((res) => {})
+        .catch((error) => {
+          if (error.message === "email") {
+          } else {
+            // other error
+            console.log(error);
+          }
+        });
     }
-  }
+  };
 
-  function handleReservation(reservation) {
-    getAuthentincate(
+  const handleReservation = async (reservation) => {
+    await getAuthentincate(
       createReservation,
       reservation.title,
       reservation.startTime,
@@ -41,17 +63,29 @@ function ReservationTable({
       .then((res) => {
         // if reservation sucess
         console.log(res);
+        updateReservation();
       })
       .catch((error) => {
         // if reserved
         if (error.message === "reserved") {
           console.log("reserved");
+          updateReservation();
+        } else if (error.message === "email") {
+          updateReservation();
+        } else {
+          // other error
+          console.log(error);
         }
       });
-  }
+  };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={classNames(
+        styles.container,
+        reservations.length === 0 && styles.hide
+      )}
+    >
       <table className={styles.resTable}>
         <thead>
           <tr>
@@ -75,7 +109,7 @@ function ReservationTable({
                 <td>{space ? space.name : ""}</td>
                 <td>{getTimeString(reservation.startTime)}</td>
                 <td>{getTimeString(reservation.endTime)}</td>
-                <td>{reservation.responsibePerson}</td>
+                <td>{reservation.responsiblePerson}</td>
                 {isActionable && (
                   <td className={styles.actionColCell}>
                     {isAcceptable && (
@@ -104,6 +138,6 @@ function ReservationTable({
       </table>
     </div>
   );
-}
+};
 
 export default ReservationTable;
