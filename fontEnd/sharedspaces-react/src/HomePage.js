@@ -54,8 +54,7 @@ const HomePage = () => {
 
   //SpaceSelector
   const [capacity, setCapacity] = useState([0, 120]);
-  const [selectedFacilities, setSelectedFacilities] =
-    useState(facilitiesOptions);
+  const [selectedFacilities, setSelectedFacilities] = useState([]);
 
   return (
     <div>

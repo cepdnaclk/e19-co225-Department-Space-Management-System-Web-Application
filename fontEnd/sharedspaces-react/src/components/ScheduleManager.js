@@ -29,6 +29,7 @@ const SechduleManager = ({
     await getAllReservation(setReservations);
   }
 
+  console.log(selectedFacilities, allSpaces);
   useEffect(() => {
     if (reservations.length !== 0) {
       setSpaceReservations(
@@ -43,11 +44,15 @@ const SechduleManager = ({
       setFilteredSpaces(
         allSpaces.filter(
           (space) =>
-            space.capacity <= capacity[1] && space.capacity >= capacity[0]
+            space.capacity <= capacity[1] &&
+            space.capacity >= capacity[0] &&
+            selectedFacilities.every((facility) =>
+              space.facilitiesList.includes(facility)
+            )
         )
       );
     }
-  }, [allSpaces, capacity]);
+  }, [allSpaces, capacity, selectedFacilities]);
 
   //This is for special cases, if the already selected space if filtered out
   //or if there are no matching spaces available
