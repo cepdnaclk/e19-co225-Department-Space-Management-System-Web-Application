@@ -34,11 +34,16 @@ const ReservationTable = ({
             console.log(error);
           }
         });
-    } else {
-      getAuthentincate(deleteUserWaiting, reservation.id)
-        .then((res) => {})
+    }
+
+    if (waitingList === true) {
+      await getAuthentincate(deleteUserWaiting, reservation.id)
+        .then((res) => {
+          updateReservation();
+        })
         .catch((error) => {
           if (error.message === "email") {
+            updateReservation();
           } else {
             // other error
             console.log(error);
