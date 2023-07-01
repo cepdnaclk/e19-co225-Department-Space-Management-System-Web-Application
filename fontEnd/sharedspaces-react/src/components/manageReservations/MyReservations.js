@@ -16,9 +16,9 @@ const MyReservations = () => {
   const [currentReservations, setCurrentReservations] = useState([]);
   const [responsibleReservations, setResponsibleReservations] = useState([]);
 
-  function getReservation() {
+  const getReservation = () => {
     getUserReservations(setReservations, user.email);
-  }
+  };
 
   useEffect(() => {
     checkUser(setUser, setValid);
@@ -56,31 +56,41 @@ const MyReservations = () => {
   return (
     <div className={styles.container}>
       <h2>Upcoming Reservations</h2>
-      <ReservationTable
-        reservations={currentReservations}
-        isActionable={true}
-        user={user}
-        waitingList={false}
-      />
-      <h2 className={styles.pastReservations}>Past Reservations</h2>
-      <ReservationTable
-        reservations={pastReservations}
-        user={user}
-        waitingList={false}
-        updateReservation={getReservation}
-      />
-      {user.role === Role.RESPONSIBLE && (
+      {currentReservations.length === 0 ? (
+        <p className={styles.NoReservations}>
+          You have no upcoming reservations
+        </p>
+      ) : (
+        <ReservationTable
+          reservations={currentReservations}
+          isActionable={true}
+          user={user}
+          waitingList={false}
+          updateReservation={getReservation}
+        />
+      )}
+      {pastReservations.length !== 0 && (
         <>
-          <h2 className={styles.pastReservations}>Responsible</h2>
+          <h2 className={styles.pastReservations}>Past Reservations</h2>
           <ReservationTable
-            reservations={responsibleReservations}
+            reservations={pastReservations}
             user={user}
             waitingList={false}
-            isActionable={true}
-            updateReservation={getReservation}
           />
         </>
       )}
+      {user.role === Role.RESPONSIBLE &&
+        responsibleReservations.length !== 0 && (
+          <>
+            <h2 className={styles.pastReservations}>Responsible</h2>
+            <ReservationTable
+              reservations={responsibleReservations}
+              user={user}
+              waitingList={false}
+              isActionable={true}
+            />
+          </>
+        )}
     </div>
   );
 };

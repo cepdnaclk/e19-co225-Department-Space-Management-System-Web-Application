@@ -11,14 +11,12 @@ const MyWaiting = () => {
   const [waiting, setWaiting] = useState([]);
   const [availableWaiting, setAvailableWaiting] = useState([]);
   const [unavailableWaiting, setUnAvailableWaiting] = useState([]);
-
-  useEffect(() => {
-    checkUser(setUser, setValid);
-  }, []);
-
   function getReservation() {
     getUserWaiting(setWaiting, user.email);
   }
+  useEffect(() => {
+    checkUser(setUser, setValid);
+  }, []);
 
   useEffect(() => {
     if (user !== "") {
@@ -36,22 +34,30 @@ const MyWaiting = () => {
   return (
     <div className={styles.container}>
       <h2>Available for Reservation</h2>
-      <ReservationTable
-        reservations={availableWaiting}
-        isActionable={true}
-        isAcceptable={true}
-        waitingList={true}
-        user={user}
-        updateReservation={getReservation}
-      />
-      <h2 className={styles.pastReservations}>Currently Unavailable</h2>
-      <ReservationTable
-        reservations={unavailableWaiting}
-        isActionable={true}
-        waitingList={true}
-        user={user}
-        updateReservation={getReservation}
-      />
+      {availableWaiting.length === 0 ? (
+        <p className={styles.NoReservations}>
+          You are not in a waiting list for any reservation
+        </p>
+      ) : (
+        <ReservationTable
+          reservations={availableWaiting}
+          isActionable={true}
+          isAcceptable={true}
+          waitingList={true}
+          user={user}
+        />
+      )}
+      {unavailableWaiting.length !== 0 && (
+        <>
+          <h2 className={styles.pastReservations}>Currently Unavailable</h2>
+          <ReservationTable
+            reservations={unavailableWaiting}
+            isActionable={true}
+            waitingList={true}
+            user={user}
+          />
+        </>
+      )}
     </div>
   );
 };

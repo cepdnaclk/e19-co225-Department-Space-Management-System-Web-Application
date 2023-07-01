@@ -18,17 +18,17 @@ const ReservationTable = ({
   waitingList,
   updateReservation,
 }) => {
-  const handleDelete = (reservation) => {
-    console.log(updateReservation);
+  const handleDelete = async (reservation) => {
     if (waitingList === false) {
-      getAuthentincate(deleteUserReservatin, reservation.id)
+      await getAuthentincate(deleteUserReservatin, reservation.id)
         .then((res) => {
+          //no error proceed to rerender tables with updated reservations
           updateReservation();
         })
         .catch((error) => {
           if (error.message === "email") {
+            //error but an email issue, so proceed to rerender table with updated reservations
             updateReservation();
-            console.log(error);
           } else {
             // other error
             console.log(error);
@@ -36,12 +36,9 @@ const ReservationTable = ({
         });
     } else {
       getAuthentincate(deleteUserWaiting, reservation.id)
-        .then((res) => {
-          updateReservation();
-        })
+        .then((res) => {})
         .catch((error) => {
           if (error.message === "email") {
-            updateReservation();
           } else {
             // other error
             console.log(error);
@@ -50,8 +47,8 @@ const ReservationTable = ({
     }
   };
 
-  const handleReservation = (reservation) => {
-    getAuthentincate(
+  const handleReservation = async (reservation) => {
+    await getAuthentincate(
       createReservation,
       reservation.title,
       reservation.startTime,
@@ -72,6 +69,7 @@ const ReservationTable = ({
         // if reserved
         if (error.message === "reserved") {
           console.log("reserved");
+          updateReservation();
         } else if (error.message === "email") {
           updateReservation();
         } else {
