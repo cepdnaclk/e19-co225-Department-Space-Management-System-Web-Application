@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/ReservationInfo.module.scss";
 import { FiMapPin } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaRegClock, FaPlus } from "react-icons/fa";
 import { getDateInFormat, getTimeString, generateColorCode } from "../utils";
 import { spaces } from "../data";
+import { getWaitingList } from "../services/waitingService";
 const ReservationInfo = ({ reservation, onClick }) => {
   const spaceName = spaces.find((s) => s.id === reservation.spaceId).name;
+
+  const [waitingList, setWaitingList] = useState([]);
+
+  useEffect(() => {
+    if (reservation !== null)
+      getWaitingList(
+        setWaitingList,
+        reservation.id,
+        reservation.date,
+        reservation.startTime,
+        reservation.endTime
+      )
+        .then((res) => {})
+        .catch((error) => {
+          console.log(error);
+        });
+  }, [reservation, onClick]);
+
   return (
     <div className={styles.container}>
       <div
@@ -47,7 +66,7 @@ const ReservationInfo = ({ reservation, onClick }) => {
             <FaPlus className={styles.plusIcon} />
             Add to Waiting List
           </button>
-          <p className={styles.NumberWaiting}>7 Waiting</p>
+          <p className={styles.NumberWaiting}>{waitingList.length} Waiting</p>
         </div>
       </div>
     </div>

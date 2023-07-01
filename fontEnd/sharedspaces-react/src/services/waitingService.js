@@ -17,6 +17,34 @@ async function getUserWaiting(setReservations, email) {
     });
 }
 
+async function getWaitingList(
+  setReservations,
+  spaceID,
+  date,
+  startTime,
+  endTime
+) {
+  await axios
+    .get(endPointWaiting + "/slot", {
+      params: {
+        startTime: startTime,
+        endTime: endTime,
+        date: date,
+        spaceID: spaceID,
+      },
+    })
+    .then((res) => {
+      setReservations(res.data);
+    })
+    .catch((error) => {
+      console.log(error.message);
+      if (error.response.status === 503) {
+        throw new Error("email");
+      }
+      throw new Error("");
+    });
+}
+
 async function deleteUserWaiting(token, args) {
   await axios
     .delete(endPointWaiting + "/id", {
@@ -32,6 +60,10 @@ async function deleteUserWaiting(token, args) {
     })
     .catch((error) => {
       console.log(error.message);
+      if (error.response.status === 503) {
+        throw new Error("email");
+      }
+      throw new Error("");
     });
 }
 
@@ -68,4 +100,4 @@ async function createWaiting(token, arrgs) {
     });
 }
 
-export { createWaiting, getUserWaiting, deleteUserWaiting };
+export { createWaiting, getUserWaiting, deleteUserWaiting, getWaitingList };
