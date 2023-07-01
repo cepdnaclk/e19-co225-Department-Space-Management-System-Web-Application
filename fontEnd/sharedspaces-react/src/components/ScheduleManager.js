@@ -117,6 +117,7 @@ const SechduleManager = ({
         selectedDays={selectedDays}
         startTime={startTime}
         endTime={endTime}
+        updateReservations={getReservations}
       />
     </div>
   );

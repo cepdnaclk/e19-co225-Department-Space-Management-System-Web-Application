@@ -13,6 +13,7 @@ const Calendar = ({
   selectSpaceName,
   startTime,
   endTime,
+  updateReservations,
 }) => {
   /*
     The Main Calendar Component
@@ -190,6 +191,7 @@ const Calendar = ({
             spaceName={selectSpaceName}
             date={clickedDate}
             spaceReservations={spaceReservations}
+            updateReservations={updateReservations}
           />
         ) : (
           <ReservationInfo
