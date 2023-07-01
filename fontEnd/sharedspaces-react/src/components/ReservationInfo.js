@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/ReservationInfo.module.scss";
 import { FiMapPin } from "react-icons/fi";
 import { LuCalendarDays } from "react-icons/lu";

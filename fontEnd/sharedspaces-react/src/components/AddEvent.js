@@ -59,7 +59,7 @@ const AddEvent = ({
   }, [startTimeProp, endTimeProp]);
 
   useEffect(() => {
-    checkUser(setUser, setValid);
+    checkUser(setUser, setValid, () => {});
     setShowFeedbackSuccess(false);
     setShowFeedbackWaiting(false);
   }, [startTimeProp, endTimeProp, spaceId, date]);
