@@ -159,7 +159,7 @@ const AddEvent = ({
       setTimeFormat(endTime),
       spaceId,
       Date.now(),
-      date,
+      getDateInYearFormat(date),
       user.id,
       responsibleId,
       -1
