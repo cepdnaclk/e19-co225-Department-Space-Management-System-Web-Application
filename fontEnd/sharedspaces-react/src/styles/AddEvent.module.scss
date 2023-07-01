@@ -67,6 +67,19 @@ $confirmBtnColor: hsl(166, 25%, 50%);
     &:focus {
       transform: scale(1.05);
     }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: all;
+
+      &:hover,
+      &:focus {
+        transform: none;
+        box-shadow: none;
+        outline: none;
+      }
+    }
   }
 
   .confirmBtn {

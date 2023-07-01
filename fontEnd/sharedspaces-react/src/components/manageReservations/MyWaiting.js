@@ -49,6 +49,7 @@ const MyWaiting = () => {
         isActionable={true}
         isAcceptable={true}
         waitingList={true}
+        updateReservation={getReservation}
         user={user}
       />
 
@@ -58,6 +59,7 @@ const MyWaiting = () => {
 
       <ReservationTable
         reservations={unavailableWaiting}
+        updateReservation={getReservation}
         isActionable={true}
         waitingList={true}
         user={user}

@@ -237,6 +237,7 @@ const AddEvent = ({
           className={styles.inputTitle}
           maxLength={25}
           onChange={handleChangeTitle}
+          value={title}
         />
         <div className={styles.info}>
           <p className={styles.infoItem}>
@@ -272,7 +273,7 @@ const AddEvent = ({
             type="submit"
             className={classNames(styles.submitBtn, styles.addWaitingListBtn)}
             onClick={handleWaiting}
-            disabled={!responsibleId && title === ""}
+            disabled={!responsibleId || title === ""}
           >
             <FaPlus />
             Add to Waiting List
@@ -282,7 +283,7 @@ const AddEvent = ({
             type="submit"
             className={classNames(styles.submitBtn, styles.confirmBtn)}
             onClick={handleSubmit}
-            disabled={!responsibleId && title === ""}
+            disabled={!responsibleId || title === ""}
           >
             <FiCheck className={styles.checkIcon} />
             Confirm Reservation
