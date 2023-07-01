@@ -16,13 +16,17 @@ const MyReservations = () => {
   const [currentReservations, setCurrentReservations] = useState([]);
   const [responsibleReservations, setResponsibleReservations] = useState([]);
 
+  function getReservation() {
+    getUserReservations(setReservations, user.email);
+  }
+
   useEffect(() => {
     checkUser(setUser, setValid);
   }, []);
 
   useEffect(() => {
     if (user !== "") {
-      getUserReservations(setReservations, user.email);
+      getReservation();
       if ((user.role = Role.RESPONSIBLE))
         getResponsibleReservations(setResponsibleReservations, user.email);
     }
@@ -63,6 +67,7 @@ const MyReservations = () => {
         reservations={pastReservations}
         user={user}
         waitingList={false}
+        updateReservation={getReservation}
       />
       {user.role === Role.RESPONSIBLE && (
         <>
@@ -72,6 +77,7 @@ const MyReservations = () => {
             user={user}
             waitingList={false}
             isActionable={true}
+            updateReservation={getReservation}
           />
         </>
       )}

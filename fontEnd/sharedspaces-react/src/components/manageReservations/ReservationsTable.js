@@ -16,12 +16,17 @@ function ReservationTable({
   isAcceptable,
   user,
   waitingList,
+  updateReservation,
 }) {
   function handleDelete(reservation) {
     if (waitingList === false) {
-      getAuthentincate(deleteUserReservatin, reservation.id);
+      getAuthentincate(deleteUserReservatin, reservation.id).then((res) => {
+        updateReservation();
+      });
     } else {
-      getAuthentincate(deleteUserWaiting, reservation.id);
+      getAuthentincate(deleteUserWaiting, reservation.id).then((res) => {
+        updateReservation();
+      });
     }
   }
 
@@ -41,11 +46,14 @@ function ReservationTable({
       .then((res) => {
         // if reservation sucess
         console.log(res);
+        updateReservation();
       })
       .catch((error) => {
         // if reserved
         if (error.message === "reserved") {
           console.log("reserved");
+        } else if (error.message === "email") {
+          updateReservation();
         }
       });
   }

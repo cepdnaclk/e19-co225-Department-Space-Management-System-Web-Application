@@ -16,9 +16,13 @@ const MyWaiting = () => {
     checkUser(setUser, setValid);
   }, []);
 
+  function getReservation() {
+    getUserWaiting(setWaiting, user.email);
+  }
+
   useEffect(() => {
     if (user !== "") {
-      getUserWaiting(setWaiting, user.email);
+      getReservation();
     }
   }, [user]);
 
@@ -38,6 +42,7 @@ const MyWaiting = () => {
         isAcceptable={true}
         waitingList={true}
         user={user}
+        updateReservation={getReservation}
       />
       <h2 className={styles.pastReservations}>Currently Unavailable</h2>
       <ReservationTable
@@ -45,6 +50,7 @@ const MyWaiting = () => {
         isActionable={true}
         waitingList={true}
         user={user}
+        updateReservation={getReservation}
       />
     </div>
   );
