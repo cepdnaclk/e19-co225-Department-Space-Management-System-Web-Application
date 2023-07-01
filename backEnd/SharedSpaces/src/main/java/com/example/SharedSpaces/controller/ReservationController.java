@@ -125,32 +125,6 @@ public class ReservationController {
     // The @DeleteMapping annotation maps HTTP DELETE requests to the /reservation
     // endpoint
     @CrossOrigin
-    @DeleteMapping()
-    public String deleteResevation(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime,
-            @RequestParam int endTime, @RequestParam String email) throws ResponseStatusException {
-
-        try {
-            // Create a new Slot object with the specified space ID, date, start time, and
-            // end time
-            Slot slot = new Slot(spaceID, date, startTime, endTime);
-            // Call the reservationDeleteBySlot() method of the ReservationService and
-            // return the result as a String
-            return reservationService.reservationDeleteBySlot(slot, email);
-        } catch (InvalidDataException e) {
-            // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
-            // the input is invalid
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
-        } catch (EmailException e) {
-            // Throw a ResponseStatusException with HTTP status code 503 (Service
-            // Unavailable) if there is an email error
-            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "emailError\n");
-        }
-
-    }
-
-    // The @DeleteMapping annotation maps HTTP DELETE requests to the /reservation
-    // endpoint
-    @CrossOrigin
     @DeleteMapping("/id")
     public String deleteResevation(@RequestParam int id) throws ResponseStatusException {
 
@@ -174,5 +148,35 @@ public class ReservationController {
         }
 
     }
+
+    // The @DeleteMapping annotation maps HTTP DELETE requests to the /reservation
+    // endpoint
+    // @CrossOrigin
+    // @DeleteMapping()
+    // public String deleteResevation(@RequestParam int spaceID, @RequestParam
+    // String date, @RequestParam int startTime,
+    // @RequestParam int endTime, @RequestParam String email) throws
+    // ResponseStatusException {
+
+    // try {
+    // // Create a new Slot object with the specified space ID, date, start time,
+    // and
+    // // end time
+    // Slot slot = new Slot(spaceID, date, startTime, endTime);
+    // // Call the reservationDeleteBySlot() method of the ReservationService and
+    // // return the result as a String
+    // return reservationService.reservationDeleteBySlot(slot, email);
+    // } catch (InvalidDataException e) {
+    // // Throw a ResponseStatusException with HTTP status code 400 (Bad Request) if
+    // // the input is invalid
+    // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
+    // } catch (EmailException e) {
+    // // Throw a ResponseStatusException with HTTP status code 503 (Service
+    // // Unavailable) if there is an email error
+    // throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
+    // "emailError\n");
+    // }
+
+    // }
 
 }

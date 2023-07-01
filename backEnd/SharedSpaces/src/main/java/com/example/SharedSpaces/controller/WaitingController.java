@@ -108,27 +108,6 @@ public class WaitingController {
     // The @DeleteMapping annotation maps HTTP DELETE requests to the /waiting
     // endpoint
     @CrossOrigin
-    @DeleteMapping()
-    public String deleteWaiting(@RequestParam int spaceID, @RequestParam String date, @RequestParam int startTime,
-            @RequestParam int endTime, @RequestParam String email) throws ResponseStatusException {
-
-        try {
-            // Create a new Slot object with the provided parameters and call the
-            // waitingDeleteBySlot() method of the WaitingService with the email and return
-            // a String message
-            Slot slot = new Slot(spaceID, date, startTime, endTime);
-            return waitingService.waitingDeleteBySlot(slot, email);
-        } catch (InvalidDataException e) {
-            // If an InvalidDataException is caught, throw a new ResponseStatusException
-            // with an HTTP status of 400 and an error message
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
-        }
-
-    }
-
-    // The @DeleteMapping annotation maps HTTP DELETE requests to the /waiting
-    // endpoint
-    @CrossOrigin
     @DeleteMapping("/id")
     public String deleteWaiting(@RequestParam int id) throws ResponseStatusException {
 
@@ -146,5 +125,29 @@ public class WaitingController {
         }
 
     }
+
+    // The @DeleteMapping annotation maps HTTP DELETE requests to the /waiting
+    // endpoint
+    // @CrossOrigin
+    // @DeleteMapping()
+    // public String deleteWaiting(@RequestParam int spaceID, @RequestParam String
+    // date, @RequestParam int startTime,
+    // @RequestParam int endTime, @RequestParam String email) throws
+    // ResponseStatusException {
+
+    // try {
+    // // Create a new Slot object with the provided parameters and call the
+    // // waitingDeleteBySlot() method of the WaitingService with the email and
+    // return
+    // // a String message
+    // Slot slot = new Slot(spaceID, date, startTime, endTime);
+    // return waitingService.waitingDeleteBySlot(slot, email);
+    // } catch (InvalidDataException e) {
+    // // If an InvalidDataException is caught, throw a new ResponseStatusException
+    // // with an HTTP status of 400 and an error message
+    // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid\n");
+    // }
+
+    // }
 
 }

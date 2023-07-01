@@ -25,7 +25,7 @@ public class JwtService {
     private String secretKeyR;
 
     private long expiration = 10000000; // Token expiration time in milliseconds.
-    private long accessExpiration = 1000; // Access token expiration time in milliseconds.
+    private long accessExpiration = 100000; // Access token expiration time in milliseconds.
 
     // Extract the username from a JWT token.
     public String extractUsername(String token, String key) {
