@@ -16,6 +16,8 @@ const MyReservations = () => {
   const [pastReservations, setPastReservations] = useState([]);
   const [currentReservations, setCurrentReservations] = useState([]);
   const [responsibleReservations, setResponsibleReservations] = useState([]);
+  const [responsibleCurrentReservations, setResponsibleCurrentReservations] =
+    useState([]);
 
   const getReservation = () => {
     getUserReservations(setReservations, user.email);
@@ -54,6 +56,19 @@ const MyReservations = () => {
     }
   }, [reservations]);
 
+  useEffect(() => {
+    if (reservations !== []) {
+      setResponsibleCurrentReservations(
+        responsibleReservations.filter((res) => {
+          const date = new Date(res.date);
+          const currentDate = new Date();
+          if (date >= currentDate) return true;
+          return false;
+        })
+      );
+    }
+  }, [responsibleReservations]);
+
   return (
     <div className={styles.container}>
       <h2>Upcoming Reservations</h2>
@@ -89,7 +104,7 @@ const MyReservations = () => {
           <>
             <h2 className={styles.pastReservations}>Responsible</h2>
             <ReservationTable
-              reservations={responsibleReservations}
+              reservations={responsibleCurrentReservations}
               user={user}
               waitingList={false}
               isActionable={true}
