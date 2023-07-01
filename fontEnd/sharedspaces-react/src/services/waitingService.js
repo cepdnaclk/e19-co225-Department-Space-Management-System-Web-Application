@@ -61,6 +61,9 @@ async function createWaiting(token, arrgs) {
     })
     .catch((error) => {
       console.log(error.message);
+      if (error.response.status === 503) {
+        throw new Error("email");
+      }
       throw new Error("");
     });
 }

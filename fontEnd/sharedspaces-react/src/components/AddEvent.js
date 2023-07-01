@@ -174,6 +174,9 @@ const AddEvent = ({
           console.log("reserved");
         } else if (error.message === "email") {
           setShowFeedbackSuccess(true);
+        } else {
+          console.log(error);
+          // other error
         }
       });
   };
@@ -200,7 +203,13 @@ const AddEvent = ({
         setShowFeedbackWaiting(true);
       })
       .catch((error) => {
-        console.log(error);
+        // email error
+        if (error.message === "email") {
+          setShowFeedbackWaiting(true);
+        } else {
+          console.log(error);
+          // other error
+        }
       });
   };
 

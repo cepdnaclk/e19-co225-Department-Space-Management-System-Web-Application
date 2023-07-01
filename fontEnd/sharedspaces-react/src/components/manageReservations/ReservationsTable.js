@@ -20,13 +20,31 @@ function ReservationTable({
 }) {
   function handleDelete(reservation) {
     if (waitingList === false) {
-      getAuthentincate(deleteUserReservatin, reservation.id).then((res) => {
-        updateReservation();
-      });
+      getAuthentincate(deleteUserReservatin, reservation.id)
+        .then((res) => {
+          updateReservation();
+        })
+        .catch((error) => {
+          if (error.message === "email") {
+            updateReservation();
+          } else {
+            // other error
+            console.log(error);
+          }
+        });
     } else {
-      getAuthentincate(deleteUserWaiting, reservation.id).then((res) => {
-        updateReservation();
-      });
+      getAuthentincate(deleteUserWaiting, reservation.id)
+        .then((res) => {
+          updateReservation();
+        })
+        .catch((error) => {
+          if (error.message === "email") {
+            updateReservation();
+          } else {
+            // other error
+            console.log(error);
+          }
+        });
     }
   }
 
@@ -54,6 +72,9 @@ function ReservationTable({
           console.log("reserved");
         } else if (error.message === "email") {
           updateReservation();
+        } else {
+          // other error
+          console.log(error);
         }
       });
   }
