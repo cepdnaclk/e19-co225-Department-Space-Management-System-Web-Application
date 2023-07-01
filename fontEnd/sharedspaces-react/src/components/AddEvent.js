@@ -45,13 +45,13 @@ const AddEvent = ({
   const [valid, setValid] = useState(false);
   const [title, setTitle] = useState("");
   const [responsibleId, setResponsibleId] = useState(0);
-
+  const [isTimeInvalid, setIsTimeInvalid] = useState(false);
   useEffect(() => {
     getResponsible();
   }, []);
 
   useEffect(() => {
-    if (responsible != []) mapResponsible();
+    if (responsible.length !== 0) mapResponsible();
   }, [responsible]);
 
   useEffect(() => {
@@ -64,11 +64,12 @@ const AddEvent = ({
     setShowFeedbackSuccess(false);
     setShowFeedbackWaiting(false);
     setShowFeedbackError(false);
+    setIsTimeInvalid(false);
   }, [startTimeProp, endTimeProp, spaceId, date]);
 
   function mapResponsible() {
     groupedOptions[0].options = responsible
-      .filter((res) => res.type != "instructor")
+      .filter((res) => res.type !== "instructor")
       .map((res) => {
         const val = {};
         val.value = res.id;
@@ -76,7 +77,7 @@ const AddEvent = ({
         return val;
       });
     groupedOptions[1].options = responsible
-      .filter((res) => res.type == "instructor")
+      .filter((res) => res.type === "instructor")
       .map((res) => {
         const val = {};
         val.value = res.id;
@@ -91,9 +92,19 @@ const AddEvent = ({
 
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
+    setIsTimeInvalid(
+      !mapTimeStringToInteger(startTime) ||
+        !mapTimeStringToInteger(endTime) ||
+        mapTimeStringToInteger(startTime) > mapTimeStringToInteger(endTime)
+    );
   };
   const handleEndTimeChange = (event) => {
     setEndTime(event.target.value);
+    setIsTimeInvalid(
+      !mapTimeStringToInteger(startTime) ||
+        !mapTimeStringToInteger(endTime) ||
+        mapTimeStringToInteger(startTime) > mapTimeStringToInteger(endTime)
+    );
   };
   useEffect(() => {
     const endTimeFormatted = mapTimeStringToInteger(endTime);
@@ -228,6 +239,17 @@ const AddEvent = ({
     }, 4000);
   };
 
+  const [isDisable, setIsDisable] = useState(false);
+
+  useEffect(() => {
+    setIsDisable(
+      !responsibleId ||
+        title === "" ||
+        !mapTimeStringToInteger(startTime) ||
+        !mapTimeStringToInteger(endTime) ||
+        mapTimeStringToInteger(startTime) > mapTimeStringToInteger(endTime)
+    );
+  }, [responsibleId, title, startTime, endTime]);
   return (
     <div className={styles.addEvent}>
       <form>
@@ -254,14 +276,20 @@ const AddEvent = ({
               type="text"
               value={startTime}
               onChange={handleStartTimeChange}
-              className={styles.time}
+              className={classNames(
+                styles.time,
+                isTimeInvalid && styles.invalid
+              )}
             />{" "}
             -
             <input
               type="text"
               value={endTime}
               onChange={handleEndTimeChange}
-              className={styles.time}
+              className={classNames(
+                styles.time,
+                isTimeInvalid && styles.invalid
+              )}
             />
           </p>
         </div>
@@ -273,7 +301,7 @@ const AddEvent = ({
             type="submit"
             className={classNames(styles.submitBtn, styles.addWaitingListBtn)}
             onClick={handleWaiting}
-            disabled={!responsibleId || title === ""}
+            disabled={isDisable}
           >
             <FaPlus />
             Add to Waiting List
@@ -283,7 +311,7 @@ const AddEvent = ({
             type="submit"
             className={classNames(styles.submitBtn, styles.confirmBtn)}
             onClick={handleSubmit}
-            disabled={!responsibleId || title === ""}
+            disabled={isDisable}
           >
             <FiCheck className={styles.checkIcon} />
             Confirm Reservation

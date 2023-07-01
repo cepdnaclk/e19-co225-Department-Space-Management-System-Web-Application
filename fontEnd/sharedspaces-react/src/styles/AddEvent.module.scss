@@ -42,6 +42,11 @@ $confirmBtnColor: hsl(166, 25%, 50%);
         &:hover {
           border-bottom: 1px solid black;
         }
+
+        &.invalid {
+          color: rgb(169, 45, 64);
+          border-bottom-color: rgb(169, 45, 64);
+        }
       }
     }
   }
