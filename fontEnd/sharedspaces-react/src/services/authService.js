@@ -6,7 +6,6 @@ const endPointAuth = "http://localhost:8080/auth/authenticate";
 
 async function getAuthentincate(result, ...args) {
   const token = localStorage.getItem("token");
-  console.log(token);
   await axios
     .post(
       endPointAuth,

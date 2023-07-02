@@ -66,7 +66,6 @@ async function deleteUserReservatin(token, args) {
 }
 
 async function createReservation(token, arrgs) {
-  console.log(arrgs);
   await axios
     .post(
       endPointReservation,

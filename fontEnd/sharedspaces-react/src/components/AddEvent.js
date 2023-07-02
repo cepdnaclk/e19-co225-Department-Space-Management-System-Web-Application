@@ -154,7 +154,6 @@ const AddEvent = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(user);
 
     await getAuthentincate(
       createReservation,
