@@ -20,6 +20,15 @@ $confirmBtnColor: hsl(166, 25%, 50%);
     background-color: inherit;
     border-bottom: 2px solid rgb(135, 135, 135);
     padding-bottom: 0.3em;
+    transition: all 150ms ease-in-out;
+    color: hsl(0, 0, 10%);
+    &:focus {
+      border-bottom-color: $accentColor;
+    }
+
+    &::placeholder {
+      color: hsl(0, 0, 20%);
+    }
   }
 
   .info {
