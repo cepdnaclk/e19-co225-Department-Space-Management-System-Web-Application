@@ -69,7 +69,7 @@ const AddEvent = ({
 
   function mapResponsible() {
     groupedOptions[0].options = responsible
-      .filter((res) => res.type !== "instructor")
+      .filter((res) => res.type.toLowerCase() !== "instructor")
       .map((res) => {
         const val = {};
         val.value = res.id;
@@ -77,11 +77,11 @@ const AddEvent = ({
         return val;
       });
     groupedOptions[1].options = responsible
-      .filter((res) => res.type === "instructor")
+      .filter((res) => res.type.toLowerCase() === "instructor")
       .map((res) => {
         const val = {};
         val.value = res.id;
-        val.label = res.type + " " + res.fullName;
+        val.label = res.fullName;
         return val;
       });
   }
