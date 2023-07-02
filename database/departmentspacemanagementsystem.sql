@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2023 at 11:44 PM
+-- Generation Time: Jul 02, 2023 at 04:13 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -57,13 +57,6 @@ CREATE TABLE `reservation` (
   `date` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `reservation`
---
-
-INSERT INTO `reservation` (`id`, `end_date_time`, `reservation_date_time`, `reserved_by_id`, `responsible_person_id`, `spaceid`, `start_date_time`, `title`, `date`) VALUES
-(1, '2023-06-30 10:20:00.000000', '1970-01-02 15:47:36.000000', 1, 2, 1, '2023-06-30 08:40:00.000000', 'CO224 Labs', '30-06-2023');
-
 -- --------------------------------------------------------
 
 --
@@ -79,7 +72,7 @@ CREATE TABLE `reservation_seq` (
 --
 
 INSERT INTO `reservation_seq` (`next_val`) VALUES
-(251);
+(351);
 
 -- --------------------------------------------------------
 
@@ -97,6 +90,7 @@ CREATE TABLE `responsible_person` (
 --
 
 INSERT INTO `responsible_person` (`type`, `id`) VALUES
+('Instructor', 5),
 ('Dr.', 6),
 ('Dr.', 7),
 ('Mrs.', 8),
@@ -166,10 +160,10 @@ INSERT INTO `user` (`id`, `email`, `first_name`, `last_name`) VALUES
 (3, 'e19372@eng.pdn.ac.lk', 'Kaushitha', 'Silva'),
 (4, 'e19074@eng.pdn.ac.lk', 'Mansitha', 'Eshwara'),
 (5, 'e19009@eng.pdn.ac.lk', 'Chandula', 'Adhikari'),
-(6, 'roshanr@eng.pdn.ac.lk', 'Roshan', 'Ragel'),
-(7, 'isurunawinne@eng.pdn.ac.lk', 'Isuru', 'Nawinna'),
-(8, 'nadeeshaa@eng.pdn.ac.lk', 'Nadeesha', 'Adikari'),
-(9, 'mahanamaw@eng.pdn.ac.lk', 'Mahanama', 'Wickramasinghe');
+(6, 'kaushithamsilva@gmail.com', 'Roshan', 'Ragel'),
+(7, 'kaushithamsilva@gmail.com', 'Isuru', 'Nawinna'),
+(8, 'kaushithamsilva@gmail.com', 'Nadeesha', 'Adikari'),
+(9, 'kaushithamsilva@gmail.com', 'Mahanama', 'Wickramasinghe');
 
 -- --------------------------------------------------------
 
@@ -222,7 +216,7 @@ CREATE TABLE `waiting_seq` (
 --
 
 INSERT INTO `waiting_seq` (`next_val`) VALUES
-(101);
+(151);
 
 --
 -- Indexes for dumped tables
