@@ -93,11 +93,19 @@ public class ReservationDB {
 
         List<Reservation> waitings = new ArrayList<>();
 
+        DateFormat dateFormatRes = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
         for (Reservation waiting : waitingList) {
+
             if ((waiting.getStartDateTime().before(startDateTime)
                     && waiting.getEndDateTime().after(startDateTime))
                     || (waiting.getStartDateTime().before(endDateTime)
-                            && waiting.getEndDateTime().after(endDateTime))) {
+                            && waiting.getEndDateTime().after(endDateTime))
+                    || (dateFormatRes.format(waiting.getStartDateTime())
+                            .equals(dateFormatRes.format(startDateTime))
+                            && dateFormatRes.format(waiting.getEndDateTime())
+                                    .equals(dateFormatRes.format(endDateTime)))) {
+
                 waitings.add(waiting);
             }
         }
