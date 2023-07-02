@@ -106,6 +106,10 @@ public class ReservationDB {
                             && dateFormatRes.format(waiting.getEndDateTime())
                                     .equals(dateFormatRes.format(endDateTime)))
                     || (startDateTime.before(waiting.getStartDateTime())
+                            && endDateTime.after(waiting.getStartDateTime()))
+                    || (startDateTime.after(waiting.getStartDateTime())
+                            && endDateTime.before(waiting.getEndDateTime()))
+                    || (startDateTime.before(waiting.getEndDateTime())
                             && endDateTime.after(waiting.getEndDateTime()))) {
 
                 waitings.add(waiting);
