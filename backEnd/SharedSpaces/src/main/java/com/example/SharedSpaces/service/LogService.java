@@ -58,8 +58,9 @@ public class LogService {
                 } else {
                     if (userDB.getUserByEmail(user.getEmail()).isEmpty())
                         userDB.createUser(user);
+                    User use = userDB.getUserByEmail(user.getUsername()).get();
                     role = "user";
-                    map.put("user", user);
+                    map.put("user", use);
                 }
 
                 map.put("role", role); // Add the user's role to the map.
