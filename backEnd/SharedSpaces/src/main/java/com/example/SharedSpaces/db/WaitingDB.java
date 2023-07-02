@@ -89,7 +89,9 @@ public class WaitingDB {
                     || (dateFormatRes.format(waiting.getStartDateTime())
                             .equals(dateFormatRes.format(startDateTime))
                             && dateFormatRes.format(waiting.getEndDateTime())
-                                    .equals(dateFormatRes.format(endDateTime)))) {
+                                    .equals(dateFormatRes.format(endDateTime)))
+                    || (startDateTime.before(waiting.getStartDateTime())
+                            && endDateTime.after(waiting.getEndDateTime()))) {
 
                 waitings.add(waiting);
             }
