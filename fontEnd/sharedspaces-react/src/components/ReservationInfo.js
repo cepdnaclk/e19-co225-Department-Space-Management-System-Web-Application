@@ -15,12 +15,14 @@ const ReservationInfo = ({ reservation, onClick }) => {
     if (reservation !== null)
       getWaitingList(
         setWaitingList,
-        reservation.id,
+        reservation.spaceId,
         reservation.date,
         reservation.startTime,
         reservation.endTime
       )
-        .then((res) => {})
+        .then((res) => {
+          console.log(res);
+        })
         .catch((error) => {
           console.log(error);
         });
