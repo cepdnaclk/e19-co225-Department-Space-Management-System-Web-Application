@@ -17,7 +17,6 @@ async function getAuthentincate(result, ...args) {
       }
     )
     .then((response) => {
-      console.log(response.data.access_token);
       return result(response.data.access_token, args).catch((error) => {
         throw error;
       });
