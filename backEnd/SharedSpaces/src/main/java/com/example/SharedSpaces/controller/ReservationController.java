@@ -121,8 +121,6 @@ public class ReservationController {
             // Create a new Slot object with the specified space ID, date, start time, and
             // end time
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
-            System.out.println(email);
-            // String email = "e19129@eng.pdn.ac.lk";
             // Call the reservationDeleteBySlot() method of the ReservationService and
             // return the result as a String
             return reservationService.reservationDeleteBySlot(id, email);

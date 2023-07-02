@@ -63,7 +63,7 @@ const ReservationTable = ({
       Date.now(),
       reservation.date,
       user.id,
-      reservation.responsibePersonId,
+      reservation.responsiblePersonId,
       reservation.id
     )
       .then((res) => {

@@ -19,6 +19,7 @@ public interface WaitingRepository extends CrudRepository<Waiting, Long> {
 
     // Finds a Waiting entity by space ID, date, and reserved by ID.
     Waiting findBySpaceIDAndDateAndReservedById(int spaceID, String date, long reservedById);
+    Waiting findBySpaceIDAndDateAndReservedByIdAndResponsiblePersonId(int spaceID, String date, long reservedById, long responsiblePersonId);
 
     // Finds a Waiting entity by space ID, date, and responsible person ID.
     Waiting findBySpaceIDAndDateAndResponsiblePersonId(int spaceID, String date, long responsiblePersonId);

@@ -97,7 +97,7 @@ public class WaitingService {
         ReservationResponse reservationResponse = WaitingToRequest(reservation);
 
         Waiting waiting = waitingDB.getWaitingByDetails(reservation.getSpaceID(), reservation.getStartDateTime(),
-                reservation.getEndDateTime(), reservation.getReservedById());
+                reservation.getEndDateTime(), reservation.getReservedById(), reservation.getResponsiblePersonId());
 
         if (waiting != null)
             throw new AllReadyWaitingException("invalid");

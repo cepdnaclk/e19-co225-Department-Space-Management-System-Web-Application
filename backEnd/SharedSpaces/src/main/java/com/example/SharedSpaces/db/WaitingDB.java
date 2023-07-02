@@ -135,6 +135,25 @@ public class WaitingDB {
         return waitingList;
     }
 
+    // Returns a Waiting object in the database that match the provided details and reserved by the user with the provided id
+    public Waiting getWaitingByDetails(int spaceID, Date startDateTime, Date endDateTime, long reserdById, long responsible) {
+        if (startDateTime == null || endDateTime == null) {
+            return null;
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Waiting waitingList = waitingRepository.findBySpaceIDAndDateAndReservedByIdAndResponsiblePersonId(spaceID,
+                dateFormat.format(startDateTime), reserdById, responsible);
+
+        if (waitingList == null) {
+
+            // In here, we are returning null
+            return null;
+        }
+
+        return waitingList;
+    }
+
     // Deletes all expired reservations from the database
     @Scheduled(cron = "0 0 0 * * ?") // Run every day at midnight
     public void deleteExpiredReservations() {

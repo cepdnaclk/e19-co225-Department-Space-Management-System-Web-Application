@@ -31,8 +31,8 @@ public class Slot {
 
         try {
             // Parse the date string using the "dd-MM-yyyy" format
-            this.setStartDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(date));
-            this.setEndDateTime(new SimpleDateFormat("dd-MM-yyyy").parse(date));
+            this.setStartDateTime(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+            this.setEndDateTime(new SimpleDateFormat("yyyy-MM-dd").parse(date));
         } catch (Exception e) {
             System.out.println(e);
         }
