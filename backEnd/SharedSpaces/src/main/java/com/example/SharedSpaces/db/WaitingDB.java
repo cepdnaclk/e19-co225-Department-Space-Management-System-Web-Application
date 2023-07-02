@@ -91,7 +91,11 @@ public class WaitingDB {
                             && dateFormatRes.format(waiting.getEndDateTime())
                                     .equals(dateFormatRes.format(endDateTime)))
                     || (startDateTime.before(waiting.getStartDateTime())
-                            && endDateTime.after(waiting.getEndDateTime()))) {
+                            && endDateTime.after(waiting.getEndDateTime()))
+                    || (endDateTime.after(waiting.getEndDateTime())
+                            && endDateTime.before(waiting.getStartDateTime()))
+                    || (startDateTime.before(waiting.getEndDateTime())
+                            && startDateTime.after(waiting.getStartDateTime()))) {
 
                 waitings.add(waiting);
             }
@@ -159,9 +163,9 @@ public class WaitingDB {
             return null;
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Waiting waitingList = waitingRepository.findBySpaceIDAndDateAndReservedByIdAndResponsiblePersonId(spaceID,
-                dateFormat.format(startDateTime), reserdById, responsible);
+        Waiting waitingList = waitingRepository
+                .findBySpaceIDAndStartDateTimeAndEndDateTimeAndAndReservedByIdAndResponsiblePersonId(spaceID,
+                        startDateTime, endDateTime, reserdById, responsible);
 
         if (waitingList == null) {
 
