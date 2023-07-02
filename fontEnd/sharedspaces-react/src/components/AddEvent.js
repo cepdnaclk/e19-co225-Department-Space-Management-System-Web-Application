@@ -92,21 +92,16 @@ const AddEvent = ({
 
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
-    setIsTimeInvalid(
-      !mapTimeStringToInteger(startTime) ||
-        !mapTimeStringToInteger(endTime) ||
-        mapTimeStringToInteger(startTime) > mapTimeStringToInteger(endTime)
-    );
   };
   const handleEndTimeChange = (event) => {
     setEndTime(event.target.value);
+  };
+  useEffect(() => {
     setIsTimeInvalid(
       !mapTimeStringToInteger(startTime) ||
         !mapTimeStringToInteger(endTime) ||
         mapTimeStringToInteger(startTime) > mapTimeStringToInteger(endTime)
     );
-  };
-  useEffect(() => {
     const endTimeFormatted = mapTimeStringToInteger(endTime);
     const startTimeFormatted = mapTimeStringToInteger(startTime);
     if (startTimeFormatted !== false && endTimeFormatted !== false) {
