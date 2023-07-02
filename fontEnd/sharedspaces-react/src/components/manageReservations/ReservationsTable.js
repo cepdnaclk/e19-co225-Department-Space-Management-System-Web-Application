@@ -19,9 +19,7 @@ const ReservationTable = ({
   updateReservation,
 }) => {
   const handleDelete = async (reservation) => {
-    console.log("just inside handle delete", updateReservation);
     if (waitingList === false) {
-      console.log("waiting false", updateReservation);
       getAuthentincate(deleteUserReservatin, reservation.id)
         .then((res) => {
           //no error proceed to rerender tables with updated reservations
@@ -37,7 +35,6 @@ const ReservationTable = ({
           }
         });
     } else {
-      console.log("waiting true", updateReservation);
       getAuthentincate(deleteUserWaiting, reservation.id)
         .then((res) => {
           updateReservation();
