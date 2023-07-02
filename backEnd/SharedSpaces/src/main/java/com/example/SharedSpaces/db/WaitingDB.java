@@ -32,12 +32,14 @@ public class WaitingDB {
         return (List<Waiting>) waitingRepository.findAll();
     }
 
-    // Returns a List of all Waiting objects in the database reserved by the user with the provided email
+    // Returns a List of all Waiting objects in the database reserved by the user
+    // with the provided email
     public List<Waiting> getAllWaiting(String email) {
         return (List<Waiting>) waitingRepository.findByReservedById(userDB.getUserByEmail(email).get().getId());
     }
 
-    // Returns a List of all Waiting objects in the database where the user with the provided email is the responsible person
+    // Returns a List of all Waiting objects in the database where the user with the
+    // provided email is the responsible person
     public List<Waiting> getAllResponsibleWaiting(String email) {
         return (List<Waiting>) waitingRepository.findByResponsiblePersonId(userDB.getUserByEmail(email).get().getId());
     }
@@ -52,7 +54,8 @@ public class WaitingDB {
         return waitingRepository.save(reservation);
     }
 
-    // Updates an existing Waiting object in the database with the provided id and returns the updated object
+    // Updates an existing Waiting object in the database with the provided id and
+    // returns the updated object
     public Waiting updateWaiting(Long id, Waiting reservation) {
         reservation.setId(id);
         return waitingRepository.save(reservation);
@@ -63,7 +66,8 @@ public class WaitingDB {
         waitingRepository.deleteById(id);
     }
 
-    // Returns a List of all Waiting objects in the database that match the provided details
+    // Returns a List of all Waiting objects in the database that match the provided
+    // details
     public List<Waiting> getWaitingByDetails(int spaceID, Date startDateTime, Date endDateTime) {
         if (startDateTime == null || endDateTime == null) {
             return null;
@@ -75,10 +79,10 @@ public class WaitingDB {
         List<Waiting> waitings = new ArrayList<>();
 
         for (Waiting waiting : waitingList) {
-            if ((waiting.getStartDateTime().compareTo(startDateTime) >= 0
-                    && waiting.getStartDateTime().compareTo(endDateTime) < 0)
-                    || (waiting.getEndDateTime().compareTo(startDateTime) > 0
-                    && waiting.getEndDateTime().compareTo(endDateTime) <= 0)) {
+            if ((waiting.getStartDateTime().before(startDateTime)
+                    && waiting.getEndDateTime().after(startDateTime))
+                    || (waiting.getStartDateTime().before(endDateTime)
+                            && waiting.getEndDateTime().after(endDateTime))) {
                 waitings.add(waiting);
             }
         }
@@ -92,7 +96,8 @@ public class WaitingDB {
         return waitings;
     }
 
-    // Returns a Waiting object in the database that match the provided details and reserved by the user with the provided email
+    // Returns a Waiting object in the database that match the provided details and
+    // reserved by the user with the provided email
     public Waiting getWaitingByDetails(int spaceID, Date startDateTime, Date endDateTime, String email) {
         if (startDateTime == null || endDateTime == null) {
             return null;
@@ -116,7 +121,8 @@ public class WaitingDB {
         return waitingList;
     }
 
-    // Returns a Waiting object in the database that match the provided details and reserved by the user with the provided id
+    // Returns a Waiting object in the database that match the provided details and
+    // reserved by the user with the provided id
     public Waiting getWaitingByDetails(int spaceID, Date startDateTime, Date endDateTime, long reserdById) {
         if (startDateTime == null || endDateTime == null) {
             return null;
@@ -135,8 +141,10 @@ public class WaitingDB {
         return waitingList;
     }
 
-    // Returns a Waiting object in the database that match the provided details and reserved by the user with the provided id
-    public Waiting getWaitingByDetails(int spaceID, Date startDateTime, Date endDateTime, long reserdById, long responsible) {
+    // Returns a Waiting object in the database that match the provided details and
+    // reserved by the user with the provided id
+    public Waiting getWaitingByDetails(int spaceID, Date startDateTime, Date endDateTime, long reserdById,
+            long responsible) {
         if (startDateTime == null || endDateTime == null) {
             return null;
         }
@@ -164,4 +172,3 @@ public class WaitingDB {
     }
 
 }
-
