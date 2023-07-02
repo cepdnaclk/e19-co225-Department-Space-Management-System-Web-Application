@@ -46,7 +46,8 @@ public class ReservationDB {
         return reservations;
     }
 
-    // Returns a List of all Reservation objects in the database where the given email is responsible for
+    // Returns a List of all Reservation objects in the database where the given
+    // email is responsible for
     public List<Reservation> getAllResponsibleReservation(String email) {
         List<Reservation> reservations = (List<Reservation>) reservationRepository
                 .findByResponsiblePersonId(userDB.getUserByEmail(email).get().getId());
@@ -63,7 +64,8 @@ public class ReservationDB {
         return reservationRepository.findById(id);
     }
 
-    // Returns an Optional of a Reservation object with the given space id, start date and end date
+    // Returns an Optional of a Reservation object with the given space id, start
+    // date and end date
     public Optional<Reservation> getReservationByDetails(int spaceID, Date startDateTime, Date endDateTime) {
         if (startDateTime == null || endDateTime == null) {
             return Optional.empty();
@@ -78,7 +80,8 @@ public class ReservationDB {
         return optionalReservation;
     }
 
-    // Returns a List of all Reservation objects in the database with the given space id, start date and end date
+    // Returns a List of all Reservation objects in the database with the given
+    // space id, start date and end date
     public List<Reservation> getReservationsByDetails(int spaceID, Date startDateTime, Date endDateTime) {
         if (startDateTime == null || endDateTime == null) {
             return null;
@@ -91,10 +94,10 @@ public class ReservationDB {
         List<Reservation> waitings = new ArrayList<>();
 
         for (Reservation waiting : waitingList) {
-            if ((waiting.getStartDateTime().compareTo(startDateTime) >= 0
-                    && waiting.getStartDateTime().compareTo(endDateTime) < 0)
-                    || (waiting.getEndDateTime().compareTo(startDateTime) > 0
-                    && waiting.getEndDateTime().compareTo(endDateTime) <= 0)) {
+            if ((waiting.getStartDateTime().before(startDateTime)
+                    && waiting.getEndDateTime().after(startDateTime))
+                    || (waiting.getStartDateTime().before(endDateTime)
+                            && waiting.getEndDateTime().after(endDateTime))) {
                 waitings.add(waiting);
             }
         }
@@ -106,12 +109,14 @@ public class ReservationDB {
         return waitings;
     }
 
-    // Creates a new Reservation object in the database and returns the created object
+    // Creates a new Reservation object in the database and returns the created
+    // object
     public Reservation createReservation(Reservation reservation) {
         return reservationRepository.save(reservation);
     }
 
-    // Updates an existing Reservation object in the database with the provided id and returns the updated object
+    // Updates an existing Reservation object in the database with the provided id
+    // and returns the updated object
     public Reservation updateReservation(Long id, Reservation reservation) {
         reservation.setId(id);
         return reservationRepository.save(reservation);
@@ -131,4 +136,3 @@ public class ReservationDB {
         reservationRepository.deleteAll(expiredReservations);
     }
 }
-
