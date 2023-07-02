@@ -95,6 +95,8 @@ public class WaitingDB {
                     || (startDateTime.after(waiting.getStartDateTime())
                             && endDateTime.before(waiting.getEndDateTime()))
                     || (startDateTime.before(waiting.getEndDateTime())
+                            && endDateTime.after(waiting.getEndDateTime()))
+                    || (startDateTime.before(waiting.getStartDateTime())
                             && endDateTime.after(waiting.getEndDateTime()))) {
 
                 waitings.add(waiting);
