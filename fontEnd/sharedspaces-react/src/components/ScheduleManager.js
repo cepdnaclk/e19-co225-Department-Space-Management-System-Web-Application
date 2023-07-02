@@ -31,7 +31,6 @@ const SechduleManager = ({
     await getAllReservation(setReservations);
   }
 
-  console.log(selectedFacilities, allSpaces);
   useEffect(() => {
     if (reservations.length !== 0) {
       setSpaceReservations(
@@ -101,7 +100,6 @@ const SechduleManager = ({
   const handleSpaceClick = (id) => {
     //if already selected, then show more details on the space
     if (selectSpace === id) {
-      console.log("TODO: Open modal");
       setIsSpaceInfoOpen(true);
     } else {
       setSelectSpace(id);
