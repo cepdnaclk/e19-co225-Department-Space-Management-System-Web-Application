@@ -9,6 +9,7 @@ import com.example.SharedSpaces.exception.InvalidDataException;
 import com.example.SharedSpaces.service.WaitingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
@@ -114,8 +115,7 @@ public class WaitingController {
             // Create a new Slot object with the provided parameters and call the
             // waitingDeleteBySlot() method of the WaitingService with the email and return
             // a String message
-            // SecurityContextHolder.getContext().getAuthentication().getName();
-            String email = "e19129@eng.pdn.ac.lk";
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
             return waitingService.waitingDeleteBySlot(id, email);
         } catch (InvalidDataException e) {
             // If an InvalidDataException is caught, throw a new ResponseStatusException
