@@ -6,6 +6,7 @@ import com.example.SharedSpaces.controller.RequestResponse.Slot;
 import com.example.SharedSpaces.controller.RequestResponse.WaitingResponse;
 import com.example.SharedSpaces.db.AdminDB;
 import com.example.SharedSpaces.db.ResponsiblePersonDB;
+import com.example.SharedSpaces.db.SpaceDB;
 import com.example.SharedSpaces.db.UserDB;
 import com.example.SharedSpaces.db.WaitingDB;
 import com.example.SharedSpaces.exception.AllReadyWaitingException;
@@ -26,15 +27,17 @@ public class WaitingService {
     private final UserDB userDB;
     private final ResponsiblePersonDB responsiblePersonDB;
     private final AdminDB adminDB;
+    private final SpaceDB spaceDB;
 
     // Constructor Injection
     @Autowired
     public WaitingService(WaitingDB waitingDB, UserDB userDB, ResponsiblePersonDB responsiblePersonDB,
-            AdminDB adminDB) {
+            AdminDB adminDB, SpaceDB spaceDB) {
         this.waitingDB = waitingDB;
         this.userDB = userDB;
         this.responsiblePersonDB = responsiblePersonDB;
         this.adminDB = adminDB;
+        this.spaceDB = spaceDB;
     }
 
     public List<WaitingResponse> getWaitingList(Slot slot) {
@@ -167,6 +170,7 @@ public class WaitingService {
         reservationResponse.setAvailable(reservation.getAvailable());
 
         reservationResponse.setResponsiblePersonId(reservation.getResponsiblePersonId());
+        reservationResponse.setSpaceName(spaceDB.getSpaceById((long) reservation.getSpaceID()).get().getName());
 
         return reservationResponse;
     }

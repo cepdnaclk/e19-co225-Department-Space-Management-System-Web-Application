@@ -8,6 +8,8 @@ public class ReservationResponse {
     // The ID of the space being reserved
     private int spaceId;
 
+    private String spaceName;
+
     // The title or name of the reservation
     private String title;
 
@@ -54,6 +56,15 @@ public class ReservationResponse {
 
     public void setSpaceId(int spaceId) {
         this.spaceId = spaceId;
+    }
+
+    // Getter and setter methods for spaceId
+    public String getSpaceName() {
+        return spaceName;
+    }
+
+    public void setSpaceName(String spaceName) {
+        this.spaceName = spaceName;
     }
 
     // Getter and setter methods for title

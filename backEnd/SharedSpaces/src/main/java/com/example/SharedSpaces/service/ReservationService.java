@@ -329,6 +329,7 @@ public class ReservationService {
 
         reservationResponse.setResponsiblePerson(responsible);
         reservationResponse.setResponsiblePersonId(reservation.getResponsiblePersonId());
+        reservationResponse.setSpaceName(spaceDB.getSpaceById((long) reservation.getSpaceID()).get().getName());
 
         return reservationResponse;
     }
@@ -358,6 +359,7 @@ public class ReservationService {
                 responsiblePersonDB.getResponsiblePersonById(reservation.getResponsiblePersonId()).get().fullName());
 
         reservationResponse.setResponsiblePersonId(reservation.getResponsiblePersonId());
+        reservationResponse.setSpaceName(spaceDB.getSpaceById((long) reservation.getSpaceID()).get().getName());
 
         return reservationResponse;
     }
