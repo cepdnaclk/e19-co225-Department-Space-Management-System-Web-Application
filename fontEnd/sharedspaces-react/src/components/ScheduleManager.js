@@ -2,11 +2,13 @@ import styles from "../styles/ScheduleManager.module.scss";
 import Calendar from "./Calendar";
 import AvailableSpaces from "./AvailableSpaces";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getAllSpaces } from "../services/spaceService";
 import { getAllResponsible } from "../services/responsibleService";
 import { getAllReservation } from "../services/reservationService";
 import { getAuthentincate } from "../services/authService";
+import { MdClose } from "react-icons/md";
+import classNames from "classnames";
 
 const SechduleManager = ({
   selectedDays,
@@ -78,10 +80,29 @@ const SechduleManager = ({
 
   //Available Spaces Selection
   const [selectSpace, setSelectSpace] = useState(1);
+  const [isSpaceInfoOpen, setIsSpaceInfoOpen] = useState(false);
+
+  const spaceInfoRef = useRef();
+  //close space when clicked outside
+  useEffect(() => {
+    let handler = (e) => {
+      if (
+        !spaceInfoRef.current.contains(e.target) //if the click is on the modal
+      ) {
+        setIsSpaceInfoOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  });
   const handleSpaceClick = (id) => {
     //if already selected, then show more details on the space
     if (selectSpace === id) {
       console.log("TODO: Open modal");
+      setIsSpaceInfoOpen(true);
     } else {
       setSelectSpace(id);
       setSpaceReservations(
@@ -108,23 +129,71 @@ const SechduleManager = ({
   }, [selectSpace]);
 
   return (
-    <div className={styles.container}>
-      <AvailableSpaces
-        availableSpaces={filteredSpaces}
-        handleClick={handleSpaceClick}
-        select={selectSpace}
-      />
-      <Calendar
-        getReservations={getReservations}
-        selectSpace={selectSpace}
-        selectSpaceName={selectSpaceName}
-        spaceReservations={spaceReservations}
-        selectedDays={selectedDays}
-        startTime={startTime}
-        endTime={endTime}
-        updateReservations={getReservations}
-      />
-    </div>
+    <>
+      <div className={styles.container}>
+        <AvailableSpaces
+          availableSpaces={filteredSpaces}
+          handleClick={handleSpaceClick}
+          select={selectSpace}
+        />
+        <Calendar
+          getReservations={getReservations}
+          selectSpace={selectSpace}
+          selectSpaceName={selectSpaceName}
+          spaceReservations={spaceReservations}
+          selectedDays={selectedDays}
+          startTime={startTime}
+          endTime={endTime}
+          updateReservations={getReservations}
+        />
+      </div>
+
+      <div
+        className={classNames(
+          styles.overlay,
+          isSpaceInfoOpen && styles.showOverlay
+        )}
+      ></div>
+      <div
+        className={classNames(
+          styles.spaceInfoContainer,
+          isSpaceInfoOpen && styles.open
+        )}
+        ref={spaceInfoRef}
+      >
+        <button onClick={() => setIsSpaceInfoOpen(false)}>
+          <MdClose /> Close
+        </button>
+
+        {isSpaceInfoOpen && (
+          <>
+            <div className={styles.spaceTitle}>
+              {filteredSpaces.find((space) => space.id === selectSpace).name}
+            </div>
+            <p className={styles.spaceInfoDescription}>
+              {
+                filteredSpaces.find((space) => space.id === selectSpace)
+                  .description
+              }
+            </p>
+            <div className={styles.capacity}>
+              <span>Capacity:</span>
+              {
+                filteredSpaces.find((space) => space.id === selectSpace)
+                  .capacity
+              }
+            </div>
+
+            <div className={styles.facilities}>
+              <span>Facilities:</span>
+              {filteredSpaces
+                .find((space) => space.id === selectSpace)
+                .facilitiesList.join(", ")}
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

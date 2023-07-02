@@ -1,3 +1,4 @@
+import { FaChevronCircleRight } from "react-icons/fa";
 import styles from "../styles/AvailableSpaces.module.scss";
 import React from "react";
 const AvailableSpaces = ({ availableSpaces, handleClick, select }) => {
@@ -28,7 +29,12 @@ const Space = ({ space, select, handleClick }) => {
       onClick={() => handleClick(space.id)}
     >
       <div className={styles.name}>
-        <h4>{space.name}</h4>
+        <h4>
+          {space.name}{" "}
+          {select === space.id && (
+            <FaChevronCircleRight className={styles.icon} />
+          )}
+        </h4>
         <p>{space.description}</p>
       </div>
     </button>
