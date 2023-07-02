@@ -31,7 +31,7 @@ const MyWaiting = () => {
       setUnAvailableWaiting(waiting.filter((wait) => !wait.available));
     }
   }, [waiting]);
-
+  console.log(waiting);
   return (
     <div className={styles.container}>
       <h2>Available for Reservation</h2>
