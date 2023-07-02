@@ -47,7 +47,7 @@ async function getWaitingList(
 
 async function deleteUserWaiting(token, args) {
   await axios
-    .delete(endPointWaiting + "/id", {
+    .delete(endPointWaiting, {
       params: {
         id: args[0],
       },

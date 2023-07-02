@@ -1,5 +1,4 @@
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 
 const endPointAuth = "http://localhost:8080/auth/authenticate";
 

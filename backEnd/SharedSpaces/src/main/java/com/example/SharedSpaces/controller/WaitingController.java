@@ -9,7 +9,6 @@ import com.example.SharedSpaces.exception.InvalidDataException;
 import com.example.SharedSpaces.service.WaitingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
@@ -108,7 +107,7 @@ public class WaitingController {
     // The @DeleteMapping annotation maps HTTP DELETE requests to the /waiting
     // endpoint
     @CrossOrigin
-    @DeleteMapping("/id")
+    @DeleteMapping()
     public String deleteWaiting(@RequestParam int id) throws ResponseStatusException {
 
         try {

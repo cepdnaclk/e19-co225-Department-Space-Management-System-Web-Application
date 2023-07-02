@@ -2,7 +2,6 @@ package com.example.SharedSpaces.controller;
 
 import com.example.SharedSpaces.controller.RequestResponse.ReservationRequest;
 import com.example.SharedSpaces.controller.RequestResponse.ReservationResponse;
-import com.example.SharedSpaces.controller.RequestResponse.Slot;
 import com.example.SharedSpaces.exception.AllReadyReservedException;
 import com.example.SharedSpaces.exception.EmailException;
 import com.example.SharedSpaces.exception.InvalidDataException;
@@ -82,11 +81,6 @@ public class ReservationController {
     @GetMapping("/user")
     public List<ReservationResponse> getUserReservationList(@RequestParam String email) throws ResponseStatusException {
 
-        // The following code can be used for user authentication
-        // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
-        // return new ArrayList<>();
-        // }
-
         try {
             // Call the getUserReservationList() method of the ReservationService and return
             // the result as a List of ReservationResponse objects
@@ -105,11 +99,6 @@ public class ReservationController {
     public List<ReservationResponse> getResponsibleWaitingList(@RequestParam String email)
             throws ResponseStatusException {
 
-        // The following code can be used for user authentication
-        // if(!SecurityContextHolder.getContext().getAuthentication().getName().equals(email)){
-        // return new ArrayList<>();
-        // }
-
         try {
             // Call the getResponsibleReservationList() method of the ReservationService and
             // return the result as a List of ReservationResponse objects
@@ -125,7 +114,7 @@ public class ReservationController {
     // The @DeleteMapping annotation maps HTTP DELETE requests to the /reservation
     // endpoint
     @CrossOrigin
-    @DeleteMapping("/id")
+    @DeleteMapping()
     public String deleteResevation(@RequestParam int id) throws ResponseStatusException {
 
         try {

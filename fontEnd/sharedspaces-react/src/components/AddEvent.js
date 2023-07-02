@@ -184,6 +184,7 @@ const AddEvent = ({
         } else if (error.message === "email") {
           setShowFeedbackSuccess(true);
           updateReservations();
+          console.log(error);
         } else {
           console.log(error);
           // other error

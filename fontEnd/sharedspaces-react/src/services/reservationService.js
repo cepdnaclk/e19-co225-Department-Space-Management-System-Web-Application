@@ -45,7 +45,7 @@ async function getResponsibleReservations(setReservations, email) {
 
 async function deleteUserReservatin(token, args) {
   await axios
-    .delete(endPointReservation + "/id", {
+    .delete(endPointReservation, {
       params: {
         id: args[0],
       },
