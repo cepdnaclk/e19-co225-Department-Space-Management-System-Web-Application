@@ -87,7 +87,7 @@ export const mapTimeStringToInteger = (timeString) => {
     return false;
   }
 
-  if (suffix === "pm") {
+  if (suffix === "pm" && hour < 12) {
     hour += 12;
   }
 
