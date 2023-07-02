@@ -21,7 +21,7 @@
   z-index: 100;
   visibility: hidden;
   opacity: 0;
-  transition: opacity 300ms ease-in-out;
+  transition: opacity 300ms ease-in;
   display: flex;
   padding: 2em 2em;
   flex-direction: column;
@@ -37,6 +37,7 @@
     top: 2.4em;
     right: 2em;
     display: flex;
+    gap: 0.2em;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
