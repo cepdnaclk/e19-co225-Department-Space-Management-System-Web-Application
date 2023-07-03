@@ -32,13 +32,14 @@ public class SecurityConfiguration {
                 .cors(AbstractHttpConfigurer::disable) // Disable CORS (Cross-Origin Resource Sharing) protection.
                 .csrf(AbstractHttpConfigurer::disable) // Disable CSRF (Cross-Site Request Forgery) protection.
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/reservation", "/waiting/slot", "reservation/user", "reservation/responsible", "waiting/user").permitAll() // Allow GET
-                                                                                                      // requests to
-                                                                                                      // these URLs
-                                                                                                      // without
-                                                                                                      // authentication.
+                        .requestMatchers(HttpMethod.GET, "/reservation", "/waiting/slot", "reservation/user",
+                                "reservation/responsible", "waiting/user")
+                        .permitAll() // Allow GET
+                        // requests to
+                        // these URLs
+                        // without
+                        // authentication.
                         .requestMatchers(
-                                "/**", // Allow all requests to these URLs without authentication.
                                 "/log",
                                 "/space",
                                 "/responsible",
