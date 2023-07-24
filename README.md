@@ -16,3 +16,7 @@
 ## Description
 
 A system to manage the common spaces like labs , conference rooms , discussion rooms and a lunch room in the department. Lecturers and instructors should have access to book the common spaces if they are available. As an example , Let’s say the lecturer wants to book Computer Lab 01 but it is already booked in the particular time slot. Then the lecturer can add him/her to the waiting list. Whenever the previous reservation is canceled, the lecturer will get a notification about the cancellation with a request to confirm the reservation. Then the lecturer just has to confirm or cancel the reservation.
+
+![ui design](https://github.com/cepdnaclk/e19-co225-sharedspaces/assets/83855665/80216979-8323-4ee2-94ec-5cfbf7b0380c)
+
+
